@@ -35,7 +35,9 @@ const SigninScreen = ({navigation}) => {
                             borderRadius: 20,
                             marginBottom: 10, 
                         }}
-                        // onPress={() => navigation.navigate()}
+                        
+                        // logic for verifying credentials
+                        onPress={() => navigation.navigate('Home')}
                     />
                 </View>
                 

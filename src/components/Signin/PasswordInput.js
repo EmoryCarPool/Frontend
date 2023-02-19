@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     passwordTextInput: {
         fontSize: 24,
         paddingLeft: 10,
-        paddingRight: 15
+        width: '80%'
     },
 
 })
