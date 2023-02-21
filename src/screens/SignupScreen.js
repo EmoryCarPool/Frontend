@@ -1,13 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, Keyboard} from "react-native";
+import { NavigationEvents } from 'react-navigation';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/Signup/BasicButton";
 import PopUpInput from "../components/Signup/Popup/PopUpInput";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
 import Popup from "../components/Signup/Popup/Popup";
+import { Context as AuthContext } from "../context/AuthContext"
 
 const SignupScreen = ({navigation}) => {
+    const {state, signup, clearErrorMessage} = useContext(AuthContext);
+
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
     const [email, setEmail] = useState('');
@@ -15,17 +19,17 @@ const SignupScreen = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [re_password, setRe_password] = useState('');
     const [emailCode, setEmailCode] = useState('');
+    const isDriver = false;
+    const driver_info = {car_brand: 'Kia', car_model: 'Optima', car_color: 'white' , plate_number: '123ABC', occupation: 'student'}
+    
     // this is for the popup screen component
     const [visible, setVisible] = useState(false)
     
 
     const onCompletePressed = () => {
-        // put logic for:
-            // 1) first and last name contains alphabet only
-            // 2) if email was verified
-            // 3) if phone number is valid
-            // 4) if password == re-enter password
-            navigation.navigate('Signin') // and send all information inputs to database
+        // useContext signup prop
+        signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
+        // navigation.navigate('Signin')
     }
 
     const onConfirmPressed = () => {
@@ -48,6 +52,9 @@ const SignupScreen = ({navigation}) => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
+            
+            <NavigationEvents onWillFocus={clearErrorMessage} />
+            
             <Popup visible={visible}>
                 <View style={{alignItems: 'flex-end', paddingBottom: '20%'}}>
                     <TouchableOpacity onPress={() => setVisible(false)}>
@@ -119,6 +126,7 @@ const SignupScreen = ({navigation}) => {
                         text='Complete' 
                         onPress={onCompletePressed}
                     />
+                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -157,6 +165,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         width: '85%',
+    },
+
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: 'rgba(255,0,0,0.7)',
+        marginTop: 5,
     }
 
 });

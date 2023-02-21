@@ -4,6 +4,7 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import InitialScreen from './src/screens/InitialScreen'
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import ResetPasswordVerifyScreen from './src/screens/ResetPasswordVerifyScreen';
@@ -14,8 +15,14 @@ import FindPassenger1Screen from './src/screens/FindPassenger1Screen';
 import FindPassenger2Screen from './src/screens/FindPassenger2Screen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import BecomeDriverScreen from './src/screens/BecomeDriverScreen';
+import {Provider as AuthProvider} from './src/context/AuthContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { setNavigator } from './src/navigationRef';
+
 
 const switchNavigator = createSwitchNavigator({
+    Initial: InitialScreen,
+    
     loginFlow: createStackNavigator({
         Signin: SigninScreen,
         Signup: SignupScreen,
@@ -37,7 +44,11 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
     return (
-        <App/>
+        <SafeAreaProvider>
+            <AuthProvider>
+                <App ref={(navigator)=> {setNavigator(navigator)}}/>
+            </AuthProvider>
+        </SafeAreaProvider>
     )
 };
 

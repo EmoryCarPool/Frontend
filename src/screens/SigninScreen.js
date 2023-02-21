@@ -1,12 +1,19 @@
 // this is the main SigninScreen file that takes all compoments together
 
-import React from "react";
-import {View, StyleSheet, ImageBackground, KeyboardAvoidingView } from "react-native";
+import React, { useContext, useState,} from "react";
+import {View, StyleSheet, ImageBackground, KeyboardAvoidingView, Text } from "react-native";
 import { Button } from "react-native-elements"
+import { NavigationEvents } from 'react-navigation';
 import PasswordInput from "../components/Signin/PasswordInput";
 import EmailInput from "../components/Signin/EmailInput";
+import { Context as AuthContext } from "../context/AuthContext"
 
 const SigninScreen = ({navigation}) => {
+    const {state, signin, clearErrorMessage} = useContext(AuthContext);
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
 
     return (
         <ImageBackground style= {{width: '100%', height: '100%',}} source={require('../../assets/atlantaBackground.png')}>
@@ -14,9 +21,11 @@ const SigninScreen = ({navigation}) => {
                 style={{flex: 1}}
                 behavior='position'
             >
+                <NavigationEvents onWillFocus={clearErrorMessage} />
+
                 <View style={styles.mainContainer}>
-                    <EmailInput/>
-                    <PasswordInput/>
+                    <EmailInput value={email} setValue={setEmail}/>
+                    <PasswordInput value={password} setValue={setPassword}/>
                     
                     <Button
                         buttonStyle={{
@@ -33,12 +42,14 @@ const SigninScreen = ({navigation}) => {
                         containerStyle={{
                             width: '85%',
                             borderRadius: 20,
-                            marginBottom: 10, 
+                            marginBottom: 0, 
                         }}
                         
                         // logic for verifying credentials
-                        onPress={() => navigation.navigate('Home')}
+                        onPress={() => signin({email, password})}
                     />
+
+                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                 </View>
                 
                 <View style= {styles.subContainer}>
@@ -85,6 +96,13 @@ const styles = StyleSheet.create({
     subContainer: {
         flexDirection: 'row'
     },
+
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: 'rgba(255,0,0,0.9)',
+        marginTop: 5,
+    }
 });
 
 export default SigninScreen;
