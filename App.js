@@ -20,7 +20,8 @@ const switchNavigator = createSwitchNavigator({
         Signin: SigninScreen,
         Signup: SignupScreen,
         ResetPasswordVerify: ResetPasswordVerifyScreen,
-        ResetPasswordReset: ResetPasswordResetScreen
+        ResetPasswordReset: ResetPasswordResetScreen,
+        FindDriver: FindDriverScreen
 
     }, { headerMode: "none" } // this will hide the header in the stackNavigator
     ),
