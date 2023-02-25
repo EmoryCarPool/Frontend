@@ -9,6 +9,12 @@ const authReducer = (state, action) => {
             return {...state, errorMessage: action.payload}
         case 'signin':
             return {errorMessage: '', token: action.payload}
+        case 'sendOTP':
+            return {errorMessage: '', token: action.payload}
+        case 'verifyOTP':
+            return {errorMessage: '', token: action.payload}
+        case 'resetPassword':
+            return {errorMessage: ''}
         case 'clear_error_message':
             return {...state, errorMessage: ''}
         case 'signout':
@@ -41,11 +47,41 @@ const signin = (dispatch) => async ({email, password}) => {
     }
     
     try {
-        const response = await carpoolApi.post('/api/user/login', signInInfo)
+        const response = await carpoolApi.post('/api/user/login', signInInfo)  
         await AsyncStorage.setItem('token', response.data.token)
         dispatch({type: 'signin', payload: response.data.token})
 
         navigate('Home')
+    } catch (error) {
+        const message = error.response.data.error
+        dispatch({type: 'add_error', payload: message})
+    }
+}
+
+const sendOTP = (dispatch) => async ({email}) => {
+    const sendOTPInfo = {
+        email: email
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/user/sendOTP', sendOTPInfo)  
+        await AsyncStorage.setItem('token', response.data.token)
+        dispatch({type: 'sendOTP', payload: response.data.token})
+    } catch (error) {
+        const message = error.response.data.error
+        dispatch({type: 'add_error', payload: message})
+    }
+}
+
+const verifyOTP = (dispatch) => async ({email, emailCode}) => {
+    const verifyOTPInfo = {
+        email: email,
+        otp: emailCode
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/user/verifyOTP', verifyOTPInfo)  
+        await AsyncStorage.setItem('token', response.data.token)
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})
@@ -84,8 +120,23 @@ const signout = (dispatch) => async () => {
     navigate("loginFlow");
 };
 
+const resetPassword = (dispatch) => async ({email, password}) => {
+    const resetPasswordInfo = {
+        email: email,
+        newPassword: password
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/user/resetPassword', resetPasswordInfo)  
+        dispatch({type: 'resetPassword'})
+    } catch (error) {
+        const message = error.response.data.error
+        dispatch({type: 'add_error', payload: message})
+    }
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin}, // object with action functions
+    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword}, // object with action functions
     {token: null, errorMessage: ''} // initial state: null token, empty errorMessage
 )

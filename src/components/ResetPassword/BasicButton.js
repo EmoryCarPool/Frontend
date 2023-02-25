@@ -1,7 +1,7 @@
 import React from "react";
 import {View, Text, StyleSheet, Pressable, TouchableOpacity} from "react-native";
 
-const PopUpButton = ({ onPress, text}) => {
+const BasicButton = ({ onPress, text}) => {
     
     return (
         <TouchableOpacity onPress={onPress} style={styles.container}>
@@ -13,15 +13,11 @@ const PopUpButton = ({ onPress, text}) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        width: '40%',
+        width: '90%',
 
         paddingHorizontal: 10,
-        paddingVertical: 13,
-        marginTop: '20%',
-        marginLeft: '45%',
-        borderWidth: 2,
-        borderColor: 'rgba(0,0,0,0.6)',
-        
+        paddingVertical: 20,
+        marginTop: "3%",
 
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,10 +25,10 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 16,
+        fontSize: 24,
         fontWeight: '700',
-        color: 'rgba(0,0,0,1)'
+        color: 'rgba(0,0,0,0.6)'
     }
 })
 
-export default PopUpButton
+export default BasicButton

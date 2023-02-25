@@ -10,7 +10,7 @@ import Popup from "../components/Signup/Popup/Popup";
 import { Context as AuthContext } from "../context/AuthContext"
 
 const SignupScreen = ({navigation}) => {
-    const {state, signup, clearErrorMessage} = useContext(AuthContext);
+    const {state, signup, sendOTP, verifyOTP, clearErrorMessage} = useContext(AuthContext);
 
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
@@ -24,15 +24,44 @@ const SignupScreen = ({navigation}) => {
     
     // this is for the popup screen component
     const [visible, setVisible] = useState(false)
+
+    // this is for validing email verification
+    const [emailVerified, setEmailVerified] = useState(false)
     
 
     const onCompletePressed = () => {
         // useContext signup prop
-        signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
+        if (password !== re_password ) {
+            state.errorMessage = 'Please check if your passwords match'
+        }
+        if (emailVerified === false) {
+            state.errorMessage = 'Please verify your Emory email first'
+        }
+        else {
+            signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
+        }
         // navigation.navigate('Signin')
     }
 
-    const onConfirmPressed = () => {
+    // create logic that if post request fails, setVisible should not be set to false
+    const onConfirmPressed = () => { 
+        verifyOTP({email, emailCode})
+
+        if (state.errorMessage === '') {
+            setVisible(false)
+            setEmailVerified(true)
+        }
+        
+    }
+
+    const onVerifyPressed = () => {
+        sendOTP({email})
+        setVisible(true)
+
+    }
+
+    const onXpressed = () => {
+        state.errorMessage = ''
         setVisible(false)
     }
 
@@ -57,7 +86,7 @@ const SignupScreen = ({navigation}) => {
             
             <Popup visible={visible}>
                 <View style={{alignItems: 'flex-end', paddingBottom: '20%'}}>
-                    <TouchableOpacity onPress={() => setVisible(false)}>
+                    <TouchableOpacity onPress={onXpressed}>
                         <Ionicons 
                             style={{paddingLeft: '90%',}}
                             name= 'close'
@@ -74,6 +103,7 @@ const SignupScreen = ({navigation}) => {
                         fontSize={12}
                         keyboardType={'numeric'}
                     />
+                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                     {/* change the onPress prop so that it checks the code */}
                     <PopUpButton text={'Confirm'} onPress={onConfirmPressed}/>
             </Popup>
@@ -97,7 +127,7 @@ const SignupScreen = ({navigation}) => {
                         setValue={setEmail}
                     />
                 </View>
-                    <TouchableOpacity style={{marginLeft: '70%'}} onPress={() => setVisible(true) }>
+                    <TouchableOpacity style={{marginLeft: '70%'}} onPress={onVerifyPressed}>
                         <Text style={styles.verifyEmailText}>Verify Email</Text>
                     </TouchableOpacity>
 
