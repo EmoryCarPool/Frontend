@@ -129,6 +129,7 @@ const resetPassword = (dispatch) => async ({email, password}) => {
     try {
         const response = await carpoolApi.post('/api/user/resetPassword', resetPasswordInfo)  
         dispatch({type: 'resetPassword'})
+        navigate('loginFlow');
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})

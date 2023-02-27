@@ -23,7 +23,6 @@ const ResetPasswordResetScreen = ({navigation}) => {
         } else {
             state.errorMessage = ''
             resetPassword({email, password})
-            navigation.navigate('Signin')
         } 
     }
 
