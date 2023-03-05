@@ -40,15 +40,33 @@ const switchNavigator = createSwitchNavigator({
     })
 })
 
-const App = createAppContainer(switchNavigator);
+// const App = createAppContainer(switchNavigator);
+
+const passenger = createMaterialBottomTabNavigator({
+    Home: HomeScreen,
+    FindDriver: FindDriverScreen,
+    FindPassenger: FindPassenger1Screen,
+    // Profile: ProfileScreen,
+})
+
+const App = createAppContainer(passenger)
 
 export default () => {
     return (
         <SafeAreaProvider>
-            <AuthProvider>
-                <App ref={(navigator)=> {setNavigator(navigator)}}/>
-            </AuthProvider>
+            <App/>
         </SafeAreaProvider>
     )
-};
+}
+
+
+// export default () => {
+//     return (
+//         <SafeAreaProvider>
+//             <AuthProvider>
+//                 <App ref={(navigator)=> {setNavigator(navigator)}}/>
+//             </AuthProvider>
+//         </SafeAreaProvider>
+//     )
+// };
 

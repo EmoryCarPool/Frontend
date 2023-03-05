@@ -28,16 +28,19 @@ const SignupScreen = ({navigation}) => {
     // this is for validing email verification
     const [emailVerified, setEmailVerified] = useState(false)
     
+    const [localErrorMessage, setLocalErrorMessage] = useState('');
 
     const onCompletePressed = () => {
         // useContext signup prop
-        if (password !== re_password ) {
-            state.errorMessage = 'Please check if your passwords match'
-        }
+        console.log('hello')
         if (emailVerified === false) {
-            state.errorMessage = 'Please verify your Emory email first'
+            console.log('check')
+            setLocalErrorMessage('Please verify your Emory email first')
         }
-        else {
+        else if (password !== re_password ) {
+            setLocalErrorMessage('Please check if your passwords match')
+        } else {
+            setLocalErrorMessage('')
             signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
         }
         // navigation.navigate('Signin')
@@ -157,6 +160,7 @@ const SignupScreen = ({navigation}) => {
                         onPress={onCompletePressed}
                     />
                     {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                    {localErrorMessage ? <Text style={styles.errorMessage}>{localErrorMessage}</Text>: null}
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
