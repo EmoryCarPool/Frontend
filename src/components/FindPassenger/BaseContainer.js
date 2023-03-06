@@ -43,7 +43,9 @@ const BaseContainer = ({time, numRequests}) => {
             <View style={styles.textContainer}>
                 <Text style={styles.textStyle}>{time}</Text>
             </View>
-            <View style={styles.timebox}></View>
+            <TouchableOpacity>
+            <View style={styles.timebox}></View> 
+            </TouchableOpacity>  
         </View>
     )
 }
