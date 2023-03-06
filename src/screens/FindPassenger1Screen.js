@@ -3,8 +3,8 @@ import {View, StyleSheet, Text, FlatList, KeyboardAvoidingView, ScrollView, Touc
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import SelectDropdown from 'react-native-select-dropdown';
 import BasicInputs from "../components/Signup/BasicInputs";
-import BasicButton from "../components/Signup/BasicButton";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import Timeslot from "../components/FindPassenger/Timeslot";
 
 
 const FindPassenger1Screen = () => {
@@ -43,7 +43,7 @@ const FindPassenger1Screen = () => {
                     />
                     <Text style={styles.subText}>3. Select a time</Text>
                     <View style={styles.timeslotContainer}>
-
+                        <Timeslot/>
                     </View>
                 </View>
             </ScrollView>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.6)',
         borderRadius: 20, 
         width: 345,
-        height: 70,
+        height: 65,
         marginTop: 5,
 
         alignItems: 'center'
@@ -108,11 +108,13 @@ const styles = StyleSheet.create({
     },
 
     timeslotContainer: {
-        backgroundColor: 'rgba(255,255,255,0.6)',
+        backgroundColor: 'rgba(255,255,255,1)',
         width: "90%",
-        height: 500,
-        borderRadius: 20,
+        height: 350,
         marginTop: 5,
+
+        borderWidth: 5,
+        borderColor: 'rgba(0,0,0,1)'
 
     }
 });
