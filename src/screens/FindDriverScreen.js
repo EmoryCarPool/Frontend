@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity } from "react-native";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/Signup/BasicButton";
 import SelectDropdown from 'react-native-select-dropdown';
-import Ionicons from "react-native-vector-icons/Ionicons"
+import Timeslot from "../components/FindPassenger/Timeslot";
 
 const FindDriverScreen = ({ navigation }) => {
     const [destination, setDestination] = useState('');
@@ -13,8 +13,9 @@ const FindDriverScreen = ({ navigation }) => {
     const [location, setLocation] = useState('');
     const [selectedTime, setSelectedTime] = useState(null);
     const [showTimePicker, setShowTimePicker] = useState(null);
-    const [selectedStartTime, setSelectedStartTime] = useState(null);
-    const [selectedEndTime, setSelectedEndTime] = useState(null);
+    const [selectedStartTime, setSelectedStartTime] = useState('');
+    const [selectedEndTime, setSelectedEndTime] = useState('');
+    const [endingPickUpTime, setEndingPickUpTime] = useState([]);
     const locations = ["Goizueta Business School", "Asbury Circle", "Woodpec", "Woodruff Circle", "Raoul Circle", "Kaldi's by Depot",
         "Harris hall"];
     const numPassenger = ["1", "2", "3", "4"];
@@ -48,7 +49,6 @@ const FindDriverScreen = ({ navigation }) => {
     //};
 
     var time_index_start = '';
-    const endingPickUpTime = [];
     
 
     const handleTimeSelect = (time) => {
@@ -64,6 +64,14 @@ const FindDriverScreen = ({ navigation }) => {
         console.log(numPeople)
     }
 
+    useEffect(() => {
+        // Populate endingPickUpTime array when selectedStartTime changes
+        if (selectedStartTime !== '') {
+            const startIndex = pickUPTime.indexOf(selectedStartTime);
+            const endIndex = Math.min(startIndex + 6, pickUPTime.length - 1);
+            setEndingPickUpTime(pickUPTime.slice(startIndex+1, endIndex + 1));
+        }
+    }, [selectedStartTime]);
 
     return (
         //<SafeAreaView forceInset={{ top: 'always'} }>
@@ -85,12 +93,12 @@ const FindDriverScreen = ({ navigation }) => {
                     <SelectDropdown
                         data={pickUPTime}
                         onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index)
-                            endingPickUpTime.length = 0;
-                            time_index_start = index;
-                            for (let i = 0; i <= 6; i++) {
-                                endingPickUpTime.push(pickUPTime[time_index_start + i]);
-                            }
+                            //endingPickUpTime.length = 0;
+                            //time_index_start = index;
+                            //for (let i = 0; i <= 6; i++) {
+                            //    endingPickUpTime.push(pickUPTime[time_index_start + i]);
+                            //}
+                            setSelectedStartTime(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -98,17 +106,16 @@ const FindDriverScreen = ({ navigation }) => {
                         rowTextForSelection={(item_1, index) => {
                             return item_1
                         }}
-                    /> 
+                    />
 
-                    <Text style={{textAlign: 'center', justifyContent: 'center', paddingTop: '3%'} }>
+                    <Text style={{ textAlign: 'center', justifyContent: 'center', paddingTop: '3%' }}>
                         ~
                     </Text>
 
                     <SelectDropdown
                         data={endingPickUpTime}
                         onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index)
-                            // console.log(endingPickUpTime)
+                            setSelectedEndTime(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -117,6 +124,7 @@ const FindDriverScreen = ({ navigation }) => {
                             return item_2
                         }}
                     />
+                    </View>
 
                     {/*Code that I tried first. Left it commented cuz felt like I may be able to apply it somewhere in our project*/}
                     {/*<TouchableOpacity onPress={() => setShowTimePicker(true)}>*/}
@@ -133,7 +141,7 @@ const FindDriverScreen = ({ navigation }) => {
                     {/*</TouchableOpacity>*/}
                     
                     
-                    </View>
+            
 
                     <Text style={styles.subtitle}>
                         2. Pick up location
@@ -142,7 +150,7 @@ const FindDriverScreen = ({ navigation }) => {
                     <SelectDropdown
                         data={locations}
                         onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index)
+                            setLocation(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -175,7 +183,7 @@ const FindDriverScreen = ({ navigation }) => {
                         data={numPassenger}
                         style={{borderRadius: 20, borderColor: "blue"} }
                         onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index)
+                            setNumPeople(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -190,7 +198,7 @@ const FindDriverScreen = ({ navigation }) => {
                     <View style={styles.submitContainer}>
                         <BasicButton
                             text='Submit'
-                            onPress={pressSubmit}
+                        onPress={pressSubmit}
                         />
                     </View>
                 </ScrollView>
@@ -199,10 +207,6 @@ const FindDriverScreen = ({ navigation }) => {
     )
 }
 
-FindDriverScreen.navigationOptions = {
-    title: 'Find Driver',
-    tabBarIcon: <Ionicons name= 'car-outline' size= {30} color= 'black'/>
-}
 
 const styles = StyleSheet.create({
     rootContainer: {
