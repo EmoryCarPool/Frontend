@@ -11,7 +11,10 @@ const ProfileScreen = () => {
     return (
         <SafeAreaView forceInset={{top: 'always'}}>
             <Text style={{fontSize: 48}}>ProfileScreen</Text>
-            <Button title='Sign out' onPress={signout}/>
+            <Button 
+                title='Sign out' 
+                onPress={signout}
+            />
         </SafeAreaView>
     )
 }

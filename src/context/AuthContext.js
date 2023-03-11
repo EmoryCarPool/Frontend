@@ -10,9 +10,9 @@ const authReducer = (state, action) => {
         case 'signin':
             return {errorMessage: '', token: action.payload}
         case 'sendOTP':
-            return {errorMessage: '', token: action.payload}
+            return {errorMessage: '', email: action.payload}
         case 'verifyOTP':
-            return {errorMessage: '', token: action.payload}
+            return {errorMessage: ''}
         case 'resetPassword':
             return {errorMessage: ''}
         case 'clear_error_message':
@@ -65,8 +65,8 @@ const sendOTP = (dispatch) => async ({email}) => {
     
     try {
         const response = await carpoolApi.post('/api/user/sendOTP', sendOTPInfo)  
-        await AsyncStorage.setItem('token', response.data.token)
-        dispatch({type: 'sendOTP', payload: response.data.token})
+        // await AsyncStorage.setItem('token', response.data.token)
+        dispatch({type: 'sendOTP', payload: email})
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})
@@ -81,7 +81,7 @@ const verifyOTP = (dispatch) => async ({email, emailCode}) => {
     
     try {
         const response = await carpoolApi.post('/api/user/verifyOTP', verifyOTPInfo)  
-        await AsyncStorage.setItem('token', response.data.token)
+        // await AsyncStorage.setItem('token', response.data.token)
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})
@@ -129,7 +129,7 @@ const resetPassword = (dispatch) => async ({email, password}) => {
     try {
         const response = await carpoolApi.post('/api/user/resetPassword', resetPasswordInfo)  
         dispatch({type: 'resetPassword'})
-        navigate('loginFlow');
+        navigate("Signin");
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})
@@ -139,5 +139,5 @@ const resetPassword = (dispatch) => async ({email, password}) => {
 export const { Provider, Context } = createDataContext(
     authReducer,
     {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword}, // object with action functions
-    {token: null, errorMessage: ''} // initial state: null token, empty errorMessage
+    {token: null, errorMessage: '', email: ''} // initial state: null token, empty errorMessage
 )

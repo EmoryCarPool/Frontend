@@ -10,12 +10,15 @@ import SignupScreen from './src/screens/SignupScreen';
 import ResetPasswordVerifyScreen from './src/screens/ResetPasswordVerifyScreen';
 import ResetPasswordResetScreen from './src/screens/ResetPasswordResetScreen';
 import HomeScreen from './src/screens/HomeScreen';
-import FindDriverScreen from './src/screens/FindDriverScreen';
+import FindDriverScreen_DepartHome from './src/screens/FindDriverScreen_DepartHome';
+import FindDriverScreen_DepartSchool from './src/screens/FindDriverScreen_DepartSchool';
 import FindPassenger1Screen from './src/screens/FindPassenger1Screen';
 import FindPassenger2Screen from './src/screens/FindPassenger2Screen';
+import FindPassenger3Screen from './src/screens/FindPassenger3Screen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import BecomeDriverScreen from './src/screens/BecomeDriverScreen';
 import {Provider as AuthProvider} from './src/context/AuthContext';
+import {Provider as FPProvider} from './src/context/FPContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { setNavigator } from './src/navigationRef';
 
@@ -34,39 +37,41 @@ const switchNavigator = createSwitchNavigator({
 
     mainFlow: createMaterialBottomTabNavigator({
         Home: HomeScreen,
-        FindDriver: FindDriverScreen,
-        FindPassenger: FindPassenger1Screen,
+        FindDriverFlow: createStackNavigator({
+            FindDriverS: FindDriverScreen_DepartSchool,
+            FindDriverH: FindDriverScreen_DepartHome,
+        }, {headerMode: "none"}
+        ),
+        FindPassengerFlow: createStackNavigator({
+            FindPassenger1: FindPassenger1Screen,
+            FindPassenger2: FindPassenger2Screen,
+            FindPassenger3: FindPassenger3Screen,
+        }, { headerMode: "none" }
+        ),
         Profile: ProfileScreen,
     })
 })
 
-// const App = createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator)
 
-const passenger = createMaterialBottomTabNavigator({
-    Home: HomeScreen,
-    FindDriver: FindDriverScreen,
-    FindPassenger: FindPassenger1Screen,
-    // Profile: ProfileScreen,
-})
+// export default () => {
+//     return (
+//         <SafeAreaProvider>  
+//             <App/> 
+//         </SafeAreaProvider>
+//     )
+// }
 
-const App = createAppContainer(passenger)
 
 export default () => {
     return (
         <SafeAreaProvider>
-            <App/>
+            <AuthProvider>
+             <FPProvider>
+                <App ref={(navigator)=> {setNavigator(navigator)}}/>
+             </FPProvider>
+            </AuthProvider>
         </SafeAreaProvider>
     )
-}
-
-
-// export default () => {
-//     return (
-//         <SafeAreaProvider>
-//             <AuthProvider>
-//                 <App ref={(navigator)=> {setNavigator(navigator)}}/>
-//             </AuthProvider>
-//         </SafeAreaProvider>
-//     )
-// };
+};
 

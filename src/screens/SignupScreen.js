@@ -32,7 +32,6 @@ const SignupScreen = ({navigation}) => {
 
     const onCompletePressed = () => {
         // useContext signup prop
-        console.log('hello')
         if (emailVerified === false) {
             console.log('check')
             setLocalErrorMessage('Please verify your Emory email first')

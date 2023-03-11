@@ -2,28 +2,52 @@ import React, {useState, useContext, useEffect} from "react";
 import {View, StyleSheet, Text, FlatList, KeyboardAvoidingView, ScrollView, TouchableOpacity} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import SelectDropdown from 'react-native-select-dropdown';
-import BasicInputs from "../components/Signup/BasicInputs";
+import BasicInputs from "../components/FindPassenger/BasicInputs";
+import BasicButton from "../components/FindPassenger/BasicButton";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Timeslot from "../components/FindPassenger/Timeslot";
+import { Context as FPContext } from "../context/FPContext"
 
 
-const FindPassenger1Screen = () => {
-    const numPassenger = ["1", "2", "3", "4"];
+const FindPassenger1Screen = ({navigation}) => {
+    // need API action functions that
+    
+    // const {} = useContext(FPContext);
+
+    // useEffect for default API call to load data on timeslot (maybe needed at Timeslot.js)
+    // useEffect(() => {
+    //     toggleModal()
+    // }, [visible])
+
+    const numPassenger = [1, 2, 3, 4];
+    const [currentLocation, setCurrentLocation] = useState('')
     const [finalDestination, setFinalDestination] = useState('');
-    const [maxCap, setMaxCap] = useState('')
+    const [maxCap, setMaxCap] = useState(0)
+
+    const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
+
+    const onPressedSubmit = () => {
+        loadTimeslot({currentLocation, finalDestination, maxCap})
+    }
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.topContainer}>    
                     <Text style={styles.mainText}>Find Passenger</Text>
-                    <Text style={styles.subText}>1. Input your final destination</Text>
+                    <Text style={styles.firstText}>1. Input your current location</Text>
+                    <BasicInputs
+                        placeholder='Current Location'
+                        value={currentLocation}
+                        setValue={setCurrentLocation}
+                    />
+                    <Text style={styles.subText}>2. Input your final destination</Text>
                     <BasicInputs
                         placeholder='Final Destination'
                         value={finalDestination}
                         setValue={setFinalDestination}
                     />
-                    <Text style={styles.subText}>2. Maximum Capacity</Text>
+                    <Text style={styles.subText}>3. Maximum Capacity</Text>
                     <SelectDropdown
                         data={numPassenger}
                         buttonStyle={styles.dropdownButton}
@@ -41,10 +65,8 @@ const FindPassenger1Screen = () => {
                             return item
                         }}
                     />
-                    <Text style={styles.subText}>3. Select a time</Text>
-                    <View style={styles.timeslotContainer}>
-                        <Timeslot/>
-                    </View>
+                    <BasicButton onPress={onPressedSubmit} text='Submit' />
+                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -78,16 +100,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '800',
         color: 'black',
-        paddingBottom: '0%'
     },
 
-    subText: {
-        fontSize: 24,
+    firstText: {
+        fontSize: 20,
         alignSelf: 'flex-start',
         marginLeft: '5%',
         fontWeight: '800',
         color: 'black',
-        paddingTop: '5%',
+        paddingTop: 40,
+    },
+
+    subText: {
+        fontSize: 20,
+        alignSelf: 'flex-start',
+        marginLeft: '5%',
+        fontWeight: '800',
+        color: 'black',
+        paddingTop: 10,
     },
 
     dropdownButton: {
@@ -107,16 +137,13 @@ const styles = StyleSheet.create({
         width: "100%",
     },
 
-    timeslotContainer: {
-        backgroundColor: 'rgba(255,255,255,1)',
-        width: "90%",
-        height: 350,
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: 'rgba(255,0,0,0.7)',
         marginTop: 5,
-
-        borderWidth: 5,
-        borderColor: 'rgba(0,0,0,1)'
-
     }
+
 });
 
 export default FindPassenger1Screen;

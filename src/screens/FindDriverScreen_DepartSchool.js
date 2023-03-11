@@ -3,23 +3,25 @@ import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpac
 import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/Signup/BasicButton";
 import SelectDropdown from 'react-native-select-dropdown';
+import Ionicons from "react-native-vector-icons/Ionicons"
+import Timeslot from "../components/FindPassenger/Timeslot";
 import {Context as FPContext} from "../context/FPContext";
-import { Context as AuthContext } from "../context/AuthContext"
 
-const FindDriverScreen = ({ navigation }) => {
-    const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
-
+const FindDriverScreen_DepartSchool = ({ navigation }) => {
+    const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest,} = useContext(FPContext);
+    
+    const [errorMessage, setErrorMessage] = useState('');
     const [destination, setDestination] = useState('');
     const [numPeople, setNumPeople] = useState(0);
     const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
     const [selectedTime, setSelectedTime] = useState(null);
     const [showTimePicker, setShowTimePicker] = useState(null);
-    const [selectedStartTime, setSelectedStartTime] = useState(0);
-    const [selectedEndTime, setSelectedEndTime] = useState(0);
+    const [selectedStartTime, setSelectedStartTime] = useState('');
+    const [selectedEndTime, setSelectedEndTime] = useState('');
     const [endingPickUpTime, setEndingPickUpTime] = useState([]);
-    const locations = ["Goizueta Business School", "Asbury Circle", "Woodpec", "Woodruff Circle", "Raoul Circle", "Kaldi's by Depot",
-        "Harris hall"];
+    const locations = ["Goizueta Business School", "Asbury Circle Emory", "Woodpec Emory", "Woodruff Circle Emory", "Raoul Hall Emory",
+    "Harris Hall Emory", "Woodruff Hall Emory", "The Depot by Kaldi's Coffee Emory"];
     const numPassenger = [1, 2, 3, 4];
     const pickUPTime = ["12:00AM", "12:30AM", "01:00AM", "01:30AM",
         "02:00AM", "02:30AM", "03:00AM", "03:30AM", "04:00AM", "04:30AM",
@@ -31,27 +33,7 @@ const FindDriverScreen = ({ navigation }) => {
         "08:00PM", "08:30PM", "09:00PM", "09:30PM", "10:00PM", "10:30PM",
         "11:00PM", "11:30PM"]
 
-    //const getTimeOptions = (startTime) => {
-    //    const timeOptions = [];
-    //    const maxEndTimeIndex = pickupTimes.findIndex(
-    //        (time) => time === startTime) + 6;
-    //    for (let i = 0; i <= maxEndTimeIndex; i++) {
-    //        timeOptions.push(pickupTimes[i]);
-    //    }
-    //    return timeOptions
-    //};
-
-    //const handleStartTimeSelect = (startTime) => {
-    //    setSelectedStartTime(startTime);
-    //    setSelectedEndTime(null);
-    //};
-
-    //const handleEndTimeSelect = (endTime) => {
-    //    setSelectedEndTime(endTime);
-    //};
-
     var time_index_start = '';
-    
 
     const handleTimeSelect = (time) => {
         setSelectedTime(time);
@@ -59,29 +41,25 @@ const FindDriverScreen = ({ navigation }) => {
     // const getEndingTime = (index_1) 
 
     const pressSubmit = () => {
-        // console.log(selectedStartTime)
-        // console.log(selectedEndTime)
-        // console.log(location)
-        // console.log(destination)
-        // console.log(numPeople)
+        let from = changetoArmyTime(selectedStartTime)
+        let to = changetoArmyTime(selectedEndTime)
         
-        postPassRequest({selectedStartTime, selectedEndTime, location, destination, numPeople})
+        postPassRequest({from, to, location, destination, numPeople})
     }
 
     const changetoArmyTime = (timeStr) => {
         let hours = parseInt(timeStr.slice(0, 2));
         const minutes = parseInt(timeStr.slice(3, 5));
         const period = timeStr.slice(5);
-        
+    
         if (period === 'PM' && hours !== 12) {
             hours += 12;
         } else if (period === 'AM' && hours === 12) {
             hours = 0;
         }
-        
-        return hours.toString().padStart(2, '0') + minutes.toString().padStart(2, '0');
+    
+        return (hours * 100) + minutes;
     }
-
 
     useEffect(() => {
         // Populate endingPickUpTime array when selectedStartTime changes
@@ -99,11 +77,11 @@ const FindDriverScreen = ({ navigation }) => {
            {/* Source Used: https://www.npmjs.com/package/react-native-select-dropdown*/}
 
                 <ScrollView style={styles.scrollContainer}>
-                    <Text style={styles.title}>
+                    <Text style={styles.title_1}>
                     1. Select a time
                 </Text>
 
-                <Text style={{ flexDirection: "row", fontSize: 15, paddingLeft: '10%', paddingRight: '10%',textAlign: 'center' }}>
+                <Text style={{ flexDirection: "row", fontSize: 15, paddingLeft: '10%', paddingRight: '15%',textAlign: 'center' }}>
                         Starting Time                                Ending Time
                 </Text>
 
@@ -111,13 +89,12 @@ const FindDriverScreen = ({ navigation }) => {
 
                     <SelectDropdown
                         data={pickUPTime}
+                        buttonStyle={styles.dropdownButton_time}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        dropdownStyle={{ borderRadius: 20 }}
+                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
                         onSelect={(selectedItem, index) => {
-                            // endingPickUpTime.length = 0;
-                            // time_index_start = index;
-                            // for (let i = 0; i <= 6; i++) {
-                            //    endingPickUpTime.push(pickUPTime[time_index_start + i]);
-                            // }
-                            setSelectedStartTime(changetoArmyTime(selectedItem))
+                            setSelectedStartTime(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -127,14 +104,21 @@ const FindDriverScreen = ({ navigation }) => {
                         }}
                     />
 
-                    <Text style={{ textAlign: 'center', justifyContent: 'center', paddingTop: '3%' }}>
+                    <Text style={{
+                        textAlign: 'center', justifyContent: 'center', paddingTop: '6%', paddingLeft: '5%',
+                        paddingRight: '6%', fontWeight: '10%'
+                    }}>
                         ~
                     </Text>
 
                     <SelectDropdown
                         data={endingPickUpTime}
+                        buttonStyle={styles.dropdownButton_time}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        dropdownStyle={{ borderRadius: 20 }}
+                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
                         onSelect={(selectedItem, index) => {
-                            setSelectedEndTime(changetoArmyTime(selectedItem))
+                            setSelectedEndTime(selectedItem)
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
@@ -143,24 +127,7 @@ const FindDriverScreen = ({ navigation }) => {
                             return item_2
                         }}
                     />
-                    </View>
-
-                    {/*Code that I tried first. Left it commented cuz felt like I may be able to apply it somewhere in our project*/}
-                    {/*<TouchableOpacity onPress={() => setShowTimePicker(true)}>*/}
-                    {/*    <Text> Select Time</Text>*/}
-                    {/*    <DateTimePickerModal*/}
-                    {/*        isVisible={showTimePicker}*/}
-                    {/*        mode="time"*/}
-                    {/*        onConfirm={(time) => {*/}
-                    {/*            handleTimeSelect(time);*/}
-                    {/*            setShowTimePicker(false);*/}
-                    {/*        }}*/}
-                    {/*        onCancel={() => setShowTimePicker(false)}*/}
-                    {/*    />*/}
-                    {/*</TouchableOpacity>*/}
-                    
-                    
-            
+                    </View>                           
 
                     <Text style={styles.subtitle}>
                         2. Pick up location
@@ -168,6 +135,10 @@ const FindDriverScreen = ({ navigation }) => {
                 <View style={styles.mainContainer}>
                     <SelectDropdown
                         data={locations}
+                        buttonStyle={styles.dropdownButton}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        dropdownStyle={{ borderRadius: 20 }}
+                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
                         onSelect={(selectedItem, index) => {
                             setLocation(selectedItem)
                         }}
@@ -200,7 +171,10 @@ const FindDriverScreen = ({ navigation }) => {
                 <View style={styles.mainContainer}>
                     <SelectDropdown
                         data={numPassenger}
-                        style={{borderRadius: 20, borderColor: "blue"} }
+                        buttonStyle={styles.dropdownButton}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        dropdownStyle={{ borderRadius: 20 }}
+                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
                         onSelect={(selectedItem, index) => {
                             setNumPeople(selectedItem)
                         }}
@@ -219,6 +193,7 @@ const FindDriverScreen = ({ navigation }) => {
                             text='Submit'
                         onPress={pressSubmit}
                         />
+                        {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -255,6 +230,14 @@ const styles = StyleSheet.create({
         paddingTop: '20%',
         marginRight: '50%'
     },
+    title_1: {
+        fontSize: 25,
+        textAlign: 'left',
+        fontWeight: '900',
+        color: 'black',
+        paddingTop: '15%',
+        marginRight: '30%'
+    },
     subtitle: {
         fontSize: 25,
         textAlign: 'left',
@@ -272,8 +255,41 @@ const styles = StyleSheet.create({
     mainContainer: {
         alignItems: 'center',
         paddingTop: "5%", 
+    },
+    dropdownButton: {
+        backgroundColor: 'rgba(255,255,255,0.6)',
+        borderRadius: 20,
+        width: 345,
+        height: 65,
+        marginTop: 5,
+
+        alignItems: 'center'
+    },
+    dropdownButton_time: {
+        backgroundColor: 'rgba(255,255,255,0.6)',
+        borderRadius: 20,
+        width: 165,
+        height: 65,
+        marginTop: 5,
+        marginLeft: 5,
+        paddingLeft:'5%',
+        alignItems: 'center'
+    },
+
+    dropdownButtonText: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: "rgba(0,0,0,0.6)",
+        width: "100%",
+    },
+
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: 'rgba(255,0,0,0.7)',
+        marginTop: 5,
     }
 
 });
 
-export default FindDriverScreen;
+export default FindDriverScreen_DepartSchool;

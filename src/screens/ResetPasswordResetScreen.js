@@ -8,13 +8,12 @@ import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';
 
 const ResetPasswordResetScreen = ({navigation}) => {
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_new_password, set_new_password] = useState('');
     const [visible, setVisible] = useState(false)
     const [visibleSuccess, setVisibleSuccess] = useState(false)
 
-    const {state,resetPassword, clearErrorMessage} = useContext(AuthContext);
+    const {state, resetPassword, clearErrorMessage} = useContext(AuthContext);
 
     const checkPassword = () => {
         
@@ -22,6 +21,7 @@ const ResetPasswordResetScreen = ({navigation}) => {
             setVisible(true);
         } else {
             state.errorMessage = ''
+            const email = state.email
             resetPassword({email, password})
         } 
     }
@@ -71,15 +71,7 @@ const ResetPasswordResetScreen = ({navigation}) => {
                     </Text>
                 </View>
 
-                <View style={styles.mainContainer}>
-                    <BasicInputs
-                        title='Enter your email again'
-                        placeholder='Enter your email again'
-                        value={email}
-                        setValue={setEmail}
-                        fontSize={12}
-                    />
-                    
+                <View style={styles.mainContainer}>              
                     <BasicInputs
                         title='New Password'
                         placeholder='New Password'
