@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
-import BasicButton from "../components/SetLocation/BasicButton";
-
-
-
-/*Source used: https://ssilook.tistory.com/entry/React-Native-RN-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EB%B2%84%ED%8A%BC-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0CheckBox*/
+import BasicButton from "../components/BasicButton";
 
 const SetDepartingScreen = ({ navigation }) => {
 
@@ -13,11 +8,11 @@ const SetDepartingScreen = ({ navigation }) => {
     const [checkValue_H, setCheckValue_H] = useState(false);
 
     const navigateS = () => {
-        navigation.navigate('FindDriver_S')
+        navigation.navigate('FindDriverS')
     }
 
     const navigateH = () => {
-        navigation.navigate('FindDriver_H')
+        navigation.navigate('FindDriverH')
     }
 
     return (
@@ -40,36 +35,6 @@ const SetDepartingScreen = ({ navigation }) => {
                     text='I am departing from home'
                     onPress={navigateH}
                 />
-                
-            {/*<BouncyCheckbox*/}
-            {/*    style={styles.checkbox}*/}
-            {/*    size={25}*/}
-            {/*    fillColor="darkcyan"*/}
-            {/*    unfillColor="#FFFFFF"*/}
-            {/*    text="I am departing from Emory"*/}
-            {/*    iconStyle={{ borderColor: "red" }}*/}
-            {/*        onPress={(isChecked: false) => {*/}
-            {/*            setCheckValue_S(true)*/}
-            {/*            setCheckValue_H(false)*/}
-            {/*            console.log(checkValue_H + " departing home")*/}
-            {/*            console.log(checkValue_S + " departing school")*/}
-            {/*        }}*/}
-            {/*/>*/}
-
-            {/*<BouncyCheckbox*/}
-            {/*        style={styles.checkbox}*/}
-            {/*        size={25}*/}
-            {/*        fillColor="darkcyan"*/}
-            {/*        unfillColor="#FFFFFF"*/}
-            {/*        text="I am departing from home"*/}
-            {/*        iconStyle={{ borderColor: "red" }}*/}
-            {/*        onPress={(isChecked: boolean) => {*/}
-            {/*            setCheckValue_H(true)*/}
-            {/*            setCheckValue_S(false)*/}
-            {/*            console.log(checkValue_H + " departing home")*/}
-            {/*            console.log(checkValue_S + " departing school")*/}
-            {/*        }}*/}
-            {/*/>*/}
 
             
             </View>

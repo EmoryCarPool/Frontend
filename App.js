@@ -22,8 +22,6 @@ import {Provider as FPProvider} from './src/context/FPContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { setNavigator } from './src/navigationRef';
 import SetDepartingScreen from './src/screens/SetDepartingScreen';
-import FindDriverScreen_DepartSchool from './src/screens/FindDriverScreen_DepartSchool';
-import FindDriverScreen_DepartHome from './src/screens/FindDriverScreen_DepartHome';
 
 
 const switchNavigator = createSwitchNavigator({
@@ -41,6 +39,7 @@ const switchNavigator = createSwitchNavigator({
     mainFlow: createMaterialBottomTabNavigator({
         Home: HomeScreen,
         FindDriverFlow: createStackNavigator({
+            SetDepart: SetDepartingScreen,
             FindDriverS: FindDriverScreen_DepartSchool,
             FindDriverH: FindDriverScreen_DepartHome,
         }, {headerMode: "none"}
