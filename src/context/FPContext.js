@@ -46,7 +46,9 @@ const postPassRequest = (dispatch) => async({from, to, location, destination, nu
             }
         })
         
-        dispatch({type:'postPassRequest', payload: passRequestInfo})
+        
+
+        dispatch({type:'add_error', payload: ''})
 
         navigate('Home')
 
@@ -75,6 +77,8 @@ const loadTimeslot = (dispatch) => async({currentLocation,finalDestination, maxC
               Authorization: `Bearer ${token}`,
             },
         })
+
+        dispatch({type:'add_error', payload: ''})
 
         const stringData = JSON.stringify(response.data)
         await AsyncStorage.setItem('dictionary', stringData)
@@ -106,6 +110,8 @@ const getSelectedRequest = (dispatch) => async({inputTime}) => {
               Authorization: `Bearer ${token}`,
             },
         })
+
+        dispatch({type:'add_error', payload: ''})
 
         console.log("Response: ", response.data)
 
@@ -139,8 +145,6 @@ const postDriverRequest = (dispatch) => async({findDriver_id, pick_up, pass_dest
         time_of_pickup
     }
 
-    console.log("driverRequestInfo: ", driverRequestInfo)
-
     try {
         const response = await carpoolApi.post('/api/requests_to_pass/', driverRequestInfo, {
             headers: {
@@ -148,9 +152,15 @@ const postDriverRequest = (dispatch) => async({findDriver_id, pick_up, pass_dest
             },
         })
 
+        dispatch({type:'add_error', payload: ''})
+
+        navigate('Home')
+
 
     } catch (error) {
-        console.log(error.response.data.error)
+        const message = error.response.data.error
+        console.log(message)
+        dispatch({type: 'add_error', payload: message})
     }
 }
 

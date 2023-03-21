@@ -1,16 +1,22 @@
 import React, {useState, useContext, useEffect} from "react";
-import {View, StyleSheet, Text, FlatList, KeyboardAvoidingView, ScrollView, TouchableOpacity} from "react-native";
+import {View, StyleSheet, Text, TouchableOpacity, ActivityIndicator} from "react-native";
 import { Context as FPContext } from "../../context/FPContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BaseContainer = ({time, numRequests}) => {    
     let opacity = (0.2 * numRequests)
     
     const {getSelectedRequest} = useContext(FPContext);
 
-    const onPressedTimebox = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onPressedTimebox = async () => {
         if (numRequests !== 0) {
+            setIsLoading(true)
+            await AsyncStorage.setItem('time', time)
             const inputTime = convertToMilitaryTime(time)
-            getSelectedRequest({inputTime})
+            await getSelectedRequest({inputTime})
+            setIsLoading(false)
         }
     }
 
@@ -65,7 +71,16 @@ const BaseContainer = ({time, numRequests}) => {
             alignSelf: 'center',
             paddingTop: '8%',
             fontSize: 14,
-        }
+        },
+
+        activityIndicatorContainer: {
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        },
     })
 
     return (
@@ -74,9 +89,16 @@ const BaseContainer = ({time, numRequests}) => {
                 <Text style={styles.textStyle}>{time}</Text>
             </View>
             <TouchableOpacity onPress={onPressedTimebox}>
-            <View style={styles.timebox}></View> 
-            <Text style={styles.requestText}>{numRequests} requests</Text>
-            </TouchableOpacity>  
+            <View style={styles.timebox}>
+            </View> 
+            {isLoading ? (
+                <View style={styles.activityIndicatorContainer}>
+                    <ActivityIndicator size='large' color='black' />
+                </View>
+            ) : (
+                <Text style={styles.requestText}>{numRequests} requests</Text>
+            )}
+            </TouchableOpacity>   
         </View>
     )
 }

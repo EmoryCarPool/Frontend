@@ -22,7 +22,33 @@ import {Provider as FPProvider} from './src/context/FPContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { setNavigator } from './src/navigationRef';
 import SetDepartingScreen from './src/screens/SetDepartingScreen';
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import Ionicons from "react-native-vector-icons/Ionicons";
 
+const HomeNavigator = createStackNavigator({
+    Home: HomeScreen,
+}, {headerMode: "none"}
+)
+
+const FindDriverNavigator = createStackNavigator({
+    SetDepart: SetDepartingScreen,
+    FindDriverS: FindDriverScreen_DepartSchool,
+    FindDriverH: FindDriverScreen_DepartHome,
+}, {headerMode: "none"}
+)
+
+const FindPassengerNavigator = createStackNavigator({
+    FindPassenger1: FindPassenger1Screen,
+    FindPassenger2: FindPassenger2Screen,
+    FindPassenger3: FindPassenger3Screen,
+}, { headerMode: "none" }
+)
+
+// switch navigator (based on user's is_driver boolean) between 
+const ProfileNavigator = createStackNavigator({
+    Profile: ProfileScreen,
+}, {headerMode: "none"}
+)
 
 const switchNavigator = createSwitchNavigator({
     Initial: InitialScreen,
@@ -36,33 +62,45 @@ const switchNavigator = createSwitchNavigator({
     }, { headerMode: "none" } // this will hide the header in the stackNavigator
     ),
 
-    mainFlow: createMaterialBottomTabNavigator({
-        Home: HomeScreen,
-        FindDriverFlow: createStackNavigator({
-            SetDepart: SetDepartingScreen,
-            FindDriverS: FindDriverScreen_DepartSchool,
-            FindDriverH: FindDriverScreen_DepartHome,
-        }, {headerMode: "none"}
-        ),
-        FindPassengerFlow: createStackNavigator({
-            FindPassenger1: FindPassenger1Screen,
-            FindPassenger2: FindPassenger2Screen,
-            FindPassenger3: FindPassenger3Screen,
-        }, { headerMode: "none" }
-        ),
-        Profile: ProfileScreen,
-    })
+    mainFlow: createMaterialBottomTabNavigator(
+        {
+            HomeFlow: {
+                screen: HomeNavigator,
+                navigationOptions: {
+                    title: 'Home',
+                    tabBarIcon: <Ionicons name= 'home-outline' size= {26} color= 'black'/>,
+                },
+            },
+
+            FindDriverFlow: {
+                screen: FindDriverNavigator,
+                navigationOptions: {
+                    title: 'Find Driver',
+                    tabBarIcon: <Ionicons name= 'car-outline' size= {35} color= 'black'/>
+                }
+            },
+
+            FindPassengerFlow: {
+                screen: FindPassengerNavigator,
+                navigationOptions: {
+                    title: 'Find Passenger',
+                    tabBarIcon: <FontAwesome name= 'handshake-o' size= {26} color= 'black'/>
+                }
+            },
+
+            ProfileFlow: {
+                screen: ProfileNavigator,
+                navigationOptions: {
+                    title: 'Profile',
+                    tabBarIcon: <Ionicons name= 'md-person-circle-outline' size= {30} color= 'black'/>
+                }
+            },
+        },
+        
+    )
 })
 
 const App = createAppContainer(switchNavigator)
-
-// export default () => {
-//     return (
-//         <SafeAreaProvider>  
-//             <App/> 
-//         </SafeAreaProvider>
-//     )
-// }
 
 
 export default () => {

@@ -8,6 +8,7 @@ import PopUpInput from "../components/Signup/Popup/PopUpInput";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
 import Popup from "../components/Signup/Popup/Popup";
 import { Context as AuthContext } from "../context/AuthContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen = ({navigation}) => {
     const {state, signup, sendOTP, verifyOTP, clearErrorMessage} = useContext(AuthContext);
@@ -33,7 +34,6 @@ const SignupScreen = ({navigation}) => {
     const onCompletePressed = () => {
         // useContext signup prop
         if (emailVerified === false) {
-            console.log('check')
             setLocalErrorMessage('Please verify your Emory email first')
         }
         else if (password !== re_password ) {
@@ -46,14 +46,18 @@ const SignupScreen = ({navigation}) => {
     }
 
     // create logic that if post request fails, setVisible should not be set to false
-    const onConfirmPressed = () => { 
-        verifyOTP({email, emailCode})
+    const onConfirmPressed = async () => { 
+        await verifyOTP({email, emailCode})
 
-        if (state.errorMessage === '') {
+        const message = await state.popupErrorMessage
+
+        var value = await AsyncStorage.getItem('OTPStatus');
+
+        if (value === '' || value === null) {
             setVisible(false)
             setEmailVerified(true)
         }
-        
+    
     }
 
     const onVerifyPressed = () => {
@@ -63,7 +67,6 @@ const SignupScreen = ({navigation}) => {
     }
 
     const onXpressed = () => {
-        state.errorMessage = ''
         setVisible(false)
     }
 
@@ -105,7 +108,7 @@ const SignupScreen = ({navigation}) => {
                         fontSize={12}
                         keyboardType={'numeric'}
                     />
-                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                    {state.popupErrorMessage ? <Text style={styles.errorMessage}>{state.popupErrorMessage}</Text>: null}
                     {/* change the onPress prop so that it checks the code */}
                     <PopUpButton text={'Confirm'} onPress={onConfirmPressed}/>
             </Popup>
