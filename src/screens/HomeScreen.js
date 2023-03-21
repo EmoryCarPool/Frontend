@@ -15,6 +15,11 @@ const HomeScreen = () => {
     const pan = useRef(new Animated.ValueXY()).current;
     const [name, setName] = useState('Name');
     const { width, height } = Dimensions.get('window');
+    const animatedValue = useRef(new Animated.Value(0)).current;
+    const onPressButton = () => {
+        console.log('Button pressed!');
+      };
+
 
     const renderScreen = () => {
         switch (activeScreen) {
@@ -51,26 +56,26 @@ const HomeScreen = () => {
           pan.x = gestureState.dx;
         },
         onPanResponderRelease: (evt, gestureState) => {
-          if (gestureState.dx < -100 && activeScreen === 'upcoming') {
+          if (gestureState.dx < -200 && activeScreen === 'upcoming') {
             handleSlide("left");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
             pan.x = 0;
-          }else if (gestureState.dx < -100 && activeScreen === 'requested') {
+          }else if (gestureState.dx < -200 && activeScreen === 'requested') {
                 handleSlide("left");
                 UIManager.setLayoutAnimationEnabledExperimental &&
                   UIManager.setLayoutAnimationEnabledExperimental(true);
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 pan.x = 0;
-          } else if (gestureState.dx > 100 && activeScreen === 'requested') {
+          } else if (gestureState.dx > 200 && activeScreen === 'requested') {
             handleSlide("right");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
             pan.x = 0;
           } 
-          else if (gestureState.dx > 100 && activeScreen === 'pending') {
+          else if (gestureState.dx > 200 && activeScreen === 'pending') {
             handleSlide("right");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
