@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard, Animated} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
 import BasicButton from "../components/HomeScreen/BasicButton";
@@ -9,7 +9,7 @@ import Popup from "../components/Signup/Popup/Popup";
 
 const UpcomingRide_Passenger = ({navigation}) => {
     const [imageUri, setImageUri] = useState(null);
-    const [driverName, setDriverName] = useState('Driver name');
+    const [driverName, setDriverName] = useState('Driver Name');
     const [phoneNumber, setPhoneNumber] = useState('### - #### - ####'); 
     const [carInfo, setCarInfo] = useState('White Nissan Altima');
     const [time, setTime] = useState('7:00PM');
@@ -17,6 +17,10 @@ const UpcomingRide_Passenger = ({navigation}) => {
     const [venmo, setVenmo] = useState('9999');
     const [visible, setVisible] = useState(false)
     const [venmoCode, setVenmoCode] = useState('');
+    const animatedValue = useRef(new Animated.Value(0)).current;
+    const onPressButton = () => {
+        console.log('Button pressed!');
+  };
 
     useEffect(() => {
         if (venmoCode.length === 4) {
@@ -137,6 +141,24 @@ const UpcomingRide_Passenger = ({navigation}) => {
                     text='Start Ride'
                     onPress={() => setVisible(true)}
                     /> 
+
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Animated.View
+                            style={{
+                            width: 200,
+                            height: 200,
+                            backgroundColor: 'blue',
+                            transform: [{ scale: animatedValue }],
+                            }}
+                        >
+                            <TouchableOpacity onPress={onPressButton}>
+                            <BasicButton
+                                text='test'
+                                onPress={() => setVisible(true)}
+                                /> 
+                            </TouchableOpacity>
+                        </Animated.View>
+                    </View>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
