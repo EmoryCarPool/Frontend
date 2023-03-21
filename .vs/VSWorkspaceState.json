@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\HomeScreen",
+    "\\src\\components\\ProfilePage",
+    "\\src\\components\\SetLocation",
+    "\\src\\components\\Signup",
+    "\\src\\components\\Signup\\Popup",
+    "\\src\\context",
+    "\\src\\screens"
+  ],
+  "SelectedNode": "\\src\\screens\\HomeScreen.js",
+  "PreviewInSolutionExplorer": false
+}
