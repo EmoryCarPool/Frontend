@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: '100%',
 
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        marginTop: "3%",
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        marginTop: "4%",
 
         alignItems: 'center',
         justifyContent: 'center',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: '700',
         color: 'rgba(0,0,0,0.6)'
     }

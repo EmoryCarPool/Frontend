@@ -18,7 +18,7 @@ const Profile_Passenger = ({ navigation }) => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const { signout, loadProfile, updateProfile } = useContext(AuthContext)
+    const { state, signout, loadProfile, updateProfile } = useContext(AuthContext)
 
     useEffect(() => {
         const getData = async () => {
@@ -58,7 +58,11 @@ const Profile_Passenger = ({ navigation }) => {
 
     const handleSavePress = async () => {
         await updateProfile({email, name, phoneNumber})
-        setIsEditable(false);
+        var error = await AsyncStorage.getItem('updateError')
+        
+        if (error === '' || error === null) {
+            setIsEditable(false);
+        }
     };
 
     const handleCancelPress = () => {
@@ -79,31 +83,112 @@ const Profile_Passenger = ({ navigation }) => {
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.mainContainer}>
-                    <View style={{ alignItems: 'flex-end', paddingTop: '20%' }}>
+                    
+                    <View style={styles.editIconContainer}>
                         <TouchableOpacity onPress={pickImage}>
                             <Ionicons
-                                style={{ paddingRight: '25%', marginTop: '1%'}}
                                 name='pencil-sharp'
                                 size={25}
                                 color='black'
                             />
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.picContainer}>
-                        
                         {imageUri ? (
                             <View style={styles.imgContainer}>
-                                <Image source={{ uri: imageUri }} style={styles.picImg} />
+                                <Image 
+                                    source={{ uri: imageUri }} 
+                                    style={styles.picImg} 
+                                />
                             </View>
                         ) : (
                             <View style={styles.imgContainer}>
-                                    <Image
-                                        source={imageUri ? { uri: imageUri } : defaultProfilePic}
-                                        style={styles.picImg}
-                                    />
-                            </View>)}
+                                <Image
+                                    source={imageUri ? { uri: imageUri } : defaultProfilePic}
+                                    style={styles.picImg}
+                                />
+                            </View>
+                        )}
                     </View>
-                
+
+                    <View style={styles.emailContainer}>
+                        <Text style={styles.emailText}>{email}</Text>
+                    </View>
+                    
+                    {isEditable ? (
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={name} 
+                                onChangeText={handleNameChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{name}</Text> 
+                        </View>
+                    )}
+
+                    {isEditable ? (
+                        <View style={styles.supportingContainer}>
+                            <View style={styles.editContainer}>
+                                <TextInput 
+                                    value={phoneNumber} onChangeText={handlePhoneNumberChange}
+                                    style={styles.emailText}
+                                />
+                            </View>
+
+                            <View style={styles.editButtonContainer}>
+                                {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                                <BasicButton
+                                    onPress={handleSavePress} text="Save"
+                                />
+                                <BasicButton
+                                    onPress={handleCancelPress} text="Cancel"
+                                />
+                            </View>
+                        </View>
+
+
+                    ) : (
+
+                        <View style={styles.supportingContainer}>
+                            <View style={styles.editContainer}>
+                                <Text style={styles.emailText}>{phoneNumber}</Text>
+                            </View>
+
+                            <TouchableOpacity onPress={handleEditPress}>
+                                <Ionicons
+                                    style={{ paddingLeft: '90%', }}
+                                    name='pencil-sharp'
+                                    size={25}
+                                    color='black'
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    )}
+
+
+                    <View style={styles.buttonContainer}>
+                        <BasicButton
+                            text="Become a driver"
+                            onPress={() => navigation.navigate('BecomeDriver')}
+                        />
+                        
+                        <BasicButton
+                            text="Change Password"
+                            onPress={() => navigation.navigate('ChangePassword_Verify')}
+                        />
+                        
+                        <BasicButton
+                            text="Sign out"
+                            onPress={signout}
+                        />
+                    </View>
+
+
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -128,16 +213,21 @@ const styles = StyleSheet.create({
         borderColor: 'white',
     },
 
+    editIconContainer: {
+        alignItems: 'flex-end', 
+        paddingTop: '20%',
+    },
+
     picContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginHorizontal: '20%',
     },
 
     picImg: {
         width: 200,
         height: 200,
-        borderRadius: 100
-
+        borderRadius: 100,
     },
 
     imgContainer: {
@@ -147,65 +237,57 @@ const styles = StyleSheet.create({
 
     },
 
-    subContainer: {
-        paddingTop: '5%',
-        alignItems: 'center',
-        justifyContent: 'center',
+    emailContainer: {
+        backgroundColor: 'rgba(255,255,255,1)',
         borderRadius: 20,
+        padding: 10,
+        marginTop: '10%',
         width: '80%',
+        alignSelf: 'center'
     },
 
-    showInfo: {
+    editContainer: {
+        backgroundColor: 'rgba(255,255,255,1)',
+        borderRadius: 20,
+        padding: 10,
+        marginTop: '5%',
+        width: '80%',
+        alignSelf: 'center'
+
+    },
+
+    supportingContainer: {
+
+    },
+
+    emailText: {
         fontSize: 20,
         fontWeight: "700",
         color: 'black',
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: "white",
-        backgroundColor: "white",
-        marginRight: '20%',
-        marginLeft: '20%',
-        textAlign: 'center'
-    },
-
-    showEmail: {
-        fontSize: 20,
-        fontWeight: "700",
-        color: 'black',
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: "white",
-        backgroundColor: "white",
-        textAlign: 'center'
-    },
-
-    topContainer: {
-        alignItems: 'center',
-        paddingTop: '20%',
-    },
-
-    bottomContainer: {
-        alignItems: 'center',
-        paddingTop: '10%',
-    },
-
-    ChangePassword: {
-        alignItems: 'center',
-        paddingTop: '2%',
-    },
-
-    example: {
-        paddingTop: '10%'
-    },
-
-    TextPopUp: {
-        fontWeight: '700',
         textAlign: 'center',
-        width: '85%',
-    }
+    },
 
+    editButtonContainer: {
+        width: '60%',
+        alignSelf: 'center',
+        paddingTop: '5%'
+        
+    },
+
+    buttonContainer: {
+        paddingTop: '10%',
+        alignSelf: 'center',
+        width: '80%'
+    },
+
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: 'rgba(255,0,0,0.7)',
+        marginTop: 5,
+        textAlign: 'center'
+    }
+    
 });
 
 export default Profile_Passenger;

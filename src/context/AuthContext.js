@@ -164,7 +164,6 @@ const loadProfile = (dispatch) => async () => {
 }
 
 const updateProfile = (dispatch) => async ({email, name, phoneNumber}) => {
-    var token = await AsyncStorage.getItem('token')
     
     const body = {
         email: email,
@@ -172,22 +171,18 @@ const updateProfile = (dispatch) => async ({email, name, phoneNumber}) => {
         phone_number: phoneNumber,
     }
 
-    console.log(body)
-
     try {
-        // const response = await carpoolApi.patch('/api/user/update', body, {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        // })
-
         const response = await carpoolApi.patch('/api/user/update', body)
-    
+        
+        dispatch({type:'add_error', payload: ''})
+
+        await AsyncStorage.setItem('updateError', '');
     
 
     } catch (error) {
         const message = error.response.data.error
-        console.log(message)
+        await AsyncStorage.setItem('updateError', message);
+        dispatch({type: 'add_error', payload: message})
     }
 
 }
