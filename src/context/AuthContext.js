@@ -51,6 +51,9 @@ const signin = (dispatch) => async ({email, password}) => {
     try {
         const response = await carpoolApi.post('/api/user/login', signInInfo)  
         await AsyncStorage.setItem('token', response.data.token)
+
+        // console.log(response.data)
+
         dispatch({type: 'signin', payload: response.data.token})
 
         navigate('Home')
@@ -142,8 +145,55 @@ const resetPassword = (dispatch) => async ({email, password}) => {
     }
 }
 
+const loadProfile = (dispatch) => async () => {
+    var token = await AsyncStorage.getItem('token')
+    try {
+        const response = await carpoolApi.get('/api/user/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        await AsyncStorage.setItem('profileInfo', JSON.stringify(response.data.request));
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+
+}
+
+const updateProfile = (dispatch) => async ({email, name, phoneNumber}) => {
+    var token = await AsyncStorage.getItem('token')
+    
+    const body = {
+        email: email,
+        first_name: name,
+        phone_number: phoneNumber,
+    }
+
+    console.log(body)
+
+    try {
+        // const response = await carpoolApi.patch('/api/user/update', body, {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        // })
+
+        const response = await carpoolApi.patch('/api/user/update', body)
+    
+    
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword}, // object with action functions
+    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile}, // object with action functions
     {token: null, errorMessage: '', popupErrorMessage: '', email: ''} // initial state: null token, empty errorMessage
 )

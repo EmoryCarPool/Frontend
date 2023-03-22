@@ -8,6 +8,7 @@ import PopUpButton from "../components/Signup/Popup/PopUpButton";
 import Popup from "../components/Signup/Popup/Popup";
 import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ResetPasswordVerifyScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -20,22 +21,24 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
     const onVerifyEmailPressed = () => {
         sendOTP({email})
         
-        if (state.errorMessage === '') {
+        if (state.popupErrorMessage === '') {
             setVisible(true)
         }
     }
 
-    const onConfirmPressed = () => {
-        verifyOTP({email, emailCode})
+    const onConfirmPressed = async () => {
+        await verifyOTP({email, emailCode})
 
-        if (state.errorMessage === '') {
+        var value = await AsyncStorage.getItem('OTPStatus');
+
+        if (value === '' || value === null) {
             setVisible(false)
             navigation.navigate('ResetPasswordReset')
         }
     }
 
     const onXpressed = () => {
-        state.errorMessage = ''
+        state.popupErrorMessage = ''
         setVisible(false)
     }
 
@@ -70,7 +73,7 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
                     fontSize={18}
                     keyboardType={'numeric'}
                 />
-                {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                {state.popupErrorMessage ? <Text style={styles.errorMessage}>{state.popupErrorMessage}</Text>: null}
                 <PopUpButton 
                     text={'Confirm'} 
                     onPress={onConfirmPressed} 
@@ -118,7 +121,7 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
                         text='Verify Email'
                         onPress={onVerifyEmailPressed}
                     />
-                    {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                    {state.popupErrorMessage ? <Text style={styles.errorMessage}>{state.popupErrorMessage}</Text>: null}
                 </View>
 
 
@@ -183,10 +186,10 @@ const styles = StyleSheet.create({
         fontWeight: '800'
     },
     Title: {
-        fontSize: 35,
+        fontSize: 38,
         textAlign: 'center',
         fontWeight: '900',
-        color: 'white'
+        color: 'black'
     },
 
     errorMessage: {

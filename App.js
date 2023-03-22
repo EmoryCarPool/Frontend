@@ -16,6 +16,7 @@ import FindPassenger1Screen from './src/screens/FindPassenger1Screen';
 import FindPassenger2Screen from './src/screens/FindPassenger2Screen';
 import FindPassenger3Screen from './src/screens/FindPassenger3Screen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import Profile_Passenger from './src/screens/Profile_Passenger';
 import BecomeDriverScreen from './src/screens/BecomeDriverScreen';
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as FPProvider} from './src/context/FPContext'
@@ -46,7 +47,7 @@ const FindPassengerNavigator = createStackNavigator({
 
 // switch navigator (based on user's is_driver boolean) between 
 const ProfileNavigator = createStackNavigator({
-    Profile: ProfileScreen,
+    Pprofile: Profile_Passenger,
 }, {headerMode: "none"}
 )
 

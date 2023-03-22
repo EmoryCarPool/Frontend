@@ -115,13 +115,13 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         alignItems: 'center',
-        paddingTop: '40%'
+        paddingTop: '30%'
     }, 
     Title: {
-        fontSize: 35,
+        fontSize: 38,
         textAlign: 'center',
         fontWeight: '900',
-        color: 'white'
+        color: 'black'
     },
     mainContainer: {
         alignItems: 'center',

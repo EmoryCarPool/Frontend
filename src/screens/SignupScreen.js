@@ -21,7 +21,7 @@ const SignupScreen = ({navigation}) => {
     const [re_password, setRe_password] = useState('');
     const [emailCode, setEmailCode] = useState('');
     const isDriver = false;
-    const driver_info = {car_brand: 'Kia', car_model: 'Optima', car_color: 'white' , plate_number: '123ABC', occupation: 'student'}
+    const driver_info = {car_brand: '', car_model: '', car_color: '' , plate_number: '', occupation: ''}
     
     // this is for the popup screen component
     const [visible, setVisible] = useState(false)
@@ -48,8 +48,6 @@ const SignupScreen = ({navigation}) => {
     // create logic that if post request fails, setVisible should not be set to false
     const onConfirmPressed = async () => { 
         await verifyOTP({email, emailCode})
-
-        const message = await state.popupErrorMessage
 
         var value = await AsyncStorage.getItem('OTPStatus');
 
@@ -115,6 +113,8 @@ const SignupScreen = ({navigation}) => {
             
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.topContainer}>
+                    <Text style={styles.headerText}>Create an Account</Text>
+                    
                     <BasicInputs
                         placeholder='First Name'
                         value={first_name}
@@ -189,6 +189,14 @@ const styles = StyleSheet.create({
     bottomContainer: {
         alignItems: 'center',
         paddingTop: '10%',
+    },
+
+    headerText: {
+        fontSize: 38,
+        textAlign: 'center',
+        fontWeight: '800',
+        color: 'black',
+        marginBottom: '5%'
     },
 
     verifyEmailText: {
