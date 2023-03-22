@@ -51,7 +51,7 @@ const Profile_BecomeDriver = (navigation) => {
         });
 
         if (!result.canceled) {
-            setImageUri(result.uri);
+            setImageUri(result.assets[0].uri);
         }
     };
 

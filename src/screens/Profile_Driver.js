@@ -60,9 +60,7 @@ const Profile_Driver = ({ navigation }) => {
         });
 
         if (!result.canceled) {
-            // setImageUri(result.assets[0].uri);
-            setImageUri(result.uri)
-            console.log("imageUri : ", imageUri)
+            setImageUri(result.assets[0].uri);
         }
     };
 
