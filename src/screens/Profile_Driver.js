@@ -8,16 +8,23 @@ import { useNavigation } from '@react-navigation/native';
 import { Context as AuthContext} from '../context/AuthContext'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
+import SelectDropdown from 'react-native-select-dropdown';
 
 
-const Profile_Passenger = ({ navigation }) => {
+const Profile_Driver = ({ navigation }) => {
     const [isEditable, setIsEditable] = useState(false);
     const [imageUri, setImageUri] = useState(null);
     const [first_name, setFirst_Name] = useState('');
     const [last_name, setLast_Name] = useState('');
     const [email, setEmail] = useState('');
-
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [occupation, setOccupation] = useState('Occupation')
+    const [carBrand, setCarBrand] = useState('Car brand');
+    const [carModel, setCarModel] = useState('Car model');
+    const [color, setColor] = useState('Car color');
+    const [plateNumber, setPlateNumber] = useState('Plate number');
+    const occupationArray = ['Student', 'Faculty']
 
     const { state, signout, loadProfile, updateProfile } = useContext(AuthContext)
 
@@ -27,14 +34,15 @@ const Profile_Passenger = ({ navigation }) => {
             await AsyncStorage.getItem('profileInfo')
                 .then(data => {
                     const parsedData = JSON.parse(data)
-                    if(parsedData.isDriver === true) {
-                        navigate('ProfileDriver')
-                    }
-                    
                     setEmail(parsedData.email)
                     setFirst_Name(parsedData.first_name)
                     setLast_Name(parsedData.last_name)
                     setPhoneNumber(parsedData.phone_number)
+                    setOccupation(parsedData.driver_info.occupation)
+                    setCarBrand(parsedData.driver_info.car_brand)
+                    setCarModel(parsedData.driver_info.car_model)
+                    setColor(parsedData.driver_info.car_color)
+                    setPlateNumber(parsedData.driver_info.plate_number)
                 })
                 .catch(error => {
                     console.log(error)
@@ -63,7 +71,9 @@ const Profile_Passenger = ({ navigation }) => {
     };
 
     const handleSavePress = async () => {
-        await updateProfile({email, first_name, last_name, phoneNumber})
+        const isDriver = true
+
+        await updateProfile({email, first_name, last_name, phoneNumber, isDriver, occupation, carBrand, carModel, color, plateNumber})
         var error = await AsyncStorage.getItem('updateError')
         
         if (error === '' || error === null) {
@@ -87,6 +97,31 @@ const Profile_Passenger = ({ navigation }) => {
     /// Phone Number
     const handlePhoneNumberChange = (newPhoneNumber) => {
         setPhoneNumber(newPhoneNumber);
+    };
+
+    /// Occupation
+    const handleOccupationChange = (newOccupation) => {
+        setOccupation(newOccupation);
+    };
+
+    /// Car Brand
+    const handleCarBrandChange = (newCarBrand) => {
+        setCarBrand(newCarBrand);
+    };
+
+    /// Car Model
+    const handleCarModelChange = (newCarModel) => {
+        setCarModel(newCarModel);
+    };
+
+    /// Car Color
+    const handleColorChange = (newColor) => {
+        setColor(newColor);
+    };
+
+    /// Plate Number
+    const handlePlateNumberChange = (newPlateNumber) => {
+        setPlateNumber(newPlateNumber);
     };
 
     return (
@@ -157,10 +192,92 @@ const Profile_Passenger = ({ navigation }) => {
                     )}
 
                     {isEditable ? (
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={phoneNumber} 
+                                onChangeText={handlePhoneNumberChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{phoneNumber}</Text> 
+                        </View>
+                    )}
+
+                    
+                    {isEditable ? (
+                        <View>
+                            <SelectDropdown
+                                data={occupationArray}
+                                buttonStyle={styles.editContainer}
+                                buttonTextStyle={{fontWeight: '700'}}
+                                defaultButtonText='Occupation'
+                                dropdownStyle={{ borderRadius: 20 }}
+                                onSelect={(selectedItem, index) => {
+                                    setOccupation(selectedItem)
+                                }}
+                            />  
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{occupation}</Text> 
+                        </View>
+                    )}
+
+
+                    {isEditable ? (
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={carBrand} 
+                                onChangeText={handleCarBrandChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{carBrand}</Text> 
+                        </View>
+                    )}
+
+                    {isEditable ? (
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={carModel} 
+                                onChangeText={handleCarModelChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{carModel}</Text> 
+                        </View>
+                    )}
+
+                    {isEditable ? (
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={color} 
+                                onChangeText={handleColorChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
+
+                    ) : (
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{color}</Text> 
+                        </View>
+                    )}
+
+                    {isEditable ? (
                         <View style={styles.supportingContainer}>
                             <View style={styles.editContainer}>
                                 <TextInput 
-                                    value={phoneNumber} onChangeText={handlePhoneNumberChange}
+                                    value={plateNumber} onChangeText={handlePlateNumberChange}
                                     style={styles.emailText}
                                 />
                             </View>
@@ -181,7 +298,7 @@ const Profile_Passenger = ({ navigation }) => {
 
                         <View style={styles.supportingContainer}>
                             <View style={styles.editContainer}>
-                                <Text style={styles.emailText}>{phoneNumber}</Text>
+                                <Text style={styles.emailText}>{plateNumber}</Text>
                             </View>
 
                             <TouchableOpacity onPress={handleEditPress}>
@@ -197,11 +314,6 @@ const Profile_Passenger = ({ navigation }) => {
 
 
                     <View style={styles.buttonContainer}>
-                        <BasicButton
-                            text="Become a driver"
-                            onPress={() => navigation.navigate('BecomeDriver')}
-                        />
-                        
                         <BasicButton
                             text="Change Password"
                             onPress={() => navigation.navigate('ChangePassword1')}
@@ -315,4 +427,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default Profile_Passenger;
+export default Profile_Driver;

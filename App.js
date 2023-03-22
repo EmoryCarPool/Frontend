@@ -15,9 +15,11 @@ import FindDriverScreen_DepartSchool from './src/screens/FindDriverScreen_Depart
 import FindPassenger1Screen from './src/screens/FindPassenger1Screen';
 import FindPassenger2Screen from './src/screens/FindPassenger2Screen';
 import FindPassenger3Screen from './src/screens/FindPassenger3Screen';
-import ProfileScreen from './src/screens/ProfileScreen';
 import Profile_Passenger from './src/screens/Profile_Passenger';
-import BecomeDriverScreen from './src/screens/BecomeDriverScreen';
+import Profile_Driver from './src/screens/Profile_Driver';
+import Profile_BecomeDriver from './src/screens/Profile_BecomeDriver';
+import ChangePassword1 from './src/screens/ChangePassword1';
+import ChangePassword2 from './src/screens/ChangePassword2';
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as FPProvider} from './src/context/FPContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -45,11 +47,38 @@ const FindPassengerNavigator = createStackNavigator({
 }, { headerMode: "none" }
 )
 
-// switch navigator (based on user's is_driver boolean) between 
-const ProfileNavigator = createStackNavigator({
+var isDriver = true
+
+const ProfilePassengerStack = createStackNavigator({
     Pprofile: Profile_Passenger,
-}, {headerMode: "none"}
-)
+    BecomeDriver: Profile_BecomeDriver,
+    ChangePassword1: ChangePassword1,
+    ChangePassword2: ChangePassword2,
+}, { headerMode: "none" });
+
+const ProfileDriverStack = createStackNavigator({
+    Dprofile: Profile_Driver,
+    BecomeDriver: Profile_BecomeDriver,
+    ChangePassword1: ChangePassword1,
+    ChangePassword2: ChangePassword2,
+}, { headerMode: "none" });
+
+const ProfileNavigator = createSwitchNavigator(
+    {
+        ProfilePassenger: ProfilePassengerStack,
+        ProfileDriver: ProfileDriverStack,
+    },
+);
+
+// switch navigator (based on user's is_driver boolean) between 
+// const ProfileNavigator = createStackNavigator({
+//     Pprofile: Profile_Passenger,
+//     Dprofile: Profile_Driver,
+//     BecomeDriver: Profile_BecomeDriver,
+//     ChangePassword1: ChangePassword1,
+//     ChangePassword2: ChangePassword2,
+// }, {headerMode: "none"}
+// )
 
 const switchNavigator = createSwitchNavigator({
     Initial: InitialScreen,

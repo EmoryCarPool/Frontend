@@ -145,6 +145,22 @@ const resetPassword = (dispatch) => async ({email, password}) => {
     }
 }
 
+const changePassword = (dispatch) => async ({email, password}) => {
+    const resetPasswordInfo = {
+        email: email,
+        newPassword: password
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/user/resetPassword', resetPasswordInfo)  
+        dispatch({type: 'resetPassword'})
+        navigate("Pprofile");
+    } catch (error) {
+        const message = error.response.data.error
+        dispatch({type: 'add_error', payload: message})
+    }
+}
+
 const loadProfile = (dispatch) => async () => {
     var token = await AsyncStorage.getItem('token')
     try {
@@ -163,13 +179,32 @@ const loadProfile = (dispatch) => async () => {
 
 }
 
-const updateProfile = (dispatch) => async ({email, name, phoneNumber}) => {
+const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneNumber, isDriver, occupation, carBrand, carModel, color, plateNumber}) => {
+    var body = {}
+    console.log('isDriver: ', isDriver)
     
-    const body = {
-        email: email,
-        first_name: name,
-        phone_number: phoneNumber,
+    if(isDriver) {
+        body = {
+            email: email,
+            isDriver: isDriver,
+            driver_info: {
+                car_brand: carBrand,
+                car_model: carModel,
+                car_color: color,
+                plate_number: plateNumber,
+                occupation: occupation,
+            }
+        }
+    } else {
+        body = {
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phoneNumber,
+        }
     }
+
+    console.log('body: ', body)
 
     try {
         const response = await carpoolApi.patch('/api/user/update', body)
@@ -189,6 +224,6 @@ const updateProfile = (dispatch) => async ({email, name, phoneNumber}) => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile}, // object with action functions
+    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile, changePassword}, // object with action functions
     {token: null, errorMessage: '', popupErrorMessage: '', email: ''} // initial state: null token, empty errorMessage
 )
