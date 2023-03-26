@@ -87,29 +87,28 @@ const HomeScreen = () => {
         },
     });
     return (
+        
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
+            <View style={{borderWidth: 5, borderColor: 'black', height: '100%', width: '90%'}}>
                 <View style={styles.titleContainer }>
-                        <Text style={styles.Title}>
-                            Welcome, {name}!
-                        </Text>
+                    <Text style={styles.Title}> Welcome, {name}!</Text>
                 </View>
+
                 <View style={styles.wrapper}>
                     <View style={styles.container}>
                         <Animated.View
                             style={[styles.screen, { transform: [{ translateX: pan.x }] },
                             { flex: 1 }, { marginHorizontal: '0%' },]}
                             {...panResponder.panHandlers}
-                        >
-                            <View style={{ overflow: 'hidden' }}>
-                                {renderScreen()}
-                            </View>
+                        > 
+                        {renderScreen()}
                         </Animated.View>
-
                     </View>
-                </View> 
-            </ScrollView>
+                </View>
+
+            </View>
         </KeyboardAvoidingView>
+
     )
 }
 
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         borderRadius: 20,
-        marginHorizontal: '3%',
+        // marginHorizontal: '3%',
         
     },
     rootContainer: {
@@ -137,7 +136,11 @@ const styles = StyleSheet.create({
     wrapper: {
         borderRadius: 20,
         overflow: 'hidden', // Ensure content doesn't overflow beyond border
-        marginHorizontal: '3%',
+        alignSelf: 'center',
+        width: '90%',
+        height: '80%',
+        borderWidth: 5, 
+        borderColor: 'white'
     },
 
     Title: {

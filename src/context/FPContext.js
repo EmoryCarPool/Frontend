@@ -183,10 +183,47 @@ const loadPassRequest = (dispatch) => async() => {
     }
 }
 
+const loadDriverRequest = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.get('/api/requests_to_pass/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        await AsyncStorage.setItem('driverRequestData', stringData)
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
+const deleteDriverRequest = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.delete('/api/requests_to_pass/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
 
 
 export const { Provider, Context } = createDataContext(
     FPReducer,
-    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest, loadPassRequest}, // object with all action functions included
+    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest, loadPassRequest, loadDriverRequest, deleteDriverRequest}, // object with all action functions included
     {errorMessage: '', findDriverRequestInfo: {}, timeslotInfo: {}, selectedRequestInfo: {}, maxPrice: 0, findPassengerRequestInfo: {}, timeslotRequestInfo: {}} // initial state of variables
 )

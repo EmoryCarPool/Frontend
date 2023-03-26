@@ -38,6 +38,8 @@ const RequestedRide = ({navigation}) => {
         getData();
     }, []);
 
+    // {/* {dataArray ? <PassRequestList array={dataArray}/>: null} */}
+
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             {/* <ScrollView style={styles.scrollContainer}> */}
@@ -57,7 +59,6 @@ const RequestedRide = ({navigation}) => {
 
                 <View style={styles.titleContainer_1}>
                     <View style={styles.textContainer}>
-                        {/* {dataArray ? <PassRequestList array={dataArray}/>: null} */}
 
                         <View style={{ flexDirection: "row", paddingTop: '5%'}}>
                             <Ionicons
