@@ -113,7 +113,6 @@ const getSelectedRequest = (dispatch) => async({inputTime}) => {
 
         dispatch({type:'add_error', payload: ''})
 
-        console.log("Response: ", response.data)
 
         const stringData = JSON.stringify(response.data)
         await AsyncStorage.setItem('array', stringData)
@@ -164,10 +163,30 @@ const postDriverRequest = (dispatch) => async({findDriver_id, pick_up, pass_dest
     }
 }
 
+const loadPassRequest = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.get('/api/findDriver/pending', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        await AsyncStorage.setItem('passRequestData', stringData)
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
 
 
 export const { Provider, Context } = createDataContext(
     FPReducer,
-    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest}, // object with all action functions included
+    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest, loadPassRequest}, // object with all action functions included
     {errorMessage: '', findDriverRequestInfo: {}, timeslotInfo: {}, selectedRequestInfo: {}, maxPrice: 0, findPassengerRequestInfo: {}, timeslotRequestInfo: {}} // initial state of variables
 )

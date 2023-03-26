@@ -5,6 +5,7 @@ import BasicButton from "../components/Signup/BasicButton";
 import SelectDropdown from 'react-native-select-dropdown';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import {Context as FPContext} from "../context/FPContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FindDriverScreen_DepartHome = ({ navigation }) => {
     const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
@@ -35,10 +36,20 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
     };
     // const getEndingTime = (index_1) 
 
-    const pressSubmit = () => {
+    const pressSubmit = async () => {
         let from = changetoArmyTime(selectedStartTime)
         let to = changetoArmyTime(selectedEndTime)
         
+        // const myData = {
+        //     time: selectedStartTime + " - " + selectedEndTime,
+        //     location: location, 
+        //     destination: destination, 
+        //     numPeople: numPeople
+        // }
+
+        // const requestData = JSON.stringify(myData)
+        // await AsyncStorage.setItem('requestedRideInfo', requestData)
+
         postPassRequest({from, to, location, destination, numPeople})
     }
 

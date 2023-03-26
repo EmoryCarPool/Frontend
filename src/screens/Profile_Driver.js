@@ -124,17 +124,17 @@ const Profile_Driver = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
+            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.mainContainer}>
                     
                     <View style={styles.editIconContainer}>
-                        <TouchableOpacity onPress={pickImage}>
+                        {/* <TouchableOpacity onPress={pickImage}>
                             <Ionicons
                                 name='pencil-sharp'
                                 size={25}
                                 color='black'
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
                     <View style={styles.picContainer}>

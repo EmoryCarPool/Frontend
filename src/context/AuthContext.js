@@ -34,10 +34,11 @@ const clearErrorMessage = dispatch => () => {
 const tryLocalSignin = (dispatch) => async () => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      dispatch({ type: "signin", payload: token });
-      navigate("Home");
+        console.log(token)
+        dispatch({ type: "signin", payload: token });
+        navigate("mainFlow");
     } else {
-      navigate("loginFlow");
+        navigate("loginFlow");
     }
   };
 
@@ -56,7 +57,7 @@ const signin = (dispatch) => async ({email, password}) => {
 
         dispatch({type: 'signin', payload: response.data.token})
 
-        navigate('Home')
+        navigate('mainFlow')
     } catch (error) {
         const message = error.response.data.error
         dispatch({type: 'add_error', payload: message})
@@ -182,7 +183,7 @@ const loadProfile = (dispatch) => async () => {
 const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneNumber, isDriver, occupation, carBrand, carModel, color, plateNumber}) => {
     var body = {}
     console.log('isDriver: ', isDriver)
-    
+
     if(isDriver) {
         body = {
             email: email,
@@ -222,8 +223,38 @@ const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneN
 
 }
 
+const postImage = (dispatch) => async ({imageData}) => {
+    const formData = new FormData();
+    var type = ''
+
+    if (imageData.uri.slice(-2) === 'ng') {
+        type = 'image/png'
+    } else {
+        type = 'image/jpeg'
+    }
+
+    formData.append('image', {
+        uri: imageData.uri,
+        type: type,
+        name: 'Image Name',
+      });
+    
+    try {
+        const response = await carpoolApi.post('/api/LINK', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile, changePassword}, // object with action functions
+    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile, changePassword, postImage}, // object with action functions
     {token: null, errorMessage: '', popupErrorMessage: '', email: ''} // initial state: null token, empty errorMessage
 )

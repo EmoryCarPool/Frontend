@@ -112,17 +112,17 @@ const Profile_BecomeDriver = (navigation) => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
+            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 
                 <View style={styles.picContainer}>
-                    <TouchableOpacity onPress={pickImage}>
+                    {/* <TouchableOpacity onPress={pickImage}>
                         <Ionicons
                             style={{ paddingLeft: '40%' }}
                             name='pencil-sharp'
                             size={25}
                             color='black'
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {imageUri ? (
                         <View style={styles.imgContainer}>
                             <Image source={{ uri: imageUri }} style={styles.picImg} />

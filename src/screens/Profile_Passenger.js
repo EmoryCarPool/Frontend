@@ -9,7 +9,6 @@ import { Context as AuthContext} from '../context/AuthContext'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
 
-
 const Profile_Passenger = ({ navigation }) => {
     const [isEditable, setIsEditable] = useState(false);
     const [imageUri, setImageUri] = useState(null);
@@ -19,7 +18,7 @@ const Profile_Passenger = ({ navigation }) => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const { state, signout, loadProfile, updateProfile } = useContext(AuthContext)
+    const { state, signout, loadProfile, updateProfile, postImage } = useContext(AuthContext)
 
     useEffect(() => {
         const getData = async () => {
@@ -52,6 +51,8 @@ const Profile_Passenger = ({ navigation }) => {
         });
 
         if (!result.canceled) {
+            // var imageData = result.assets[0]
+            // postImage({imageData})
             setImageUri(result.assets[0].uri);
         }
     };
@@ -82,6 +83,7 @@ const Profile_Passenger = ({ navigation }) => {
         setLast_Name(newName);
     };
 
+
     /// Phone Number
     const handlePhoneNumberChange = (newPhoneNumber) => {
         setPhoneNumber(newPhoneNumber);
@@ -89,17 +91,17 @@ const Profile_Passenger = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
+            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.mainContainer}>
                     
                     <View style={styles.editIconContainer}>
-                        <TouchableOpacity onPress={pickImage}>
+                        {/* <TouchableOpacity onPress={pickImage}>
                             <Ionicons
                                 name='pencil-sharp'
                                 size={25}
                                 color='black'
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
                     <View style={styles.picContainer}>

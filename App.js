@@ -10,6 +10,12 @@ import SignupScreen from './src/screens/SignupScreen';
 import ResetPasswordVerifyScreen from './src/screens/ResetPasswordVerifyScreen';
 import ResetPasswordResetScreen from './src/screens/ResetPasswordResetScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import UpcomingRide_Passenger from './src/screens/UpcomingRide_Passenger';
+import UpcomingRideEmpty from './src/screens/UpcomingRideEmpty';
+import PendingRide from './src/screens/PendingRide';
+import PendingRideEmpty from './src/screens/PendingRideEmpty'
+import RequestedRide from './src/screens/RequestedRide';
+import RequestedRideEmpty from './src/screens/RequestedRideEmpty';
 import FindDriverScreen_DepartHome from './src/screens/FindDriverScreen_DepartHome';
 import FindDriverScreen_DepartSchool from './src/screens/FindDriverScreen_DepartSchool';
 import FindPassenger1Screen from './src/screens/FindPassenger1Screen';
@@ -30,6 +36,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
+    UpcomingRideP: UpcomingRide_Passenger,
+    PendingRide: PendingRide,
+    RequestedRide: RequestedRide,
 }, {headerMode: "none"}
 )
 
@@ -47,8 +56,6 @@ const FindPassengerNavigator = createStackNavigator({
 }, { headerMode: "none" }
 )
 
-var isDriver = true
-
 const ProfilePassengerStack = createStackNavigator({
     Pprofile: Profile_Passenger,
     BecomeDriver: Profile_BecomeDriver,
@@ -58,7 +65,6 @@ const ProfilePassengerStack = createStackNavigator({
 
 const ProfileDriverStack = createStackNavigator({
     Dprofile: Profile_Driver,
-    BecomeDriver: Profile_BecomeDriver,
     ChangePassword1: ChangePassword1,
     ChangePassword2: ChangePassword2,
 }, { headerMode: "none" });
