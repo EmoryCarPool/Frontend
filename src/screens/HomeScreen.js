@@ -87,9 +87,9 @@ const HomeScreen = () => {
         },
     });
     return (
-        
+
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <View style={{borderWidth: 5, borderColor: 'black', height: '100%', width: '90%'}}>
+            <View style={{height: '100%', width: '90%'}}>
                 <View style={styles.titleContainer }>
                     <Text style={styles.Title}> Welcome, {name}!</Text>
                 </View>
@@ -98,7 +98,7 @@ const HomeScreen = () => {
                     <View style={styles.container}>
                         <Animated.View
                             style={[styles.screen, { transform: [{ translateX: pan.x }] },
-                            { flex: 1 }, { marginHorizontal: '0%' },]}
+                            { flex: 1 },]}
                             {...panResponder.panHandlers}
                         > 
                         {renderScreen()}
@@ -128,19 +128,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(152,190,196, 1)'
     },
 
-    scrollContainer: {
-        flexGrow: 1,
-        flex: 1
-    },
-
     wrapper: {
         borderRadius: 20,
-        overflow: 'hidden', // Ensure content doesn't overflow beyond border
+        overflow: 'hidden',
         alignSelf: 'center',
-        width: '90%',
+        width: '95%',
         height: '80%',
-        borderWidth: 5, 
-        borderColor: 'white'
     },
 
     Title: {
@@ -154,7 +147,7 @@ const styles = StyleSheet.create({
         
     },
     titleContainer: {
-        paddingTop: '5%',
+        paddingTop: '10%',
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: '5%',

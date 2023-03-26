@@ -20,86 +20,137 @@ const PassRequestList = ({array}) => {
         setExpandedIndex(expandedIndex === index ? -1 : index);
     };
 
+    const onPressedDelete = (input) => {
+        const hey = input
+        console.log("hey: ",hey)
+    }
+
+    const onPressSAG = () => {
+
+    }
+
+    function militaryTo12HrTime(militaryTime) {
+        // Split the military time string into hours and minutes
+        const time = militaryTime.toString()
+        const digits = time.length
+        if (digits === 4) {
+            const hours = parseInt(time.substring(0, 2));
+            const minutes = time.substring(2);
+      
+        // Determine whether it's AM or PM based on the hours
+            const amOrPm = hours >= 12 ? 'PM' : 'AM';
+      
+        // Convert the hours to 12-hour time
+            const twelveHour = hours % 12 || 12;
+      
+        // Combine the hours, minutes, and AM/PM into a formatted string
+            const twelveHourTime = `${twelveHour}:${minutes} ${amOrPm}`;
+      
+            return twelveHourTime;
+        } else if (digits == 3) {
+            const hours = parseInt(time.substring(0, 1));
+            const minutes = time.substring(1);
+              
+            const twelveHour = hours % 12 || 12;
+            const twelveHourTime = `${twelveHour}:${minutes} AM`;
+              
+            return twelveHourTime
+        } else if (digits === 2 ) {
+            return '12:30 AM'
+        } else if (digits === 1) {
+            return '12:00 AM'
+        }
+        
+    }
+
     return (
+        <>
+        <TouchableOpacity onPress={onPressSAG} style={styles.SAGButton}>
+            <Text style={styles.SAGText}>See All Suggestions</Text>
+        </TouchableOpacity>
+
         <FlatList
             data={array}
+            keyExtractor={(item, index) => index.toString()}
+            initialNumToRender={2}
             renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => toggleExpand(index)}>
                     <View style={styles.container}>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                        <View style={{ flexDirection: "row", alignItems: 'center'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='alarm'
                                 size={25}
                                 color='black'
                             />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {item.from + " - " + item.to}
+                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                {militaryTo12HrTime(item.from) + " - " + militaryTo12HrTime(item.to)}
                             </Text>
                         </View>
 
-                        {/* <Text style={styles.infoText}>{item.from + " - " + item.to}</Text> */}
-                        
+                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                            <Ionicons
+                                name='navigate'
+                                size={25}
+                                color='black'
+                            />
+                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                {item.pick_up}
+                            </Text>
+                        </View>
+
+                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                            <Ionicons
+                                name='flag'
+                                size={25}
+                                color='black'
+                            />
+                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                {item.destination}
+                            </Text>
+                        </View>
+
+                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                            <Ionicons
+                                name='people'
+                                size={25}
+                                color='black'
+                            />
+                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                {item.num_of_pass}
+                            </Text>
+                        </View>
+
                         {expandedIndex === index && (
                             <>
                                 <View style={styles.inputContainer}>
-                                    <FontAwesome name='dollar' size={32} color='black' />
-                                    <TextInput
-                                        style={styles.priceInput}
-                                        maxLength={5}
-                                        textAlign='center'
-                                        placeholder="Price"
-                                        placeholderTextColor={'rgba(0,0,0, 1)'}
-                                        value={selectedPrice}
-                                        onChangeText={text => setSelectedPrice(text)}
-                                        keyboardType={'numeric'}
-                                    />
-                        
-                                    <FontAwesome name='clock-o' size={36} color='black' />
-                                    <SelectDropdown
-                                        data={timeArray()}
-                                        defaultButtonText='Time'
-                                        buttonStyle={styles.dropdownInput}
-                                        buttonTextStyle={{fontSize: 20}}
-                                        dropdownStyle={{borderRadius: 5 }}
-                                        onSelect={(selectedItem, index) => {
-                                            setTime(selectedItem)
-                                        }}
-                                        buttonTextAfterSelection={(selectedItem, index) => {
-                                            return selectedItem
-                                        }}
-                                    />
-                        
-                                    <TouchableOpacity onPress={onPressedSubmit}>
+                                    <TouchableOpacity onPress={onPressedDelete(index)}>
                                         <View style={styles.button}>
-                                            <Text style={{ fontSize: 20, color: 'rgba(0,0,0,0,1)' }}>Submit</Text>
+                                            <Text style={{ fontSize: 20, color: 'rgba(0,0,0,0,1)', fontWeight: '700'}}>Delete Request</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
 
-                                {state.errorMessage && (
-                                    <View style={{ marginTop: 5, flexDirection: "column" }}>
-                                        <Text style={styles.errorMessage}>Error: {state.errorMessage}</Text>
-                                    </View>
-                                )}
                             </>
                         )}
                     </View>
                 </TouchableOpacity>
             )}
-            keyExtractor={(item, index) => index.toString()}
         />
+        </>
     );
       
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'gray',
-        padding: 10,
-        marginBottom: 10,
+        backgroundColor: 'rgba(0,0,0,0.35)',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        marginBottom: 15,
         borderRadius: 20,
+        width: '90%',
+        alignSelf:'center'
     },
 
     text: {
@@ -116,48 +167,29 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: "row",
         alignItems: 'center',
-        justifyContent: "space-between",
-    },
-
-    priceInput: {
-        borderWidth: 2,
-        borderColor: "#ccc",
-        borderRadius: 5,
-        marginHorizontal: 5,
-        height: 50,
-        width: "20%",
-        backgroundColor:'rgba(255,255,255, 0.5)',
-        fontSize: 20,
-    },
-
-    dropdownInput: {
-        borderWidth: 2,
-        borderColor: "#ccc",
-        borderRadius: 5,
-        marginRight: 5,
-        height: 50,
-        width: "35%",
-        backgroundColor: 'rgba(255,255,255, 0.6)',
+        justifyContent: "center",
     },
 
     button: {
-        borderWidth: 2,
-        borderColor: "#ccc",
-        backgroundColor: "rgba(255,255,255,1)",
-        marginLeft: 5,
-        borderRadius: 5,
-        height: 50,
-        width: 75,
+        borderRadius: 20,
+        backgroundColor: "rgba(255,0,0,0.7)",
+        paddingHorizontal: 10,
+        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center'
     },
 
-    errorMessage: {
-        fontSize: 18,
+    SAGButton: {
+        marginBottom: 10,
+        backgroundColor: 'rgba(152,190,196, 1)',
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+
+    SAGText: {
         fontWeight: '700',
-        color: 'rgba(255,0,0,0.7)',
-        marginTop: 5,
-        textAlign: 'center'
+        fontSize: 15,
     }
     
 });

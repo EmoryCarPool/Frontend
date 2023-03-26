@@ -169,13 +169,14 @@ const UpcomingRide_Passenger = ({navigation}) => {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFFFFF'
     },
 
     scrollContainer: {
-        flexGrow: 1,
+        height: '100%',
+        width: '100%',
     },
 
     DriverName: {

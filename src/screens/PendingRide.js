@@ -21,6 +21,8 @@ const PendingRide = ({navigation}) => {
 
     const { state, loadDriverRequest, deleteDriverRequest} = useContext(FPContext)
 
+    const [dataArray, setDataArray] = useState([]);
+
     function militaryTo12HrTime(militaryTime) {
         // Split the military time string into hours and minutes
         const time = militaryTime.toString()
@@ -66,6 +68,8 @@ const PendingRide = ({navigation}) => {
             await AsyncStorage.getItem('driverRequestData')
                 .then(data => {
                     const parsedData = JSON.parse(data)
+                    setDataArray(parsedData)
+                    
                     setTime(militaryTo12HrTime(parsedData[0].time_of_pickup))
                     setDepartLocation(parsedData[0].pick_up)
                     // setDestination()
@@ -83,7 +87,7 @@ const PendingRide = ({navigation}) => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
+            <View style={{flex: 1, alignItems: 'center', paddingBottom: '5%'}}>
                 
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.upcomingRide}>
@@ -99,11 +103,12 @@ const PendingRide = ({navigation}) => {
                     </Text>
                 </View>
 
+                {Array.isArray(dataArray) && dataArray.length > 0 ?
+
                 <View style={styles.titleContainer_1}>
-                    <View style={styles.textContainer}>
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                    
+                        <View style={{ flexDirection: "row", alignItems: 'center', paddingTop: '5%'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='alarm'
                                 size={25}
                                 color='black'
@@ -113,9 +118,8 @@ const PendingRide = ({navigation}) => {
                             </Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%', marginRight: 90}}>
+                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='navigate'
                                 size={25}
                                 color='black'
@@ -125,9 +129,8 @@ const PendingRide = ({navigation}) => {
                             </Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='flag'
                                 size={25}
                                 color='black'
@@ -137,9 +140,8 @@ const PendingRide = ({navigation}) => {
                             </Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='people'
                                 size={25}
                                 color='black'
@@ -149,9 +151,8 @@ const PendingRide = ({navigation}) => {
                             </Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='hourglass'
                                 size={25}
                                 color='black'
@@ -163,7 +164,6 @@ const PendingRide = ({navigation}) => {
 
                         <View style={{ flexDirection: "row", paddingTop: '5%'}}>
                             <Ionicons
-                                style={{paddingLeft: '13%'}}
                                 name='logo-usd'
                                 size={25}
                                 color='black'
@@ -172,16 +172,21 @@ const PendingRide = ({navigation}) => {
                                 {cost}
                             </Text>
                         </View>
+
+                        <TouchableOpacity onPress={onPressDelete} style={styles.deleteButton}>
+                            <Text style={styles.deleteText}>Delete Request</Text>
+                        </TouchableOpacity>
+
                     </View>
-                    {/* <BasicButton
-                    text='Delete Request'
-                    onPress={() => navigate('SetDepart')}
-                    /> */}
-                    <TouchableOpacity onPress={onPressDelete} style={styles.deleteButton}>
-                        <Text style={styles.deleteText}>Delete Request</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+
+                    : 
+                    
+                    <View style={{marginTop: '50%'}}>
+                        <Text style={{fontStyle: 'italic', fontSize: 14}}>For Drivers only: Make a request in Find Passenger</Text>
+                    </View>
+                    }
+                    
+            </View>
         </KeyboardAvoidingView>
     )
 }
@@ -196,27 +201,9 @@ const styles = StyleSheet.create({
 
     scrollContainer: {
         flexGrow: 1,
-    },
-
-    DriverName: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-
-    imgContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
 
     },
-    picImg: {
-        width: 150,
-        height: 150,
-        borderRadius: 100
 
-    },
 
     Title: {
         borderColor: 'black',
@@ -224,21 +211,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         fontSize: 20,
 
-
-
     },
     titleContainer_1: {
-        paddingTop: '5%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: '10%',
+        paddingHorizontal: '10%',
         flex: 1,
         height: '100%',
-        marginBottom: '10%',
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
         overflow: 'hidden',
-        // borderWidth: 5,
-        // borderColor: 'black',
         width: '90%'
 
 
@@ -248,9 +229,10 @@ const styles = StyleSheet.create({
     textContainer: {
         alignContent: 'center',
         justifyContent: 'center',
-        width: '100%',
+        width: '90%',
         marginTop: '10%',
         marginBottom: '10%',
+        
 
     },
 
@@ -286,13 +268,12 @@ const styles = StyleSheet.create({
 
     deleteButton: {
         backgroundColor: 'rgba(255,0,0, 0.7)',
-        width: '50%',
-        marginLeft: '5%',
+        width: '100%',
 
         paddingHorizontal: 10,
         paddingVertical: 15,
 
-        alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         borderRadius: 20,
 

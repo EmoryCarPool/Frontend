@@ -21,7 +21,7 @@ const RequestedRide = ({navigation}) => {
 
     const { state, loadPassRequest} = useContext(FPContext)
 
-    var dataArray = [];
+    const [dataArray, setDataArray] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
@@ -29,7 +29,7 @@ const RequestedRide = ({navigation}) => {
             await AsyncStorage.getItem('passRequestData')
                 .then(data => {
                     const parsedData = JSON.parse(data)
-                    dataArray = parsedData
+                    setDataArray(parsedData)
                 })
                 .catch(error => {
                     console.log(error)
@@ -38,12 +38,11 @@ const RequestedRide = ({navigation}) => {
         getData();
     }, []);
 
-    // {/* {dataArray ? <PassRequestList array={dataArray}/>: null} */}
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            {/* <ScrollView style={styles.scrollContainer}> */}
-                <View style={{ flexDirection: "row" }}>
+            <View style={{flex: 1, alignItems: 'center', paddingBottom: '5%'}}>
+                <View style={{ flexDirection: "row", marginBottom: '5%'}}>
                     <Text style={styles.upcomingRide}>
                         Upcoming Ride
                     </Text>
@@ -57,63 +56,14 @@ const RequestedRide = ({navigation}) => {
                     </Text>
                 </View>
 
-                <View style={styles.titleContainer_1}>
-                    <View style={styles.textContainer}>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
-                            <Ionicons
-                                style={{paddingLeft: '13%'}}
-                                name='alarm'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {time}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
-                            <Ionicons
-                                style={{paddingLeft: '13%'}}
-                                name='navigate'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {departLocation}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
-                            <Ionicons
-                                style={{paddingLeft: '13%'}}
-                                name='flag'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {destination}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
-                            <Ionicons
-                                style={{paddingLeft: '13%'}}
-                                name='people'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {passenger}
-                            </Text>
-                        </View>
+                {Array.isArray(dataArray) && dataArray.length > 0 ? <PassRequestList array={dataArray}/> : 
+                    
+                    <View style={{marginTop: '50%'}}>
+                        <Text style={{fontStyle: 'italic', fontSize: 14}}>Make a request under the "Find Driver" tab</Text>
                     </View>
-                    <BasicButton
-                    text='Edit Request'
-                    onPress={() => navigate('SetDepart')}
-                    />
-                </View>
-            {/* </ScrollView> */}
+                }
+
+            </View>
         </KeyboardAvoidingView>
     )
 }
@@ -130,46 +80,12 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
 
-    DriverName: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-
-    imgContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    picImg: {
-        width: 150,
-        height: 150,
-        borderRadius: 100
-
-    },
-
     Title: {
         borderColor: 'black',
         textAlign: 'center',
         justifyContent: 'center',
         fontSize: 20,
 
-
-
-    },
-    titleContainer_1: {
-        paddingTop: '5%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        height: '100%',
-        marginTop: '0%',
-        marginBottom: '10%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        overflow: 'hidden',
 
 
     },
