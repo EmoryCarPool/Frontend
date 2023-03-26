@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
 
-const EmailInput = () => {
-    const [email, setEmail] = useState('');
+const EmailInput = ({value, setValue}) => {
 
     return (
             <View style={styles.emailContainer}>
@@ -21,8 +20,8 @@ const EmailInput = () => {
                     placeholderTextColor="rgba(255,255,255,0.8)"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    value= {email}
-                    onChangeText= {(newValue) => setEmail(newValue)}
+                    value={value}
+                    onChangeText={setValue}
                 />
             </View>
     )
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     emailTextInput: {
         fontSize: 24,
         paddingLeft: 10,
-        paddingRight: 15,
+        width: "80%"
     },
 })
 

@@ -1,9 +1,7 @@
-// helper component to display Email input view, and store the actual email using the useState hook
-
 import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 
-const BasicInputs = ({value, setValue, placeholder, secureTextEntry, keyboardType}) => {
+const PopUpInput = ({value, setValue, placeholder, secureTextEntry, keyboardType}) => {
 
     return (
             <View style={styles.container}>
@@ -18,7 +16,6 @@ const BasicInputs = ({value, setValue, placeholder, secureTextEntry, keyboardTyp
                     autoCapitalize="none"
                     autoCorrect={false}
                     keyboardType={keyboardType}
-                    textContentType={'oneTimeCode'} //this disables strong password suggestion from ios
                 />
             </View>
     )
@@ -31,20 +28,22 @@ const styles = StyleSheet.create({
 
         borderRadius: 20,
         
-        paddingVertical: 20,
-        paddingHorizontal: 15,
-        marginVertical: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        marginTop: 8,
+        borderWidth: 2,
+        borderColor: 'black',
 
         flexDirection: 'row',
         alignItems: 'center'
     },
 
     input: {
-        fontSize: 24,
+        fontSize: 16,
         fontWeight: '700',
         color:"rgba(0,0,0,0.6)",
-        width: "100%",
+        width: "80%"
     },
 })
 
-export default BasicInputs;
+export default PopUpInput;

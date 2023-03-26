@@ -7,13 +7,13 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';
 
-const ResetPasswordResetScreen = ({navigation}) => {
+const ChangePassword2 = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [confirm_new_password, set_new_password] = useState('');
     const [visible, setVisible] = useState(false)
     const [visibleSuccess, setVisibleSuccess] = useState(false)
 
-    const {state, resetPassword, clearErrorMessage} = useContext(AuthContext);
+    const {state, changePassword, clearErrorMessage} = useContext(AuthContext);
 
     const checkPassword = () => {
         
@@ -22,12 +22,12 @@ const ResetPasswordResetScreen = ({navigation}) => {
         } else {
             state.errorMessage = ''
             const email = state.email
-            resetPassword({email, password})
+            changePassword({email, password})
         } 
     }
 
     const onPressX = () => {
-        navigation.navigate('Signin')
+        navigation.navigate('Pprofile')
     }
 
     return (
@@ -67,7 +67,7 @@ const ResetPasswordResetScreen = ({navigation}) => {
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.Title}>
-                        Reset Password
+                        Change Password
                     </Text>
                 </View>
 
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ResetPasswordResetScreen;
+export default ChangePassword2;

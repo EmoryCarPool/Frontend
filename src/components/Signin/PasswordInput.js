@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
 
-const PasswordInput = () => {
-    const [password, setPassword] = useState('');
+const PasswordInput = ({value, setValue}) => {
 
     return (
             <View style={styles.passwordContainer}>
@@ -22,8 +21,8 @@ const PasswordInput = () => {
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={true}
-                    value= {password}
-                    onChangeText= {(newValue) => setPassword(newValue)}
+                    value= {value}
+                    onChangeText= {setValue}
                 />
             </View>
     )
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     passwordTextInput: {
         fontSize: 24,
         paddingLeft: 10,
-        paddingRight: 15
+        width: '80%'
     },
 
 })
