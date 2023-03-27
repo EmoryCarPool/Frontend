@@ -121,7 +121,7 @@ const RequestsList = ({headerTime, array}) => {
     }
 
     function shortenAddress(str) {
-        return str.slice(0,-15)
+        return str
     }
       
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard, Animated} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
 import BasicButton from "../components/HomeScreen/BasicButton";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
@@ -21,7 +22,13 @@ const UpcomingRide_Passenger = ({navigation}) => {
     const animatedValue = useRef(new Animated.Value(0)).current;
     const onPressButton = () => {
         console.log('Button pressed!');
-  };
+    };
+
+    const [refresh, setRefresh] = useState(false)
+
+    const onPressRefresh = () => {
+        setRefresh(!refresh)
+    }
 
     useEffect(() => {
         if (venmoCode.length === 4) {
@@ -32,7 +39,7 @@ const UpcomingRide_Passenger = ({navigation}) => {
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             <ScrollView style={styles.scrollContainer}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", marginBottom: '5%'}}>
                     <Text style={styles.upcomingRide}>
                         Upcoming Ride
                     </Text>
@@ -45,6 +52,14 @@ const UpcomingRide_Passenger = ({navigation}) => {
                         Pending Ride
                     </Text>
                 </View>
+
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%'}} onPress={onPressRefresh}>
+                    <FontAwesome
+                        name='refresh'
+                        size={25}
+                        color='black'
+                    />
+                </TouchableOpacity>
 
                 <Popup visible={visible}>
                     <View style={{ alignItems: 'flex-end', paddingBottom: '20%' }}>
@@ -209,7 +224,6 @@ const styles = StyleSheet.create({
 
     },
     titleContainer_1: {
-        paddingTop: '5%',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,

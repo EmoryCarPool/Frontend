@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
 import BasicButton from "../components/HomeScreen/BasicButton";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
@@ -59,7 +60,13 @@ const PendingRide = ({navigation}) => {
 
     const onPressDelete = () => {
         deleteDriverRequest()
-        // navigate to pending Ride Empty
+        setDataArray([])
+    }
+
+    const [refresh, setRefresh] = useState(false)
+
+    const onPressRefresh = () => {
+        setRefresh(!refresh)
     }
 
     useEffect(() => {
@@ -69,13 +76,6 @@ const PendingRide = ({navigation}) => {
                 .then(data => {
                     const parsedData = JSON.parse(data)
                     setDataArray(parsedData)
-                    
-                    setTime(militaryTo12HrTime(parsedData[0].time_of_pickup))
-                    setDepartLocation(parsedData[0].pick_up)
-                    // setDestination()
-                    // setPassenger()
-                    // setDriveTime()
-                    setCost(parsedData[0].price)
 
                 })
                 .catch(error => {
@@ -83,13 +83,13 @@ const PendingRide = ({navigation}) => {
                 })
         };
         getData();
-    }, []);
+    }, [refresh]);
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <View style={{flex: 1, alignItems: 'center', paddingBottom: '5%'}}>
+            <View style={{flex: 1, alignItems: 'center', height: '100%', width: '100%'}}>
                 
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", marginBottom: '5%'}}>
                     <Text style={styles.upcomingRide}>
                         Upcoming Ride
                     </Text>
@@ -103,6 +103,14 @@ const PendingRide = ({navigation}) => {
                     </Text>
                 </View>
 
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%'}} onPress={onPressRefresh}>
+                    <FontAwesome
+                        name='refresh'
+                        size={25}
+                        color='black'
+                    />
+                </TouchableOpacity>
+
                 {Array.isArray(dataArray) && dataArray.length > 0 ?
 
                 <View style={styles.titleContainer_1}>
@@ -114,7 +122,7 @@ const PendingRide = ({navigation}) => {
                                 color='black'
                             />
                             <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {time}
+                                {militaryTo12HrTime(dataArray[0].time_of_pickup)}
                             </Text>
                         </View>
 
@@ -125,7 +133,7 @@ const PendingRide = ({navigation}) => {
                                 color='black'
                             />
                             <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {departLocation}
+                                {dataArray[0].pick_up}
                             </Text>
                         </View>
 
@@ -162,14 +170,14 @@ const PendingRide = ({navigation}) => {
                             </Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", paddingTop: '5%'}}>
+                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center', paddingBottom: '30%'}}>
                             <Ionicons
                                 name='logo-usd'
                                 size={25}
                                 color='black'
                             />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold', paddingBottom:'30%'}}>
-                                {cost}
+                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                {dataArray[0].price}
                             </Text>
                         </View>
 
@@ -213,7 +221,6 @@ const styles = StyleSheet.create({
 
     },
     titleContainer_1: {
-        paddingTop: '10%',
         paddingHorizontal: '10%',
         flex: 1,
         height: '100%',
@@ -279,6 +286,7 @@ const styles = StyleSheet.create({
 
     },
     deleteText: {
+        textAlign: 'center',
         fontSize: 20,
         fontWeight: '700',
         color: 'rgba(0,0,0,1)'

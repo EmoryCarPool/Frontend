@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { View, StyleSheet, Text, PanResponder, Animated, KeyboardAvoidingView, ScrollView, LayoutAnimation, Dimensions, UIManager } from "react-native";
 import UpcomingRideEmpty from "../screens/UpcomingRideEmpty";
+import UpcomingRide_Driver from "../screens/UpcomingRide_Driver";
 import UpcomingRide_Passenger from '../screens/UpcomingRide_Passenger';
 import RequestedRide from '../screens/RequestedRide'
 import PendingRide from '../screens/PendingRide'
 import BasicButton from "../components/HomeScreen/BasicButton";
+import {Context as AuthContext} from "../context/AuthContext"
 
 
 const HomeScreen = () => {
@@ -17,11 +19,18 @@ const HomeScreen = () => {
         console.log('Button pressed!');
     };
 
+    const { state, checkIsDriver} = useContext(AuthContext)
+    const [isDriver, setIsDriver] = useState(false)
 
     const renderScreen = () => {
         switch (activeScreen) {
             case 'upcoming':
-                return <UpcomingRide_Passenger />;
+                // if (isDriver === true) {
+                //     return <UpcomingRide_Driver />;
+                // } else {
+                //     return <UpcomingRide_Passenger />;
+                // }
+                return <UpcomingRide_Passenger/>
             case 'requested':
                 return <RequestedRide />;
             case 'pending':
@@ -30,6 +39,22 @@ const HomeScreen = () => {
                 return null;
         }
     };
+
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         await checkIsDriver()
+    //         await AsyncStorage.getItem('isDriver')
+    //             .then(data => {
+    //                 const parsedData = JSON.parse(data)
+    //                 setDataArray(parsedData)
+
+    //             })
+    //             .catch(error => {
+    //                 console.log(error)
+    //             })
+    //     };
+    //     getData();
+    // }, []);
 
     const handleSlide = (direction) => {
         switch (activeScreen) {

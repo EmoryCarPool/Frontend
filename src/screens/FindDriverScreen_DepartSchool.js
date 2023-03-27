@@ -86,10 +86,14 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
 
            {/* Source Used: https://www.npmjs.com/package/react-native-select-dropdown*/}
 
-                <ScrollView style={styles.scrollContainer}>
+                <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+                    <View style={{alignItems: 'center', paddingTop: '20%'}}>
+                        <Text style={{fontSize: 48, fontWeight: '800'}}>Find Driver</Text>
+                    </View>
+                    
                     <Text style={styles.title_1}>
-                    1. Select a time
-                </Text>
+                        1. Select a time
+                    </Text>
 
                 <Text style={{ flexDirection: "row", fontSize: 15, paddingLeft: '10%', paddingRight: '15%',textAlign: 'center' }}>
                         Starting Time                                Ending Time
@@ -245,7 +249,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '900',
         color: 'black',
-        paddingTop: '15%',
+        paddingTop: '10%',
         marginRight: '30%'
     },
     subtitle: {

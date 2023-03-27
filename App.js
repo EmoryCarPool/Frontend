@@ -11,6 +11,7 @@ import ResetPasswordVerifyScreen from './src/screens/ResetPasswordVerifyScreen';
 import ResetPasswordResetScreen from './src/screens/ResetPasswordResetScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import UpcomingRide_Passenger from './src/screens/UpcomingRide_Passenger';
+import UpcomingRide_Driver from './src/screens/UpcomingRide_Driver';
 import UpcomingRideEmpty from './src/screens/UpcomingRideEmpty';
 import PendingRide from './src/screens/PendingRide';
 import PendingRideEmpty from './src/screens/PendingRideEmpty'
@@ -37,6 +38,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
     UpcomingRideP: UpcomingRide_Passenger,
+    UpcomingRideD: UpcomingRide_Driver,
     PendingRide: PendingRide,
     RequestedRide: RequestedRide,
 }, {headerMode: "none"}

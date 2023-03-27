@@ -33,6 +33,7 @@ const clearErrorMessage = dispatch => () => {
 // function that attempts to automatically sign user in
 const tryLocalSignin = (dispatch) => async () => {
     const token = await AsyncStorage.getItem("token");
+
     if (token) {
         console.log(token)
         dispatch({ type: "signin", payload: token });
@@ -114,7 +115,7 @@ const signup = (dispatch) => async ({first_name, last_name, email, phone_number,
         const response = await carpoolApi.post('/api/user/signup', signUpInfo)
         await AsyncStorage.setItem('token', response.data.token)
         dispatch({type: 'signin', payload: response.data.token})
-        navigate('Home');
+        navigate('loginFlow');
         // console.log(response.data.token)
 
     } catch (error) {

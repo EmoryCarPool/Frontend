@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard, FlatList} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
 import BasicButton from "../components/HomeScreen/BasicButton";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
@@ -22,6 +23,11 @@ const RequestedRide = ({navigation}) => {
     const { state, loadPassRequest} = useContext(FPContext)
 
     const [dataArray, setDataArray] = useState([]);
+    const [refresh, setRefresh] = useState(false)
+
+    const onPressRefresh = () => {
+        setRefresh(!refresh)
+    }
 
     useEffect(() => {
         const getData = async () => {
@@ -36,7 +42,7 @@ const RequestedRide = ({navigation}) => {
                 })
         };
         getData();
-    }, []);
+    }, [refresh]);
 
 
     return (
@@ -55,6 +61,14 @@ const RequestedRide = ({navigation}) => {
                         Pending Ride
                     </Text>
                 </View>
+
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%'}} onPress={onPressRefresh}>
+                    <FontAwesome
+                        name='refresh'
+                        size={25}
+                        color='black'
+                    />
+                </TouchableOpacity>
 
                 {Array.isArray(dataArray) && dataArray.length > 0 ? <PassRequestList array={dataArray}/> : 
                     

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Button, Image, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import BasicButton from "../components/ProfilePage/BasicButton";
 import * as ImagePicker from 'expo-image-picker';
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
@@ -19,6 +20,12 @@ const Profile_Passenger = ({ navigation }) => {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const { state, signout, loadProfile, updateProfile, postImage } = useContext(AuthContext)
+
+    const [refresh, setRefresh] = useState(false)
+
+    const onPressRefresh = () => {
+        setRefresh(!refresh)
+    }
 
     useEffect(() => {
         const getData = async () => {
@@ -40,7 +47,7 @@ const Profile_Passenger = ({ navigation }) => {
                 })
         };
         getData();
-    }, []);
+    }, [refresh]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -105,6 +112,8 @@ const Profile_Passenger = ({ navigation }) => {
                     </View>
 
                     <View style={styles.picContainer}>
+                        <Text style={{fontSize: 48, fontWeight: '800', marginBottom: '5%'}}>Profile</Text>
+                        
                         {imageUri ? (
                             <View style={styles.imgContainer}>
                                 <Image 
@@ -121,6 +130,14 @@ const Profile_Passenger = ({ navigation }) => {
                             </View>
                         )}
                     </View>
+
+                    <TouchableOpacity style={{alignSelf: 'flex-end', marginRight: '10%'}} onPress={onPressRefresh}>
+                        <FontAwesome
+                            name='refresh'
+                            size={25}
+                            color='black'
+                        />
+                    </TouchableOpacity>
 
                     <View style={styles.emailContainer}>
                         <Text style={styles.emailText}>{email}</Text>
@@ -184,9 +201,8 @@ const Profile_Passenger = ({ navigation }) => {
                                 <Text style={styles.emailText}>{phoneNumber}</Text>
                             </View>
 
-                            <TouchableOpacity onPress={handleEditPress}>
+                            <TouchableOpacity style={{marginLeft: '85%'}}onPress={handleEditPress}>
                                 <Ionicons
-                                    style={{ paddingLeft: '90%', }}
                                     name='pencil-sharp'
                                     size={25}
                                     color='black'
@@ -246,7 +262,7 @@ const styles = StyleSheet.create({
     picContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: '20%',
+        // marginHorizontal: '20%',
     },
 
     picImg: {
@@ -266,7 +282,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,1)',
         borderRadius: 20,
         padding: 10,
-        marginTop: '10%',
+        marginTop: '5%',
         width: '80%',
         alignSelf: 'center'
     },

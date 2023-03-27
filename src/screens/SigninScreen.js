@@ -1,7 +1,7 @@
 // this is the main SigninScreen file that takes all compoments together
 
 import React, { useContext, useState,} from "react";
-import {View, StyleSheet, ImageBackground, KeyboardAvoidingView, Text } from "react-native";
+import {View, StyleSheet, ImageBackground, KeyboardAvoidingView, Text, ScrollView } from "react-native";
 import { Button } from "react-native-elements"
 import { NavigationEvents } from 'react-navigation';
 import PasswordInput from "../components/Signin/PasswordInput";
@@ -21,6 +21,7 @@ const SigninScreen = ({navigation}) => {
                 style={{flex: 1}}
                 behavior='position'
             >
+            <ScrollView style={{ flexGrow: 1, paddingTop: '120%', height: '100%',borderRadius: 10, borderColor: 'black'}}>
                 <NavigationEvents onWillFocus={clearErrorMessage} />
 
                 <View style={styles.mainContainer}>
@@ -81,6 +82,7 @@ const SigninScreen = ({navigation}) => {
                         onPress={() => navigation.navigate('ResetPasswordVerify')}
                     />
                 </View>
+            </ScrollView>
             </KeyboardAvoidingView>
         </ImageBackground>
     )
@@ -88,9 +90,8 @@ const SigninScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        paddingTop: '130%',
+        // marginTop: '120%',
         alignItems: 'center',
-        justifyContent: 'center',
     },
 
     subContainer: {

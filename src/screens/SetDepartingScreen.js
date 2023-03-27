@@ -16,29 +16,28 @@ const SetDepartingScreen = ({ navigation }) => {
     }
 
     return (
-    <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-        <View style={styles.container}>
-            <View style={styles.textbox}>
-                <Text styles={styles.title}>
-                    Select your departing location
-                </Text>
-            </View>
+        <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
+            <View style={styles.container}>
+                <Text style={{fontSize: 48, fontWeight: '800', marginBottom: '5%'}}>Find Driver</Text>
+                <View style={styles.textbox}>
+                    <Text style={styles.title}>
+                        Select your departing location:
+                    </Text>
+                </View>
+
+                    <BasicButton
+                        text='I am departing from Emory'
+                        onPress={navigateS}
+                    />
+
+                    <BasicButton
+                        text='I am departing from home'
+                        onPress={navigateH}
+                    />
 
                 
-
-                <BasicButton
-                    text='I am departing from Emory'
-                    onPress={navigateS}
-                />
-
-                <BasicButton
-                    text='I am departing from home'
-                    onPress={navigateH}
-                />
-
-            
-            </View>
-    </KeyboardAvoidingView>
+                </View>
+        </KeyboardAvoidingView>
     ) 
 }
 
@@ -51,21 +50,24 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        paddingTop: '20%',
+        alignItems: 'center',
+        height: '100%',
+        width: '90%',
     },
     checkbox: {
         margin: 30
     },
     title: {
         alignItems: 'center',
-        fontSize: 35,
-        fontWeight: '700'
+        fontSize: 24,
+        fontWeight: '700',
     },
     textbox: {
         alignItems: 'center',
-        paddingBottom: '10%',
-        }
+        paddingTop: '15%',
+        paddingBottom: '5%',
+    }
 })
 
 export default SetDepartingScreen;

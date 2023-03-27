@@ -115,6 +115,8 @@ const Profile_BecomeDriver = (navigation) => {
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 
                 <View style={styles.picContainer}>
+                    <Text style={{fontSize: 36, fontWeight: '800', marginBottom: '5%'}}>Become a Driver</Text>
+                    
                     {/* <TouchableOpacity onPress={pickImage}>
                         <Ionicons
                             style={{ paddingLeft: '40%' }}
