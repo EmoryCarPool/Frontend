@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { View, StyleSheet, Text, PanResponder, Animated, KeyboardAvoidingView, ScrollView, LayoutAnimation, Dimensions, UIManager } from "react-native";
 import UpcomingRideEmpty from "../screens/UpcomingRideEmpty";
 import UpcomingRide_Driver from "../screens/UpcomingRide_Driver";
@@ -7,6 +7,7 @@ import RequestedRide from '../screens/RequestedRide'
 import PendingRide from '../screens/PendingRide'
 import BasicButton from "../components/HomeScreen/BasicButton";
 import {Context as AuthContext} from "../context/AuthContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const HomeScreen = () => {
@@ -19,17 +20,34 @@ const HomeScreen = () => {
         console.log('Button pressed!');
     };
 
-    const { state, checkIsDriver} = useContext(AuthContext)
+    const { state, loadProfile} = useContext(AuthContext)
     const [isDriver, setIsDriver] = useState(false)
+
+    useEffect(() => {
+        const getData = async () => {
+            await loadProfile()
+            await AsyncStorage.getItem('profileInfo')
+                .then(data => {
+                    const parsedData = JSON.parse(data)
+                    if(parsedData.isDriver === true) {
+                        setIsDriver(true)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        };
+        getData();
+    }, []);
 
     const renderScreen = () => {
         switch (activeScreen) {
             case 'upcoming':
-                // if (isDriver === true) {
-                //     return <UpcomingRide_Driver />;
-                // } else {
-                //     return <UpcomingRide_Passenger />;
-                // }
+                if (isDriver === true) {
+                    return <UpcomingRide_Driver />;
+                } else {
+                    return <UpcomingRide_Passenger />;
+                }
                 return <UpcomingRide_Passenger/>
             case 'requested':
                 return <RequestedRide />;
