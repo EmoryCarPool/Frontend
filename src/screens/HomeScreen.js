@@ -139,16 +139,17 @@ const HomeScreen = () => {
 
                 <View style={styles.wrapper}>
                     <View style={styles.container}>
+                        <ScrollView style={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
                         <Animated.View
                             style={[styles.screen, { transform: [{ translateX: pan.x }] },
                             { flex: 1 },]}
                             {...panResponder.panHandlers}
-                        > 
+                        >
                         {renderScreen()}
                         </Animated.View>
+                        </ScrollView>
                     </View>
                 </View>
-
             </View>
         </KeyboardAvoidingView>
 

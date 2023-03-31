@@ -14,19 +14,13 @@ const PassRequestList = ({array}) => {
     const [destination, setDestination] = useState('');
     const [passenger, setPassenger] = useState(''); 
 
-    const [expandedIndex, setExpandedIndex] = useState(-1);
-    
-    const toggleExpand = (index) => {
-        setExpandedIndex(expandedIndex === index ? -1 : index);
-    };
-
     const onPressedDelete = (input) => {
         const hey = input
         console.log("hey: ",hey)
     }
 
     const onPressSAG = () => {
-
+        console.log('SAG pressed')
     }
 
     function militaryTo12HrTime(militaryTime) {
@@ -65,78 +59,68 @@ const PassRequestList = ({array}) => {
 
     return (
         <>
-        <TouchableOpacity onPress={onPressSAG} style={styles.SAGButton}>
-            <Text style={styles.SAGText}>See All Suggestions</Text>
-        </TouchableOpacity>
+            <TouchableOpacity onPress={onPressSAG} style={styles.SAGButton}>
+                <Text style={styles.SAGText}>See All Suggestions</Text>
+            </TouchableOpacity>
 
-        <FlatList
-            data={array}
-            keyExtractor={(item, index) => index.toString()}
-            initialNumToRender={2}
-            renderItem={({ item, index }) => (
-                <TouchableOpacity onPress={() => toggleExpand(index)}>
-                    <View style={styles.container}>
 
-                        <View style={{ flexDirection: "row", alignItems: 'center'}}>
-                            <Ionicons
-                                name='alarm'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {militaryTo12HrTime(item.from) + " - " + militaryTo12HrTime(item.to)}
-                            </Text>
-                        </View>
+            {array.map((item, index) => (
+                <View style={styles.container} key={index}>
 
-                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
-                            <Ionicons
-                                name='navigate'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {item.pick_up}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
-                            <Ionicons
-                                name='flag'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {item.destination}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
-                            <Ionicons
-                                name='people'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {item.num_of_pass}
-                            </Text>
-                        </View>
-
-                        {expandedIndex === index && (
-                            <>
-                                <View style={styles.inputContainer}>
-                                    <TouchableOpacity onPress={onPressedDelete(index)}>
-                                        <View style={styles.button}>
-                                            <Text style={{ fontSize: 20, color: 'rgba(0,0,0,0,1)', fontWeight: '700'}}>Delete Request</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-                            </>
-                        )}
+                    <View style={{ flexDirection: "row", alignItems: 'center'}}>
+                        <Ionicons
+                            name='alarm'
+                            size={25}
+                            color='black'
+                        />
+                        <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                            {militaryTo12HrTime(item.from) + " - " + militaryTo12HrTime(item.to)}
+                        </Text>
                     </View>
-                </TouchableOpacity>
-            )}
-        />
+
+                    <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                        <Ionicons
+                            name='navigate'
+                            size={25}
+                            color='black'
+                        />
+                        <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                            {item.pick_up}
+                        </Text>
+                    </View>
+
+                    <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                        <Ionicons
+                            name='flag'
+                            size={25}
+                            color='black'
+                        />
+                        <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                            {item.destination}
+                        </Text>
+                    </View>
+
+                    <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                        <Ionicons
+                            name='people'
+                            size={25}
+                            color='black'
+                        />
+                        <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                            {item.num_of_pass}
+                        </Text>
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TouchableOpacity onPress={() => onPressedDelete(index)}>
+                            <View style={styles.button}>
+                                <Text style={{ fontSize: 15, color: 'rgba(0,0,0,0,1)', fontWeight: '700'}}>Delete Request</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+            ))}
         </>
     );
       
@@ -144,12 +128,12 @@ const PassRequestList = ({array}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'rgba(0,0,0,0.35)',
-        paddingHorizontal: 10,
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        paddingHorizontal: '5%',
         paddingVertical: 20,
         marginBottom: 15,
         borderRadius: 20,
-        width: '90%',
+        width: '80%',
         alignSelf:'center'
     },
 
@@ -173,8 +157,8 @@ const styles = StyleSheet.create({
     button: {
         borderRadius: 20,
         backgroundColor: "rgba(255,0,0,0.7)",
-        paddingHorizontal: 10,
-        paddingVertical: 15,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
         alignItems: 'center',
         justifyContent: 'center'
     },

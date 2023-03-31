@@ -144,7 +144,7 @@ const UpcomingRide_Driver = ({navigation}) => {
                         </Text>
                     </View>
 
-                    <View style={{paddingTop: '10%', alignItems: 'center',}}>
+                    <View style={{paddingTop: '10%', alignItems: 'center', paddingBottom: '10%'}}>
                         <Text style={{fontSize: 15, fontWeight:'bold', paddingBottom: '5%'}}>Enter 4-digit confirmation code:</Text>
                         <TextInput
                             style={styles.codeInput}

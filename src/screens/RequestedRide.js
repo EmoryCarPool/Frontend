@@ -70,7 +70,8 @@ const RequestedRide = ({navigation}) => {
                     />
                 </TouchableOpacity>
 
-                {Array.isArray(dataArray) && dataArray.length > 0 ? <PassRequestList array={dataArray}/> : 
+                {Array.isArray(dataArray) && dataArray.length > 0 ? 
+                    <PassRequestList array={dataArray}/> : 
                     
                     <View style={{marginTop: '50%'}}>
                         <Text style={{fontStyle: 'italic', fontSize: 14}}>Make a request under the "Find Driver" tab</Text>

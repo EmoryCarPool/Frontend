@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
 
     },
     picImg: {
-        width: 150,
-        height: 150,
+        width: 100,
+        height: 100,
         borderRadius: 100
 
     },
@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
         height: '100%',
-        marginTop: '0%',
         marginBottom: '10%',
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         width: '100%',
-        marginTop: '10%',
+        marginTop: '0%',
         marginBottom: '10%',
 
     },
