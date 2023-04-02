@@ -10,6 +10,7 @@ import SignupScreen from './src/screens/SignupScreen';
 import ResetPasswordVerifyScreen from './src/screens/ResetPasswordVerifyScreen';
 import ResetPasswordResetScreen from './src/screens/ResetPasswordResetScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import SeeAllSuggestions from './src/screens/SeeAllSuggestions';
 import UpcomingRide_Passenger from './src/screens/UpcomingRide_Passenger';
 import UpcomingRide_Driver from './src/screens/UpcomingRide_Driver';
 import UpcomingRideEmpty from './src/screens/UpcomingRideEmpty';
@@ -27,6 +28,8 @@ import Profile_Driver from './src/screens/Profile_Driver';
 import Profile_BecomeDriver from './src/screens/Profile_BecomeDriver';
 import ChangePassword1 from './src/screens/ChangePassword1';
 import ChangePassword2 from './src/screens/ChangePassword2';
+import RideHistory_Passenger from './src/screens/RideHistory_Passenger'
+import RideHistory_Driver from './src/screens/RideHistory_Driver'
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as FPProvider} from './src/context/FPContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -37,6 +40,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
+    SAG: SeeAllSuggestions,
     UpcomingRideP: UpcomingRide_Passenger,
     UpcomingRideD: UpcomingRide_Driver,
     PendingRide: PendingRide,
@@ -60,6 +64,7 @@ const FindPassengerNavigator = createStackNavigator({
 
 const ProfilePassengerStack = createStackNavigator({
     Pprofile: Profile_Passenger,
+    RideHistory: RideHistory_Passenger,
     BecomeDriver: Profile_BecomeDriver,
     ChangePassword1: ChangePassword1,
     ChangePassword2: ChangePassword2,
@@ -67,6 +72,7 @@ const ProfilePassengerStack = createStackNavigator({
 
 const ProfileDriverStack = createStackNavigator({
     Dprofile: Profile_Driver,
+    RideHistory: RideHistory_Driver,
     ChangePassword1: ChangePassword1,
     ChangePassword2: ChangePassword2,
 }, { headerMode: "none" });

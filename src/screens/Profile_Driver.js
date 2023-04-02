@@ -330,6 +330,10 @@ const Profile_Driver = ({ navigation }) => {
 
                     <View style={styles.buttonContainer}>
                         <BasicButton
+                            text="Ride History"
+                            onPress={() => navigation.navigate('RideHistory')}
+                        />
+                        <BasicButton
                             text="Change Password"
                             onPress={() => navigation.navigate('ChangePassword1')}
                         />

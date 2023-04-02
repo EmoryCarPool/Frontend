@@ -3,6 +3,9 @@ import createDataContext from "./createDataContext";
 import carpoolApi from "../api/carpool"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
+import { Context as AuthContext} from "../context/AuthContext"
+
+const {signout} = useContext(AuthContext)
 
 const FPReducer = (state, action) => {
     switch(action.type) {
@@ -163,6 +166,7 @@ const postDriverRequest = (dispatch) => async({findDriver_id, pick_up, pass_dest
     }
 }
 
+// requested rides loading
 const loadPassRequest = (dispatch) => async() => {
     
     const token = await AsyncStorage.getItem('token')
@@ -183,6 +187,25 @@ const loadPassRequest = (dispatch) => async() => {
     }
 }
 
+// delete individual requested rides
+const deletePassRequest = (dispatch) => async({input}) => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.delete(`/api/findDriver/${input}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
+// loading Pending Ride
 const loadDriverRequest = (dispatch) => async() => {
     
     const token = await AsyncStorage.getItem('token')
@@ -203,12 +226,13 @@ const loadDriverRequest = (dispatch) => async() => {
     }
 }
 
-const deleteDriverRequest = (dispatch) => async() => {
+// deleting individual Pending Ride
+const deleteDriverRequest = (dispatch) => async({input}) => {
     
     const token = await AsyncStorage.getItem('token')
     
     try {
-        const response = await carpoolApi.delete('/api/requests_to_pass/', {
+        const response = await carpoolApi.delete(`/api/requests_to_pass/${input}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -220,10 +244,218 @@ const deleteDriverRequest = (dispatch) => async() => {
     }
 }
 
+const SAGpost = (dispatch) => async({item}) => {
+    
+    const token = await AsyncStorage.getItem('token')
 
+    const SAGpostInfo = {
+        price: item.price,
+        driver_id: item.driver_id, 
+        passenger_id: item.passenger_id, 
+        time_of_arrival: item.time_of_arrival, 
+        time_of_pickup: item.time_of_pickup,
+        pick_up: item.pick_up,
+        pass_dest: item.pass_dest,
+        additional_time: item.additional_time,
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/transaction/', SAGpostInfo, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        // console.log('response: ', response.data)
+
+        navigate('Home')
+        
+
+    } catch (error) {
+        const message = error.response.data
+        console.log(message)
+    }
+}
+
+const loadTransaction = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+
+    try {
+        const response = await carpoolApi.get('/api/transaction/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        await AsyncStorage.setItem('upcomingRideData', stringData)
+
+    } catch (error) {
+        const message = error.response
+        console.log(message)
+    }
+}
+
+const patchTransaction = (dispatch) => async ({ _id, isVerified, isCancelled, reason }) => {
+    const token = await AsyncStorage.getItem('token')
+    
+    var body = {};
+  
+    if (isVerified) {
+        body = { isVerified };
+    } else {
+        body = { isCancelled, cancel_reason: reason };
+    }
+  
+    try {
+        const response = await carpoolApi.patch(`/api/transaction/${_id}`, body, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+
+    } catch (error) {
+        const message = error.response;
+        console.log(message);
+    }
+};
+
+const postRideHistory = (dispatch) => async({info}) => {
+    
+    const token = await AsyncStorage.getItem('token')
+
+    const postInfo = {
+        price: info.price, 
+        driver_id: info.driver_id, 
+        passenger_id: info.passenger_id, 
+        time_of_arrival: info.time_of_arrival, 
+        time_of_pickup: info.time_of_pickup, 
+        pick_up: info.pick_up, 
+        pass_dest: info.pass_dest,
+        additional_time: info.additional_time,
+        code: info.code, 
+        isVerified: info.isVerified, 
+        isCancelled: info.isCancelled, 
+        cancel_reason: info.cancel_reason,
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/past_rides/', postInfo, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data
+        console.log(message)
+    }
+}
+  
+const deleteTransaction = (dispatch) => async ({ _id }) => {
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.delete(`/api/transaction/${_id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+    } catch (error) {
+        const message = error.response;
+        console.log(message);
+    }
+};
+
+
+const deleteAllDriverRequest = (dispatch) => async({info}) => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    const body = {
+        user: info
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/requests_to_pass/delete/', body, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data.error
+    }
+}
+
+const deleteAllPassRequest = (dispatch) => async({info}) => {
+    
+    const token = await AsyncStorage.getItem('token')
+
+    const body = {
+        user: info
+    }
+    
+    try {
+        const response = await carpoolApi.post('/api/findDriver/delete/', body, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
+const getHistoryPass = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.get('/api/past_rides/passenger/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        await AsyncStorage.setItem('historyPassData', stringData)
+        
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
+
+const getHistoryDriver = (dispatch) => async() => {
+    
+    const token = await AsyncStorage.getItem('token')
+    
+    try {
+        const response = await carpoolApi.get('/api/past_rides/driver/', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        console.log('dataDriver: ', stringData)
+        await AsyncStorage.setItem('historyDriverData', stringData)
+        
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+}
 
 export const { Provider, Context } = createDataContext(
     FPReducer,
-    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest, loadPassRequest, loadDriverRequest, deleteDriverRequest}, // object with all action functions included
+    {postPassRequest, loadTimeslot, getSelectedRequest, postDriverRequest, loadPassRequest, loadDriverRequest, deleteDriverRequest, deletePassRequest, SAGpost, loadTransaction, patchTransaction, postRideHistory, deleteTransaction, deleteAllDriverRequest, deleteAllPassRequest, getHistoryPass, getHistoryDriver}, // object with all action functions included
     {errorMessage: '', findDriverRequestInfo: {}, timeslotInfo: {}, selectedRequestInfo: {}, maxPrice: 0, findPassengerRequestInfo: {}, timeslotRequestInfo: {}} // initial state of variables
 )

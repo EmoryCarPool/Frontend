@@ -5,22 +5,19 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SelectDropdown from "react-native-select-dropdown";
 import { Context as FPContext } from "../../context/FPContext"
+import { navigate } from "../../navigationRef";
 
 const PassRequestList = ({array}) => {
-    const {state, postDriverRequest} = useContext(FPContext)
+    const {deletePassRequest} = useContext(FPContext)
 
-    const [time, setTime] = useState('');
-    const [departLocation, setDepartLocation] = useState('');
-    const [destination, setDestination] = useState('');
-    const [passenger, setPassenger] = useState(''); 
 
     const onPressedDelete = (input) => {
-        const hey = input
-        console.log("hey: ",hey)
+        deletePassRequest({input})
+        
     }
 
     const onPressSAG = () => {
-        console.log('SAG pressed')
+        navigate('SAG')
     }
 
     function militaryTo12HrTime(militaryTime) {
@@ -112,7 +109,7 @@ const PassRequestList = ({array}) => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <TouchableOpacity onPress={() => onPressedDelete(index)}>
+                        <TouchableOpacity onPress={() => onPressedDelete(item._id)}>
                             <View style={styles.button}>
                                 <Text style={{ fontSize: 15, color: 'rgba(0,0,0,0,1)', fontWeight: '700'}}>Delete Request</Text>
                             </View>

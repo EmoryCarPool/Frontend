@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard, FlatList} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import { navigate } from "../navigationRef";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Context as FPContext} from "../context/FPContext"
 
-const PendingRideEmpty = () => {
-    const [name, setName] = useState('Name shown here');
+const PendingRideEmpty = ({navigation}) => {
+    
+    const onPressRefresh = () => {
+    }
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <ScrollView style={styles.scrollContainer}>
-                <View style={{ flexDirection: "row" }}>
+            <View style={{flex: 1, alignItems: 'center', paddingBottom: '5%'}}>
+                <View style={{ flexDirection: "row", marginBottom: '5%'}}>
                     <Text style={styles.upcomingRide}>
                         Upcoming Ride
                     </Text>
@@ -21,18 +28,19 @@ const PendingRideEmpty = () => {
                     </Text>
                 </View>
 
-                <View style={styles.titleContainer}>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.Title}>
-                            For Drivers only:
-                        </Text>
-                        <Text></Text>
-                        <Text style={styles.Title}>
-                            Go to "Find Passenger"
-                        </Text>
-                    </View>
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%', marginBottom: '5%'}} onPress={onPressRefresh}>
+                    <FontAwesome
+                        name='refresh'
+                        size={25}
+                        color='black'
+                    />
+                </TouchableOpacity>
+ 
+                <View style={{marginTop: '50%'}}>
+                    <Text style={{fontStyle: 'italic', fontSize: 14}}>For Drivers only: Make a request in Find Passenger</Text>
                 </View>
-            </ScrollView>
+
+            </View>
         </KeyboardAvoidingView>
     )
 }
@@ -54,34 +62,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         fontSize: 20,
-
-
-
-    },
-    titleContainer: {
-        paddingTop: '10%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-
-        height: '100%',
-        //flexDirection: 'column',
-        //width: '100%',
-        marginTop: '20%',
-        marginBottom: '65%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        overflow: 'hidden',
-
-
     },
 
     textContainer: {
         alignContent: 'center',
         justifyContent: 'center',
         width: '100%',
-        marginTop: '30%',
-        marginBottom: '20%',
+        marginTop: '10%',
+        marginBottom: '10%',
 
     },
 
@@ -114,6 +102,55 @@ const styles = StyleSheet.create({
         color: "black",
 
     },
+
+    container: {
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        paddingHorizontal: '5%',
+        paddingVertical: 20,
+        marginBottom: 15,
+        borderRadius: 20,
+        width: '80%',
+        alignSelf:'center',
+    },
+
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+
+    infoText: {
+        fontSize: 20,
+        fontWeight: 'normal'
+    },
+
+    inputContainer: {
+        marginTop: 10,
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: "center",
+    },
+
+    button: {
+        borderRadius: 20,
+        backgroundColor: "rgba(255,0,0,0.7)",
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    SAGButton: {
+        marginBottom: 10,
+        backgroundColor: 'rgba(152,190,196, 1)',
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+
+    SAGText: {
+        fontWeight: '700',
+        fontSize: 15,
+    }
 });
 
 export default PendingRideEmpty;

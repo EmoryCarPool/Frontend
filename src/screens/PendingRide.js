@@ -1,28 +1,41 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard} from "react-native";
+import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, Image, TouchableOpacity, Keyboard, FlatList} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
-import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
-import BasicButton from "../components/HomeScreen/BasicButton";
-import PopUpButton from "../components/Signup/Popup/PopUpButton";
-import PopUpInput from "../components/Signup/Popup/PopUpInput";
-import Popup from "../components/Signup/Popup/Popup";
 import { navigate } from "../navigationRef";
-import { Context as FPContext} from "../context/FPContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Context as FPContext} from "../context/FPContext"
 
 const PendingRide = ({navigation}) => {
-    const [imageUri, setImageUri] = useState(null);
-    const [time, setTime] = useState('');
-    const [departLocation, setDepartLocation] = useState('');
-    const [destination, setDestination] = useState('');
-    const [passenger, setPassenger] = useState('');
-    const [driveTime, setDriveTime] = useState('');
-    const [cost, setCost] = useState('');
-
+    
     const { state, loadDriverRequest, deleteDriverRequest} = useContext(FPContext)
 
     const [dataArray, setDataArray] = useState([]);
+    const [refresh, setRefresh] = useState(false)
+
+    const onPressRefresh = () => {
+        setRefresh(!refresh)
+    }
+
+    useEffect(() => {
+        const getData = async () => {
+            await loadDriverRequest()
+            await AsyncStorage.getItem('driverRequestData')
+                .then(data => {
+                    const parsedData = JSON.parse(data)
+                    setDataArray(parsedData)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        };
+        getData();
+    }, [refresh]);
+
+    const onPressedDelete = async (input) => {
+        await deleteDriverRequest({input})
+        setRefresh(!refresh)
+    }
 
     function militaryTo12HrTime(militaryTime) {
         // Split the military time string into hours and minutes
@@ -58,37 +71,10 @@ const PendingRide = ({navigation}) => {
         
     }
 
-    const onPressDelete = () => {
-        deleteDriverRequest()
-        setDataArray([])
-    }
-
-    const [refresh, setRefresh] = useState(false)
-
-    const onPressRefresh = () => {
-        setRefresh(!refresh)
-    }
-
-    useEffect(() => {
-        const getData = async () => {
-            await loadDriverRequest()
-            await AsyncStorage.getItem('driverRequestData')
-                .then(data => {
-                    const parsedData = JSON.parse(data)
-                    setDataArray(parsedData)
-
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        };
-        getData();
-    }, [refresh]);
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <View style={{flex: 1, alignItems: 'center', height: '100%', width: '100%'}}>
-                
+            <View style={{flex: 1, alignItems: 'center', paddingBottom: '5%'}}>
                 <View style={{ flexDirection: "row", marginBottom: '5%'}}>
                     <Text style={styles.upcomingRide}>
                         Upcoming Ride
@@ -103,7 +89,7 @@ const PendingRide = ({navigation}) => {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%'}} onPress={onPressRefresh}>
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%', marginBottom: '5%'}} onPress={onPressRefresh}>
                     <FontAwesome
                         name='refresh'
                         size={25}
@@ -111,89 +97,86 @@ const PendingRide = ({navigation}) => {
                     />
                 </TouchableOpacity>
 
-                {Array.isArray(dataArray) && dataArray.length > 0 ?
+                {Array.isArray(dataArray) && dataArray.length > 0 ? 
+                    <>
+                        {dataArray.map((item, index) => (
+                            <View style={styles.container} key={index}>
+            
+                                <View style={{ flexDirection: "row", alignItems: 'center'}}>
+                                    <Ionicons
+                                        name='alarm'
+                                        size={25}
+                                        color='black'
+                                    />
+                                    <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                        {militaryTo12HrTime(item.time_of_pickup)}
+                                    </Text>
+                                </View>
+            
+                                <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%', paddingRight: '10%'}}>
+                                    <Ionicons
+                                        name='navigate'
+                                        size={25}
+                                        color='black'
+                                    />
+                                    <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                        {item.pick_up}
+                                    </Text>
+                                </View>
+            
+                                <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%', paddingRight: '10%'}}>
+                                    <Ionicons
+                                        name='flag'
+                                        size={25}
+                                        color='black'
+                                    />
+                                    <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                        {item.pass_dest}
+                                    </Text>
+                                </View>
 
-                <View style={styles.titleContainer_1}>
+                                <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                                    <Ionicons
+                                        name='hourglass'
+                                        size={25}
+                                        color='black'
+                                    />
+                                    <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                        {item.additional_time} min
+                                    </Text>
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: 'center', marginTop: '5%'}}>
+                                    <Ionicons
+                                        name='logo-usd'
+                                        size={25}
+                                        color='black'
+                                    />
+                                    <Text style={{ paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
+                                        {item.price}
+                                    </Text>
+                                </View>
+
+            
+                                <View style={styles.inputContainer}>
+                                    <TouchableOpacity onPress={() => onPressedDelete(item._id)}>
+                                        <View style={styles.button}>
+                                            <Text style={{ fontSize: 15, color: 'rgba(0,0,0,0,1)', fontWeight: '700'}}>Delete Request</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+            
+                            </View>
+                        ))}
+                    </>
                     
-                        <View style={{ flexDirection: "row", alignItems: 'center', paddingTop: '5%'}}>
-                            <Ionicons
-                                name='alarm'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {militaryTo12HrTime(dataArray[0].time_of_pickup)}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
-                            <Ionicons
-                                name='navigate'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {dataArray[0].pick_up}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
-                            <Ionicons
-                                name='flag'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {destination}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
-                            <Ionicons
-                                name='people'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {passenger}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center'}}>
-                            <Ionicons
-                                name='hourglass'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {driveTime}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: "row", paddingTop: '5%', alignItems: 'center', paddingBottom: '30%'}}>
-                            <Ionicons
-                                name='logo-usd'
-                                size={25}
-                                color='black'
-                            />
-                            <Text style={{justifyContent: 'center', paddingLeft: '5%', fontSize: 15, fontWeight: 'bold'}}>
-                                {dataArray[0].price}
-                            </Text>
-                        </View>
-
-                        <TouchableOpacity onPress={onPressDelete} style={styles.deleteButton}>
-                            <Text style={styles.deleteText}>Delete Request</Text>
-                        </TouchableOpacity>
-
-                    </View>
-
                     : 
                     
                     <View style={{marginTop: '50%'}}>
                         <Text style={{fontStyle: 'italic', fontSize: 14}}>For Drivers only: Make a request in Find Passenger</Text>
                     </View>
-                    }
-                    
+                }
+
             </View>
         </KeyboardAvoidingView>
     )
@@ -209,37 +192,21 @@ const styles = StyleSheet.create({
 
     scrollContainer: {
         flexGrow: 1,
-
     },
-
 
     Title: {
         borderColor: 'black',
         textAlign: 'center',
         justifyContent: 'center',
         fontSize: 20,
-
-    },
-    titleContainer_1: {
-        paddingHorizontal: '10%',
-        flex: 1,
-        height: '100%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        overflow: 'hidden',
-        width: '90%'
-
-
-
     },
 
     textContainer: {
         alignContent: 'center',
         justifyContent: 'center',
-        width: '90%',
+        width: '100%',
         marginTop: '10%',
         marginBottom: '10%',
-        
 
     },
 
@@ -273,23 +240,53 @@ const styles = StyleSheet.create({
 
     },
 
-    deleteButton: {
-        backgroundColor: 'rgba(255,0,0, 0.7)',
-        width: '100%',
-
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-
-        alignSelf: 'center',
-        justifyContent: 'center',
+    container: {
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        marginBottom: 15,
         borderRadius: 20,
-
+        width: '80%',
+        alignSelf:'center',
     },
-    deleteText: {
-        textAlign: 'center',
+
+    text: {
         fontSize: 20,
+        fontWeight: 'bold',
+    },
+
+    infoText: {
+        fontSize: 20,
+        fontWeight: 'normal'
+    },
+
+    inputContainer: {
+        marginTop: 10,
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: "center",
+    },
+
+    button: {
+        borderRadius: 20,
+        backgroundColor: "rgba(255,0,0,0.7)",
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    SAGButton: {
+        marginBottom: 10,
+        backgroundColor: 'rgba(152,190,196, 1)',
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+
+    SAGText: {
         fontWeight: '700',
-        color: 'rgba(0,0,0,1)'
+        fontSize: 15,
     }
 });
 

@@ -42,7 +42,7 @@ const SignupScreen = ({navigation}) => {
             setLocalErrorMessage('')
             signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
         }
-        // navigation.navigate('Signin')
+        navigation.navigate('Signin')
     }
 
     // create logic that if post request fails, setVisible should not be set to false

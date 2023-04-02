@@ -5,6 +5,7 @@ import UpcomingRide_Driver from "../screens/UpcomingRide_Driver";
 import UpcomingRide_Passenger from '../screens/UpcomingRide_Passenger';
 import RequestedRide from '../screens/RequestedRide'
 import PendingRide from '../screens/PendingRide'
+import PendingRideEmpty from "./PendingRideEmpty";
 import BasicButton from "../components/HomeScreen/BasicButton";
 import {Context as AuthContext} from "../context/AuthContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +13,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
     const [activeScreen, setActiveScreen] = useState('upcoming');
+    // if (route.params) {
+    //     setActiveScreen('upcoming')
+    // } 
+    // const { myParam } = route.params;
+
+
+
     const pan = useRef(new Animated.ValueXY()).current;
     const [name, setName] = useState('Name');
     const { width, height } = Dimensions.get('window');
@@ -40,6 +48,7 @@ const HomeScreen = () => {
         getData();
     }, []);
 
+
     const renderScreen = () => {
         switch (activeScreen) {
             case 'upcoming':
@@ -48,11 +57,14 @@ const HomeScreen = () => {
                 } else {
                     return <UpcomingRide_Passenger />;
                 }
-                return <UpcomingRide_Passenger/>
             case 'requested':
                 return <RequestedRide />;
             case 'pending':
-                return <PendingRide />;
+                if (isDriver === true) {
+                    return <PendingRide />;
+                } else {
+                    return <PendingRideEmpty />;
+                }
             default:
                 return null;
         }

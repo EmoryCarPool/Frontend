@@ -183,7 +183,6 @@ const loadProfile = (dispatch) => async () => {
 
 const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneNumber, isDriver, occupation, carBrand, carModel, color, plateNumber}) => {
     var body = {}
-    console.log('isDriver: ', isDriver)
 
     if(isDriver) {
         body = {
@@ -205,8 +204,6 @@ const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneN
             phone_number: phoneNumber,
         }
     }
-
-    console.log('body: ', body)
 
     try {
         const response = await carpoolApi.patch('/api/user/update', body)
@@ -254,8 +251,29 @@ const postImage = (dispatch) => async ({imageData}) => {
 
 }
 
+const getUserInfo = (dispatch) => async ({id}) => {
+    var token = await AsyncStorage.getItem('token')
+    const input = {id}
+
+    try {
+        const response = await carpoolApi.post('/api/user/', input, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+
+        const stringData = JSON.stringify(response.data)
+        await AsyncStorage.setItem('UserInfo', stringData)
+
+    } catch (error) {
+        const message = error.response.data.error
+        console.log(message)
+    }
+
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile, changePassword, postImage}, // object with action functions
+    {signin, signout, signup, clearErrorMessage, tryLocalSignin, sendOTP, verifyOTP, resetPassword, loadProfile, updateProfile, changePassword, postImage, getUserInfo}, // object with action functions
     {token: null, errorMessage: '', popupErrorMessage: '', email: ''} // initial state: null token, empty errorMessage
 )

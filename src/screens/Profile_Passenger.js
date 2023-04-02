@@ -214,6 +214,10 @@ const Profile_Passenger = ({ navigation }) => {
 
                     <View style={styles.buttonContainer}>
                         <BasicButton
+                            text="Ride History"
+                            onPress={() => navigation.navigate('RideHistory')}
+                        />
+                        <BasicButton
                             text="Become a driver"
                             onPress={() => navigation.navigate('BecomeDriver')}
                         />
