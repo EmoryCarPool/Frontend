@@ -35,7 +35,6 @@ const tryLocalSignin = (dispatch) => async () => {
     const token = await AsyncStorage.getItem("token");
 
     if (token) {
-        console.log(token)
         dispatch({ type: "signin", payload: token });
         navigate("mainFlow");
     } else {
