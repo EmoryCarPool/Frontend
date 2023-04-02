@@ -5,7 +5,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import BasicButton from "../components/ProfilePage/BasicButton";
 import * as ImagePicker from 'expo-image-picker';
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import { Context as AuthContext} from '../context/AuthContext'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";

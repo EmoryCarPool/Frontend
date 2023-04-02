@@ -7,6 +7,8 @@ import BasicButton from "../components/FindPassenger/BasicButton";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Timeslot from "../components/FindPassenger/Timeslot";
 import { Context as FPContext } from "../context/FPContext"
+import { Context as AuthContext } from "../context/AuthContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const FindPassenger1Screen = ({navigation}) => {
@@ -25,9 +27,25 @@ const FindPassenger1Screen = ({navigation}) => {
     const [maxCap, setMaxCap] = useState(0)
 
     const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
+    const {loadProfile} = useContext(AuthContext)
 
-    const onPressedSubmit = () => {
-        loadTimeslot({currentLocation, finalDestination, maxCap})
+    const [em, setEm] = useState('')
+
+    const onPressedSubmit = async () => {
+        await loadProfile()
+        await AsyncStorage.getItem('profileInfo')
+            .then(data => {
+                const parsedData = JSON.parse(data)
+                if(parsedData.isDriver === false) {
+                    setEm('You are not a driver. This is for driver users only.')
+                } else {
+                    setEm('')
+                    loadTimeslot({currentLocation, finalDestination, maxCap})
+                }
+            })
+            .catch(error => {
+                console.log(error)
+        })
     }
 
     return (
@@ -67,6 +85,7 @@ const FindPassenger1Screen = ({navigation}) => {
                     />
                     <BasicButton onPress={onPressedSubmit} text='Submit' />
                     {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                    {em ? <Text style={styles.errorMessage}>{em}</Text>: null}
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>

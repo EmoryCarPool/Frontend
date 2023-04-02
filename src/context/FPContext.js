@@ -3,9 +3,6 @@ import createDataContext from "./createDataContext";
 import carpoolApi from "../api/carpool"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
-import { Context as AuthContext} from "../context/AuthContext"
-
-const {signout} = useContext(AuthContext)
 
 const FPReducer = (state, action) => {
     switch(action.type) {
