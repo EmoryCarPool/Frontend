@@ -13,15 +13,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
     const [activeScreen, setActiveScreen] = useState('upcoming');
-    // if (route.params) {
-    //     setActiveScreen('upcoming')
-    // } 
-    // const { myParam } = route.params;
-
-
 
     const pan = useRef(new Animated.ValueXY()).current;
-    const [name, setName] = useState('Name');
+    const [name, setName] = useState('');
     const { width, height } = Dimensions.get('window');
     const animatedValue = useRef(new Animated.Value(0)).current;
     const onPressButton = () => {
@@ -39,6 +33,10 @@ const HomeScreen = () => {
                     const parsedData = JSON.parse(data)
                     if(parsedData.isDriver === true) {
                         setIsDriver(true)
+                    } 
+                    
+                    if (parsedData.first_name) {
+                        setName(parsedData.first_name)
                     }
                 })
                 .catch(error => {
@@ -69,22 +67,6 @@ const HomeScreen = () => {
                 return null;
         }
     };
-
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         await checkIsDriver()
-    //         await AsyncStorage.getItem('isDriver')
-    //             .then(data => {
-    //                 const parsedData = JSON.parse(data)
-    //                 setDataArray(parsedData)
-
-    //             })
-    //             .catch(error => {
-    //                 console.log(error)
-    //             })
-    //     };
-    //     getData();
-    // }, []);
 
     const handleSlide = (direction) => {
         switch (activeScreen) {

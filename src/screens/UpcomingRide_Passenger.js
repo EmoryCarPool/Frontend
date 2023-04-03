@@ -106,6 +106,9 @@ const UpcomingRide_Passenger = ({navigation}) => {
                     if (parsedData !== null) {
                         helper(parsedData)
                     }
+                    if (parsedData === null) {
+                        setDataArray([])
+                    }
                 })
                 .catch(error => {
                     console.log(error)

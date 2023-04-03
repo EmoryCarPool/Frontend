@@ -38,13 +38,21 @@ import SetDepartingScreen from './src/screens/SetDepartingScreen';
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const HomeNavigator = createStackNavigator({
+const HomeNavigator1 = createStackNavigator({
     Home: HomeScreen,
     SAG: SeeAllSuggestions,
-    UpcomingRideP: UpcomingRide_Passenger,
-    UpcomingRideD: UpcomingRide_Driver,
-    PendingRide: PendingRide,
-    RequestedRide: RequestedRide,
+}, {headerMode: "none"}
+)
+
+const HomeNavigator2 = createStackNavigator({
+    Home: HomeScreen,
+    SAG: SeeAllSuggestions,
+}, {headerMode: "none"}
+)
+
+const HomeNavigator = createSwitchNavigator({
+    HomeNavigator1,
+    HomeNavigator2,
 }, {headerMode: "none"}
 )
 
@@ -83,16 +91,6 @@ const ProfileNavigator = createSwitchNavigator(
         ProfileDriver: ProfileDriverStack,
     },
 );
-
-// switch navigator (based on user's is_driver boolean) between 
-// const ProfileNavigator = createStackNavigator({
-//     Pprofile: Profile_Passenger,
-//     Dprofile: Profile_Driver,
-//     BecomeDriver: Profile_BecomeDriver,
-//     ChangePassword1: ChangePassword1,
-//     ChangePassword2: ChangePassword2,
-// }, {headerMode: "none"}
-// )
 
 const switchNavigator = createSwitchNavigator({
     Initial: InitialScreen,

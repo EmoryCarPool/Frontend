@@ -27,7 +27,7 @@ const Popup = ({visible, children}) => {
     )
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     modalBackground: {
         flex: 1, 
         justifyContent: 'center', 

@@ -114,7 +114,7 @@ const signup = (dispatch) => async ({first_name, last_name, email, phone_number,
         const response = await carpoolApi.post('/api/user/signup', signUpInfo)
         await AsyncStorage.setItem('token', response.data.token)
         dispatch({type: 'signin', payload: response.data.token})
-        navigate('loginFlow');
+        navigate('Signin');
         // console.log(response.data.token)
 
     } catch (error) {

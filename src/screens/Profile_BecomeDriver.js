@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Button, Image, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, TextInput} from "react-native";
+import { View, Image, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, TextInput} from "react-native";
 import SelectDropdown from 'react-native-select-dropdown';
 import Ionicons from "react-native-vector-icons/Ionicons"
-import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/ProfilePage/BasicButton";
-import * as ImagePicker from 'expo-image-picker';
 import defaultProfilePic from "../components/ProfilePage/default_profile_pic.png";
 import { Context as AuthContext} from '../context/AuthContext'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -41,28 +39,19 @@ const Profile_BecomeDriver = (navigation) => {
         getData();
     }, []);
 
-
-    const pickImage = async ({navigation}) => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImageUri(result.assets[0].uri);
-        }
-    };
-
     const handleEditPress = () => {
         setIsEditable(true);
     };
 
     const handleSavePress = async () => {
         const isDriver = true
+        
+        if (occupation === 'Occupation' || carBrand === 'Car brand' || carBrand === '' || carModel === 'Car model' || carModel === '' || color === 'Car color' || color === '' || plateNumber === 'Plate number' || plateNumber === '') {
+            await updateProfile({email, isDriver, occupation: '', carBrand: '', carModel: '', color: '', plateNumber: ''})
+        } else {
+            await updateProfile({email, isDriver, occupation, carBrand, carModel, color, plateNumber})
+        }
 
-        await updateProfile({email, isDriver, occupation, carBrand, carModel, color, plateNumber})
         var error = await AsyncStorage.getItem('updateError')
         
         if (error === '' || error === null) {
@@ -105,7 +94,10 @@ const Profile_BecomeDriver = (navigation) => {
         if (didSave === false) {
             setLocalErrorMessage('Please Input Your Driver Information First')
         } else {
+            setLocalErrorMessage('')
             navigate('ProfileDriver')
+            navigate('HomeNavigator1')
+            navigate('HomeNavigator2')
         }
         
     };

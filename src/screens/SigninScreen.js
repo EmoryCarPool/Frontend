@@ -21,7 +21,7 @@ const SigninScreen = ({navigation}) => {
                 style={{flex: 1}}
                 behavior='position'
             >
-            <ScrollView style={{ flexGrow: 1, paddingTop: '120%', height: '100%',borderRadius: 10, borderColor: 'black'}}>
+            <ScrollView style={{ flexGrow: 1, paddingTop: '110%', height: '100%',borderRadius: 10, borderColor: 'black'}}>
                 <NavigationEvents onWillFocus={clearErrorMessage} />
 
                 <View style={styles.mainContainer}>

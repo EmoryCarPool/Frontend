@@ -138,6 +138,9 @@ const UpcomingRide_Driver = ({navigation}) => {
                     if (parsedData !== null) {
                         helper(parsedData)
                     }
+                    if (parsedData === null) {
+                        setDataArray([])
+                    }
                 })
                 .catch(error => {
                     console.log(error)

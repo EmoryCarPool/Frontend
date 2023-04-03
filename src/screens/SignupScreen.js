@@ -6,7 +6,7 @@ import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/Signup/BasicButton";
 import PopUpInput from "../components/Signup/Popup/PopUpInput";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
-import Popup from "../components/Signup/Popup/Popup";
+import Popup from "../components/Signup/Popup/Popup1";
 import { Context as AuthContext } from "../context/AuthContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -31,7 +31,7 @@ const SignupScreen = ({navigation}) => {
     
     const [localErrorMessage, setLocalErrorMessage] = useState('');
 
-    const onCompletePressed = () => {
+    const onCompletePressed = async () => {
         // useContext signup prop
         if (emailVerified === false) {
             setLocalErrorMessage('Please verify your Emory email first')
@@ -40,9 +40,8 @@ const SignupScreen = ({navigation}) => {
             setLocalErrorMessage('Please check if your passwords match')
         } else {
             setLocalErrorMessage('')
-            signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
+            await signup({first_name, last_name, email, phone_number, password, isDriver, driver_info})
         }
-        navigation.navigate('Signin')
     }
 
     // create logic that if post request fails, setVisible should not be set to false
@@ -88,7 +87,7 @@ const SignupScreen = ({navigation}) => {
             <NavigationEvents onWillFocus={clearErrorMessage} />
             
             <Popup visible={visible}>
-                <View style={{alignItems: 'flex-end', paddingBottom: '20%'}}>
+                <View style={{alignItems: 'flex-end', paddingBottom: '10%'}}>
                     <TouchableOpacity onPress={onXpressed}>
                         <Ionicons 
                             style={{paddingLeft: '90%',}}

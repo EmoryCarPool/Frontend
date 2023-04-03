@@ -266,7 +266,8 @@ const SAGpost = (dispatch) => async({item}) => {
         const stringData = JSON.stringify(response.data)
         // console.log('response: ', response.data)
 
-        navigate('Home')
+        navigate('HomeNavigator1')
+        navigate('HomeNavigator2')
         
 
     } catch (error) {
@@ -442,7 +443,6 @@ const getHistoryDriver = (dispatch) => async() => {
         })
 
         const stringData = JSON.stringify(response.data)
-        console.log('dataDriver: ', stringData)
         await AsyncStorage.setItem('historyDriverData', stringData)
         
     } catch (error) {

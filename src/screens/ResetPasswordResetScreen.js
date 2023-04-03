@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, Keyboard } from "react-native";
 import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/ResetPassword/BasicButton";
-import Popup from "../components/Signup/Popup/Popup";
+import Popup from "../components/Signup/Popup/Popup1";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';

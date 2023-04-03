@@ -1,23 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {View, Text, Modal, StyleSheet} from "react-native";
 
-const Popup = ({visible, children}) => {
-    const [showModal, setShowModal] = useState(visible)
-    const toggleModal = () => {
-        if(visible) {
-            setShowModal(true)
-        } else {
-            setShowModal(false)
-        }
-    }
-
-    useEffect(() => {
-        toggleModal()
-    }, [visible])
+const Popup1 = ({visible, children}) => {
+    
 
 
     return (
-        <Modal transparent={true} visible={showModal} animationType={"fade"}>
+        <Modal transparent={true} visible={visible} animationType={"fade"}>
             <View style={styles.modalBackground}>
                 <View style={styles.modalContainer}>
                     {children}
@@ -27,7 +16,7 @@ const Popup = ({visible, children}) => {
     )
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     modalBackground: {
         flex: 1, 
         justifyContent: 'center', 
@@ -37,7 +26,7 @@ styles = StyleSheet.create({
 
     modalContainer: {
         width: '80%',
-        height: '40%',
+        height: '35%',
         backgroundColor: 'rgba(255,255,255,1)',
 
         alignItems: 'center',
@@ -48,4 +37,4 @@ styles = StyleSheet.create({
     }
 })
 
-export default Popup
+export default Popup1

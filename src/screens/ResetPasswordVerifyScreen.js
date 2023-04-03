@@ -5,7 +5,7 @@ import BasicInputs from "../components/Signup/BasicInputs";
 import BasicButton from "../components/Signup/BasicButton";
 import PopUpInput from "../components/Signup/Popup/PopUpInput";
 import PopUpButton from "../components/Signup/Popup/PopUpButton";
-import Popup from "../components/Signup/Popup/Popup";
+import Popup from "../components/Signup/Popup/Popup1";
 import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';
 import AsyncStorage from "@react-native-async-storage/async-storage";
