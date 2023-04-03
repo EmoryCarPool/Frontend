@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         marginTop: '5%',
-        width: '80%',
+        width: 300,
         alignSelf: 'center'
     },
 
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         marginTop: '5%',
-        width: '80%',
+        width: 300,
         alignSelf: 'center'
 
     },
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     },
 
     editButtonContainer: {
-        width: '60%',
+        width: 150,
         alignSelf: 'center',
         paddingTop: '5%'
         
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         paddingTop: '10%',
         alignSelf: 'center',
-        width: '80%'
+        width: 250
     },
 
     errorMessage: {
