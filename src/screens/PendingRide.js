@@ -23,7 +23,6 @@ const PendingRide = ({navigation}) => {
             await AsyncStorage.getItem('driverRequestData')
                 .then(data => {
                     const parsedData = JSON.parse(data)
-                    console.log(parsedData)
                     setDataArray(parsedData)
                 })
                 .catch(error => {
