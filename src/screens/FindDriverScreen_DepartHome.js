@@ -5,11 +5,14 @@ import BasicButton from "../components/Signup/BasicButton";
 import SelectDropdown from 'react-native-select-dropdown';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import {Context as FPContext} from "../context/FPContext";
+import { Context as AuthContext } from "../context/AuthContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
 
 const FindDriverScreen_DepartHome = ({ navigation }) => {
     const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
+    const {loadProfile} = useContext(AuthContext)
+    const [em, setEm] = useState('')
     
     const [destination, setDestination] = useState('');
     const [numPeople, setNumPeople] = useState(0);
@@ -38,20 +41,22 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
     // const getEndingTime = (index_1) 
 
     const pressSubmit = async () => {
-        let from = changetoArmyTime(selectedStartTime)
-        let to = changetoArmyTime(selectedEndTime)
-        
-        // const myData = {
-        //     time: selectedStartTime + " - " + selectedEndTime,
-        //     location: location, 
-        //     destination: destination, 
-        //     numPeople: numPeople
-        // }
-
-        // const requestData = JSON.stringify(myData)
-        // await AsyncStorage.setItem('requestedRideInfo', requestData)
-
-        postPassRequest({from, to, location, destination, numPeople})
+        await loadProfile()
+        await AsyncStorage.getItem('profileInfo')
+            .then(async data => {
+                const parsedData = JSON.parse(data)
+                if(parsedData.isDriver === true) {
+                    setEm('You are not a passenger. This is for passenger users only.')
+                } else {
+                    setEm('')
+                    let from = changetoArmyTime(selectedStartTime)
+                    let to = changetoArmyTime(selectedEndTime)
+                    await postPassRequest({from, to, location, destination, numPeople})
+                }
+            })
+            .catch(error => {
+                console.log(error)
+        })
     }
 
     const changetoArmyTime = (timeStr) => {
@@ -210,6 +215,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                         text='Submit'
                         onPress={pressSubmit}
                     />
+                    {em ? <Text style={styles.errorMessage}>{em}</Text>: null}
                     {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                 </View>
             </View>    
@@ -288,6 +294,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'rgba(255,0,0,0.7)',
         marginTop: 5,
+        textAlign: 'center'
     }
 
 });
