@@ -107,7 +107,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                 <Text style={{fontSize: 36, fontWeight: '800', textAlign:'center'}}>Find Driver</Text>
 
                 <Text style={styles.title}>
-                    1. Pick up location
+                1. Pick up location (Be specific)
                 </Text>
                 <View style={styles.mainContainer}>
                     <BasicInputs

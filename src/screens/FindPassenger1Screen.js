@@ -55,13 +55,13 @@ const FindPassenger1Screen = ({navigation}) => {
                     <Text style={styles.mainText}>Find Passenger</Text>
                     <Text style={styles.firstText}>1. Input your current location</Text>
                     <BasicInputs
-                        placeholder='Current Location'
+                        placeholder='Current Location (Specific)'
                         value={currentLocation}
                         setValue={setCurrentLocation}
                     />
                     <Text style={styles.subText}>2. Input your final destination</Text>
                     <BasicInputs
-                        placeholder='Final Destination'
+                        placeholder='Final Destination (Specific)'
                         value={finalDestination}
                         setValue={setFinalDestination}
                     />

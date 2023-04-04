@@ -174,7 +174,7 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
                     </View>
 
                     <Text style={styles.subtitle}>
-                        3. Destination
+                        3. Destination (Be specific)
                     </Text>
 
                     <View style={styles.mainContainer}>
