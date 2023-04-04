@@ -10,16 +10,16 @@ import { NavigationEvents } from 'react-navigation';
 const ResetPasswordResetScreen = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [confirm_new_password, set_new_password] = useState('');
-    const [visible, setVisible] = useState(false)
-    const [visibleSuccess, setVisibleSuccess] = useState(false)
+    const [localEM, setLocalEM] = useState('')
 
     const {state, resetPassword, clearErrorMessage} = useContext(AuthContext);
 
     const checkPassword = () => {
         
         if (password !== confirm_new_password || password.length === 0) {
-            setVisible(true);
+            setLocalEM('Passwords do not match!')
         } else {
+            setLocalEM('')
             state.errorMessage = ''
             const email = state.email
             resetPassword({email, password})
@@ -33,36 +33,6 @@ const ResetPasswordResetScreen = ({navigation}) => {
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             <NavigationEvents onWillFocus={clearErrorMessage} />
-
-            <Popup visible={visible}>
-                <View style={{ alignItems: 'flex-end', paddingBottom: '20%' }}>
-                    <TouchableOpacity onPress={() => setVisible(false)}>
-                        <Ionicons
-                            style={{ paddingLeft: '90%', }}
-                            name='close'
-                            size={35}
-                            color='black'
-                        />
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.TextPopUp}>The passwords do not match!</Text>
-              
-            </Popup>
-
-            <Popup visibleSuccess={visibleSuccess}>
-                <View style={{ alignItems: 'flex-end', paddingBottom: '20%' }}>
-                    <TouchableOpacity onPress={onPressX}>
-                        <Ionicons
-                            style={{ paddingLeft: '90%', }}
-                            name='close'
-                            size={35}
-                            color='black'
-                        />
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.TextPopUp}>Password successfully updated!</Text>
-            </Popup>
-
 
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.titleContainer}>
@@ -94,6 +64,7 @@ const ResetPasswordResetScreen = ({navigation}) => {
                         onPress={checkPassword}
                      />
                     {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
+                    {localEM ? <Text style={styles.errorMessage}>{localEM}</Text>: null}
                 </View>
 
             </ScrollView>

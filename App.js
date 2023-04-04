@@ -41,13 +41,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const HomeNavigator1 = createStackNavigator({
     Home: HomeScreen,
     SAG: SeeAllSuggestions,
-}, {headerMode: "none"}
+} , {headerMode: "none"}
 )
 
 const HomeNavigator2 = createStackNavigator({
     Home: HomeScreen,
     SAG: SeeAllSuggestions,
-}, {headerMode: "none"}
+} , {headerMode: "none"}
 )
 
 const HomeNavigator = createSwitchNavigator({

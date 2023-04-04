@@ -18,8 +18,8 @@ const ChangePassword1 = ({ navigation }) => {
     
     const {state, sendOTP, verifyOTP, clearErrorMessage} = useContext(AuthContext);
 
-    const onVerifyEmailPressed = () => {
-        sendOTP({email})
+    const onVerifyEmailPressed =  async() => {
+        await sendOTP({email})
         
         if (state.popupErrorMessage === '') {
             setVisible(true)

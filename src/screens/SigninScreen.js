@@ -18,13 +18,13 @@ const SigninScreen = ({navigation}) => {
     return (
         <ImageBackground style= {{width: '100%', height: '100%',}} source={require('../../assets/atlantaBackground.png')}>
             <KeyboardAvoidingView 
-                style={{flex: 1}}
+                style={{flex: 1, maxHeight: '100%'}}
                 behavior='position'
             >
-            <ScrollView style={{ flexGrow: 1, paddingTop: '120%', height: '100%',borderRadius: 10, borderColor: 'black'}}>
+            <ScrollView style={{ flexGrow: 1, height: '100%', borderRadius: 10, borderColor: 'white', borderWidth: 5, }}>
                 <NavigationEvents onWillFocus={clearErrorMessage} />
-
                 <View style={styles.mainContainer}>
+                    <Text style={{textAlign: 'center', fontSize: 50, fontWeight: '700', paddingTop: '40%', paddingBottom: '70%'}}>Dooley Ride</Text>
                     <EmailInput value={email} setValue={setEmail}/>
                     <PasswordInput value={password} setValue={setPassword}/>
                     
@@ -63,8 +63,6 @@ const SigninScreen = ({navigation}) => {
                             color: 'white'
                         }}
                         containerStyle={{
-                            marginLeft: '6%',
-                            marginRight: '20%'
                         }}
                         onPress={() => navigation.navigate('Signup')}
                     />
@@ -90,12 +88,15 @@ const SigninScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        // marginTop: '120%',
         alignItems: 'center',
     },
 
     subContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignSelf: 'center',
+        width: '90%',
+        justifyContent: 'space-between'
+
     },
 
     errorMessage: {

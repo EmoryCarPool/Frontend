@@ -36,7 +36,7 @@ const PendingRideEmpty = ({navigation}) => {
                     />
                 </TouchableOpacity>
  
-                <View style={{marginTop: '50%'}}>
+                <View style={{marginTop: '50%', marginBottom: '100%'}}>
                     <Text style={{fontStyle: 'italic', fontSize: 14}}>For Drivers only: Make a request in Find Passenger</Text>
                 </View>
 

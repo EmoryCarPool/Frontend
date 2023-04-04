@@ -23,7 +23,12 @@ const RequestedRide = ({navigation}) => {
             await AsyncStorage.getItem('passRequestData')
                 .then(data => {
                     const parsedData = JSON.parse(data)
-                    setDataArray(parsedData)
+                    if (parsedData !== null) {
+                        setDataArray(parsedData)
+                    }
+                    if (parsedData === null ) {
+                        setDataArray([])
+                    }
                 })
                 .catch(error => {
                     console.log(error)
@@ -169,7 +174,7 @@ const RequestedRide = ({navigation}) => {
                     
                     : 
                     
-                    <View style={{marginTop: '50%'}}>
+                    <View style={{marginTop: '50%', marginBottom: '100%'}}>
                         <Text style={{fontStyle: 'italic', fontSize: 14}}>Make a request under the "Find Driver" tab</Text>
                     </View>
                 }

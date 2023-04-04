@@ -23,7 +23,12 @@ const PendingRide = ({navigation}) => {
             await AsyncStorage.getItem('driverRequestData')
                 .then(data => {
                     const parsedData = JSON.parse(data)
-                    setDataArray(parsedData)
+                    if (parsedData !== null) {
+                        setDataArray(parsedData)
+                    }
+                    if (parsedData === null ) {
+                        setDataArray([])
+                    }
                 })
                 .catch(error => {
                     console.log(error)
@@ -172,7 +177,7 @@ const PendingRide = ({navigation}) => {
                     
                     : 
                     
-                    <View style={{marginTop: '50%'}}>
+                    <View style={{marginTop: '50%', marginBottom: '100%'}}>
                         <Text style={{fontStyle: 'italic', fontSize: 14}}>For Drivers only: Make a request in Find Passenger</Text>
                     </View>
                 }

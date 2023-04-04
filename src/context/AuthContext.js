@@ -182,8 +182,8 @@ const loadProfile = (dispatch) => async () => {
 
 const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneNumber, isDriver, occupation, carBrand, carModel, color, plateNumber}) => {
     var body = {}
-
-    if(isDriver) {
+    
+    if(isDriver === true) {
         body = {
             email: email,
             isDriver: isDriver,
@@ -193,7 +193,11 @@ const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneN
                 car_color: color,
                 plate_number: plateNumber,
                 occupation: occupation,
-            }
+            },
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phoneNumber,
+
         }
     } else {
         body = {

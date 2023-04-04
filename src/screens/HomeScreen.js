@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { View, StyleSheet, Text, PanResponder, Animated, KeyboardAvoidingView, ScrollView, LayoutAnimation, Dimensions, UIManager } from "react-native";
+import { View, StyleSheet, Text, PanResponder, Animated, KeyboardAvoidingView, ScrollView, LayoutAnimation, Dimensions, UIManager, TouchableOpacity } from "react-native";
 import UpcomingRideEmpty from "../screens/UpcomingRideEmpty";
 import UpcomingRide_Driver from "../screens/UpcomingRide_Driver";
 import UpcomingRide_Passenger from '../screens/UpcomingRide_Passenger';
@@ -18,12 +18,14 @@ const HomeScreen = () => {
     const [name, setName] = useState('');
     const { width, height } = Dimensions.get('window');
     const animatedValue = useRef(new Animated.Value(0)).current;
-    const onPressButton = () => {
-        console.log('Button pressed!');
-    };
 
     const { state, loadProfile} = useContext(AuthContext)
     const [isDriver, setIsDriver] = useState(false)
+
+    const onPressU = () => {
+        setActiveScreen('upcoming')
+        renderScreen()
+    }
 
     useEffect(() => {
         const getData = async () => {
@@ -90,26 +92,26 @@ const HomeScreen = () => {
           pan.x = gestureState.dx;
         },
         onPanResponderRelease: (evt, gestureState) => {
-          if (gestureState.dx < -200 && activeScreen === 'upcoming') {
+          if (gestureState.dx < -100 && activeScreen === 'upcoming') {
             handleSlide("left");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
             pan.x = 0;
-          }else if (gestureState.dx < -200 && activeScreen === 'requested') {
+          }else if (gestureState.dx < -100 && activeScreen === 'requested') {
                 handleSlide("left");
                 UIManager.setLayoutAnimationEnabledExperimental &&
                   UIManager.setLayoutAnimationEnabledExperimental(true);
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 pan.x = 0;
-          } else if (gestureState.dx > 200 && activeScreen === 'requested') {
+          } else if (gestureState.dx > 100 && activeScreen === 'requested') {
             handleSlide("right");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
             pan.x = 0;
           } 
-          else if (gestureState.dx > 200 && activeScreen === 'pending') {
+          else if (gestureState.dx > 100 && activeScreen === 'pending') {
             handleSlide("right");
             UIManager.setLayoutAnimationEnabledExperimental &&
               UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -136,7 +138,7 @@ const HomeScreen = () => {
                         <ScrollView style={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
                         <Animated.View
                             style={[styles.screen, { transform: [{ translateX: pan.x }] },
-                            { flex: 1 },]}
+                            { flex: 1 }, ]}
                             {...panResponder.panHandlers}
                         >
                         {renderScreen()}
@@ -156,8 +158,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         borderRadius: 20,
-        // marginHorizontal: '3%',
-        
     },
     rootContainer: {
         flex: 1,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignSelf: 'center',
         width: '95%',
-        height: '80%',
+        height: '80%', 
     },
 
     Title: {

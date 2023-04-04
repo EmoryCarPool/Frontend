@@ -301,7 +301,7 @@ const UpcomingRide_Passenger = ({navigation}) => {
 
                     : 
                         
-                    <View style={{marginTop: '50%', alignSelf: 'center'}}>
+                    <View style={{marginTop: '50%', alignSelf: 'center', marginBottom: '100%'}}>
                         <Text style={{fontStyle: 'italic', fontSize: 15,}}>You have no upcoming rides</Text>
                     </View>
                 }

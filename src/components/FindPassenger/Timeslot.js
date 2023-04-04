@@ -224,7 +224,8 @@ const styles = StyleSheet.create({
     },
 
     mainContainer: {
-        alignItems: 'flex-end',
+        height: '100%'
+        
     }
 })
 

@@ -41,10 +41,9 @@ const BaseContainer = ({time, numRequests}) => {
     const styles = StyleSheet.create({
         baseContainer: {
             flexDirection: 'row',
-            alignItems: 'center',
+            alignSelf: 'center',
             borderBottomWidth: 5,
             borderColor: 'rgba(0,0,0,1)',
-            flex: 1
         },
     
         timebox: {
@@ -55,21 +54,20 @@ const BaseContainer = ({time, numRequests}) => {
     
         textStyle: {
             fontSize: 14,
-            paddingLeft: 40,
-            alignItems: 'center'
+            alignSelf: 'center',
+            textAlign: 'center'
         },
 
         textContainer: {
             flex: 1,
             borderRightWidth: 5, 
             borderRightColor: 'rgba(0,0,0,1)',
-            padding: 8.5,
+            justifyContent: 'center'
         },
 
         requestText: {
             position: 'absolute',
             alignSelf: 'center',
-            paddingTop: '8%',
             fontSize: 14,
         },
 
@@ -88,7 +86,7 @@ const BaseContainer = ({time, numRequests}) => {
             <View style={styles.textContainer}>
                 <Text style={styles.textStyle}>{time}</Text>
             </View>
-            <TouchableOpacity onPress={onPressedTimebox}>
+            <TouchableOpacity style={{justifyContent:'center'}} onPress={onPressedTimebox}>
             <View style={styles.timebox}>
             </View> 
             {isLoading ? (
