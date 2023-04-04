@@ -31,7 +31,7 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
         "02:00PM", "02:30PM", "03:00PM", "03:30PM", "04:00PM", "04:30PM",
         "05:00PM", "05:30PM", "06:00PM", "06:30PM", "07:00PM", "07:30PM",
         "08:00PM", "08:30PM", "09:00PM", "09:30PM", "10:00PM", "10:30PM",
-        "11:00PM", "11:30PM"]
+        "11:00PM", "11:30PM", "11:59PM"]
 
     var time_index_start = '';
 
@@ -81,101 +81,90 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
     }, [selectedStartTime]);
 
     return (
-        //<SafeAreaView forceInset={{ top: 'always'} }>
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
 
            {/* Source Used: https://www.npmjs.com/package/react-native-select-dropdown*/}
 
                 <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                    <View style={{alignItems: 'center',}}>
+                    <View style={{width: '100%'}}>
                         <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
-                            <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('SetDepart')}}>
-                                <Ionicons
-                                    name='ios-arrow-back'
-                                    size={35}
-                                    color='black'
-                                />
-                                <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('SetDepart')}}>
+                                    <Ionicons
+                                        name='ios-arrow-back'
+                                        size={35}
+                                        color='black'
+                                    />
+                                    <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                                </TouchableOpacity>
                         </View>
+                        <Text style={{fontSize: 36, fontWeight: '800', textAlign:'center'}}>Find Driver</Text>
                         
-                        
-                        
-                        <Text style={{fontSize: 48, fontWeight: '800'}}>Find Driver</Text>
-                    </View>
-                    
-                    <Text style={styles.title_1}>
-                        1. Select a time
-                    </Text>
+                        <Text style={styles.title}>
+                            1. Select a time
+                        </Text>
 
-                <Text style={{ flexDirection: "row", fontSize: 15, paddingLeft: '10%', paddingRight: '15%',textAlign: 'center' }}>
-                        Starting Time                                Ending Time
-                </Text>
+                        <View style={{ flexDirection: "row", justifyContent:'space-between',fontSize: 15, paddingLeft: '10%', paddingRight: '10%', textAlign: 'center' }}>
+                            <Text>Starting Time</Text>
+                            <Text>Ending Time</Text>
+                        </View>
 
-                <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row", justifyContent:'space-between'}}>
 
-                    <SelectDropdown
-                        data={pickUPTime}
-                        buttonStyle={styles.dropdownButton_time}
-                        buttonTextStyle={styles.dropdownButtonText}
-                        dropdownStyle={{ borderRadius: 20 }}
-                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
-                        onSelect={(selectedItem, index) => {
-                            setSelectedStartTime(selectedItem)
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item_1, index) => {
-                            return item_1
-                        }}
-                    />
+                        <SelectDropdown
+                            data={pickUPTime.slice(0, 48)}
+                            buttonStyle={styles.dropdownButton_time}
+                            buttonTextStyle={styles.dropdownButtonText}
+                            dropdownStyle={{ borderRadius: 20 }}
+                            renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
+                            onSelect={(selectedItem, index) => {
+                                setSelectedStartTime(selectedItem)
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item_1, index) => {
+                                return item_1
+                            }}
+                        />
 
-                    <Text style={{
-                        textAlign: 'center', justifyContent: 'center', paddingTop: '6%', paddingLeft: '5%',
-                        paddingRight: '6%', fontWeight: '10%'
-                    }}>
-                        ~
-                    </Text>
-
-                    <SelectDropdown
-                        data={endingPickUpTime}
-                        buttonStyle={styles.dropdownButton_time}
-                        buttonTextStyle={styles.dropdownButtonText}
-                        dropdownStyle={{ borderRadius: 20 }}
-                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
-                        onSelect={(selectedItem, index) => {
-                            setSelectedEndTime(selectedItem)
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item_2, index) => {
-                            return item_2
-                        }}
-                    />
+                        <SelectDropdown
+                            data={endingPickUpTime}
+                            buttonStyle={styles.dropdownButton_time}
+                            buttonTextStyle={styles.dropdownButtonText}
+                            dropdownStyle={{ borderRadius: 20 }}
+                            renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
+                            onSelect={(selectedItem, index) => {
+                                setSelectedEndTime(selectedItem)
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item_2, index) => {
+                                return item_2
+                            }}
+                        />
                     </View>                           
 
                     <Text style={styles.subtitle}>
                         2. Pick up location
                     </Text>
-                <View style={styles.mainContainer}>
-                    <SelectDropdown
-                        data={locations}
-                        buttonStyle={styles.dropdownButton}
-                        buttonTextStyle={styles.dropdownButtonText}
-                        dropdownStyle={{ borderRadius: 20 }}
-                        renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
-                        onSelect={(selectedItem, index) => {
-                            setLocation(selectedItem)
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item
-                        }}
-                    /> 
+                    <View style={styles.mainContainer}>
+                        <SelectDropdown
+                            data={locations}
+                            buttonStyle={styles.dropdownButton}
+                            buttonTextStyle={styles.dropdownButtonText}
+                            dropdownStyle={{ borderRadius: 20 }}
+                            renderDropdownIcon={() => <Ionicons name="caret-down-outline" color={'rgba(0,0,0,0.6)'} size={25} />}
+                            onSelect={(selectedItem, index) => {
+                                setLocation(selectedItem)
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                return item
+                            }}
+                        /> 
                     </View>
 
                     <Text style={styles.subtitle}>
@@ -222,6 +211,7 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
                         />
                         {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                     </View>
+                </View>    
                 </ScrollView>
             </KeyboardAvoidingView>
        // </SafeAreaView>
@@ -243,6 +233,7 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flexGrow: 1,
+        // width: '100%'
     },
     timeContainer: {
         alignItems: 'center',
@@ -254,16 +245,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '900',
         color: 'black',
-        paddingTop: '20%',
-        marginRight: '50%'
-    },
-    title_1: {
-        fontSize: 25,
-        textAlign: 'left',
-        fontWeight: '900',
-        color: 'black',
-        paddingTop: '10%',
-        marginRight: '30%'
+        paddingTop: '5%',
     },
     subtitle: {
         fontSize: 25,
@@ -280,8 +262,7 @@ const styles = StyleSheet.create({
         paddingBottom: "5%"
     },
     mainContainer: {
-        alignItems: 'center',
-        paddingTop: "5%", 
+        alignItems: 'center', 
     },
     dropdownButton: {
         backgroundColor: 'rgba(255,255,255,0.6)',
@@ -289,7 +270,6 @@ const styles = StyleSheet.create({
         width: 345,
         height: 65,
         marginTop: 5,
-
         alignItems: 'center'
     },
     dropdownButton_time: {

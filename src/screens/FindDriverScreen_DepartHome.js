@@ -30,7 +30,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
         "02:00PM", "02:30PM", "03:00PM", "03:30PM", "04:00PM", "04:30PM",
         "05:00PM", "05:30PM", "06:00PM", "06:30PM", "07:00PM", "07:30PM",
         "08:00PM", "08:30PM", "09:00PM", "09:30PM", "10:00PM", "10:30PM",
-        "11:00PM", "11:30PM"]
+        "11:00PM", "11:30PM", "11:59PM"]
 
     const handleTimeSelect = (time) => {
         setSelectedTime(time);
@@ -74,33 +74,34 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
             const startIndex = pickUPTime.indexOf(selectedStartTime);
             const endIndex = Math.min(startIndex + 6, pickUPTime.length - 1);
             setEndingPickUpTime(pickUPTime.slice(startIndex + 1, endIndex + 1));
+        } else if (selectedStartingTime === pickUPTime.indexOf("09:00PM") || pickUPTime.indexOf("09:30PM") || pickUPTime.indexOf("10:00PM")
+        || pickUPTime.indexOf("10:30PM") || pickUPTime.indexOf("11:00PM") || pickUPTime.indexOf("11:30PM")) {
+            const startIndex = pickUPTime.indexOf(selectedStartingTime);
+            const endIndex = Math.min(startIndex + 6, pickUPTime.length - 1);
+            setEndingPickUpTime(pickUPTime.slice(startIndex + 1, endIndex + 1));
         }
     }, [selectedStartTime]);
 
     return (
-        //<SafeAreaView forceInset={{ top: 'always'} }>
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
 
             {/* Source Used: https://www.npmjs.com/package/react-native-select-dropdown*/}
 
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                <View style={{alignItems: 'center',}}>
-                    <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
-                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('SetDepart')}}>
-                            <Ionicons
-                                name='ios-arrow-back'
-                                size={35}
-                                color='black'
-                            />
-                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
-                        </TouchableOpacity>
+            <View style={{width:'100%'}}>
+                <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                            <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('SetDepart')}}>
+                                <Ionicons
+                                    name='ios-arrow-back'
+                                    size={35}
+                                    color='black'
+                                />
+                                <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                            </TouchableOpacity>
                     </View>
-                    
-                    
-                    <Text style={{fontSize: 48, fontWeight: '800'}}>Find Driver</Text>
-                </View>
+                <Text style={{fontSize: 36, fontWeight: '800', textAlign:'center'}}>Find Driver</Text>
 
-                <Text style={styles.title_1}>
+                <Text style={styles.title}>
                     1. Pick up location
                 </Text>
                 <View style={styles.mainContainer}>
@@ -116,14 +117,15 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                     2. Select a time
                 </Text>
 
-                <Text style={{ flexDirection: "row", fontSize: 15, paddingLeft: '10%', paddingRight: '10%', textAlign: 'center' }}>
-                    Starting Time                                Ending Time
-                </Text>
+                <View style={{ flexDirection: "row", justifyContent:'space-between',fontSize: 15, paddingLeft: '10%', paddingRight: '10%', textAlign: 'center' }}>
+                    <Text>Starting Time</Text>
+                    <Text>Ending Time</Text>
+                </View>
 
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", justifyContent:'space-between' }}>
 
                     <SelectDropdown
-                        data={pickUPTime}
+                        data={pickUPTime.slice(0, 48)}
                         buttonStyle={styles.dropdownButton_time}
                         buttonTextStyle={styles.dropdownButtonText}
                         dropdownStyle={{ borderRadius: 20 }}
@@ -138,14 +140,6 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                             return item_1
                         }}
                     />
-
-                    <Text style={{
-                        textAlign: 'center', justifyContent: 'center', paddingTop: '6%', paddingLeft: '5%',
-                        paddingRight: '5%', fontWeight: '10%'
-                    }}>
-                        ~
-                    </Text>
-
                     <SelectDropdown
                         data={endingPickUpTime}
                         buttonStyle={styles.dropdownButton_time}
@@ -164,7 +158,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                     />
                 </View>
 
-                <Text style={styles.subtitle}>
+                <Text style={styles.title}>
                     3. Destination
                 </Text>
                 <View style={styles.mainContainer}>
@@ -187,7 +181,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                     />
                 </View>
 
-                <Text style={styles.subtitle}>
+                <Text style={styles.title}>
                     4. How many?
                 </Text>
 
@@ -218,6 +212,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
                     />
                     {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                 </View>
+            </View>    
             </ScrollView>
         </KeyboardAvoidingView>
         // </SafeAreaView>
@@ -250,23 +245,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '900',
         color: 'black',
-        paddingTop: '10%',
-        marginRight: '50%'
-    },
-    title_1: {
-        fontSize: 25,
-        textAlign: 'left',
-        fontWeight: '900',
-        color: 'black',
-        paddingTop: '10%',
-        marginRight: '30%'
-    },
-    subtitle: {
-        fontSize: 25,
-        textAlign: 'left',
-        fontWeight: '900',
-        color: 'black',
-        paddingTop: '5%'
+        paddingTop: '5%',
     },
     submitContainer: {
         alignItems: 'center',
@@ -276,8 +255,7 @@ const styles = StyleSheet.create({
         paddingBottom: "5%"
     },
     mainContainer: {
-        alignItems: 'center',
-        paddingTop: "5%",
+        alignItems: 'center'
     },
     dropdownButton: {
         backgroundColor: 'rgba(255,255,255,0.6)',
