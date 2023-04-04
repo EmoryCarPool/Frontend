@@ -210,7 +210,7 @@ const Timeslot = () => {
                     numRequests={dict['11:00PM - 11:30PM']}
                 />
                 <BaseContainer
-                    time='11:30PM - 12:00AM'
+                    time='11:30PM - 11:59PM'
                     numRequests={dict['11:30PM - 12:00AM']}
                 />
             </View>

@@ -314,10 +314,13 @@ const patchTransaction = (dispatch) => async ({ _id, isVerified, isCancelled, re
             }
         });
 
+        await AsyncStorage.setItem('cancel', '')
+
 
     } catch (error) {
         const message = error.response;
-        console.log(message);
+        await AsyncStorage.setItem('cancel', 'Transaction canceled by the other user.')
+        console.log("Patch error:",message);
     }
 };
 
@@ -348,7 +351,7 @@ const postRideHistory = (dispatch) => async({info}) => {
         })
 
     } catch (error) {
-        const message = error.response.data
+        const message = error.response
         console.log(message)
     }
 }

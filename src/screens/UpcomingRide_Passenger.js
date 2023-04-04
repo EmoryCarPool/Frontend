@@ -19,6 +19,7 @@ const UpcomingRide_Passenger = ({navigation}) => {
     const [code, setCode] = useState('')
     const [reason, setReason] = useState('')
     const [showTextInput, setShowTextInput] = useState(false);
+    const [error, setError] = useState('')
 
     const [dataArray, setDataArray] = useState([])
 
@@ -42,25 +43,44 @@ const UpcomingRide_Passenger = ({navigation}) => {
 
     const onPressSubmit = async () => {
         await patchTransaction({_id: dataArray[0]._id, isVerified: false, isCancelled: true, cancel_reason: reason})
-        await postRideHistory({info: {
-            price: dataArray[0].price, 
-            driver_id: dataArray[0].driver_id, 
-            passenger_id: dataArray[0].passenger_id, 
-            time_of_arrival: dataArray[0].time_of_arrival, 
-            time_of_pickup: dataArray[0].time_of_pickup, 
-            pick_up: dataArray[0].pick_up, 
-            pass_dest: dataArray[0].pass_dest,
-            additional_time: dataArray[0].additional_time,
-            code: dataArray[0].code, 
-            isVerified: false, 
-            isCancelled: true, 
-            cancel_reason: reason,
-        }})
 
-        await deleteTransaction({_id: dataArray[0]._id})
-        setDataArray([])
-        setShowTextInput(prevState => !prevState)
-        setRefresh(!refresh)
+        // put error message: already cancelled
+        const cancelled = AsyncStorage.getItem('cancel')
+
+        try {
+            const data = await AsyncStorage.getItem('cancel')
+
+            if (data === null || data === '') {
+                setError('')
+
+                await postRideHistory({info: {
+                price: dataArray[0].price, 
+                driver_id: dataArray[0].driver_id, 
+                passenger_id: dataArray[0].passenger_id, 
+                time_of_arrival: dataArray[0].time_of_arrival, 
+                time_of_pickup: dataArray[0].time_of_pickup, 
+                pick_up: dataArray[0].pick_up, 
+                pass_dest: dataArray[0].pass_dest,
+                additional_time: dataArray[0].additional_time,
+                code: dataArray[0].code, 
+                isVerified: false, 
+                isCancelled: true, 
+                cancel_reason: reason,
+                }})
+
+                await deleteTransaction({_id: dataArray[0]._id})
+                setDataArray([])
+                setShowTextInput(prevState => !prevState)
+                setRefresh(!refresh)
+
+            } else {
+
+                setError(data)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     function militaryTo12HrTime(militaryTime) {
@@ -280,6 +300,7 @@ const UpcomingRide_Passenger = ({navigation}) => {
                         </View>
 
                         {showTextInput && (
+                            <>
                             <View style={{flexDirection: 'row', alignItems: 'center', alignContent: 'space-between'}}>
                                 <TextInput
                                     style={{fontSize: 15, borderWidth: 1.5, borderColor: 'black', borderRadius: 20, paddingVertical: 10, paddingHorizontal: 5, width: '55%', marginRight: 10,}}
@@ -294,6 +315,8 @@ const UpcomingRide_Passenger = ({navigation}) => {
                                     <Text style={styles.ButtonText}>Submit</Text>
                                 </TouchableOpacity>
                             </View>
+                            {error ? <Text style={{fontSize: 15, color: 'rgba(255,0,0,0.6)', fontWeight: '700', paddingBottom: 3, textAlign: 'center'}}>{error}</Text>: null}
+                            </>
                         )}
 
                         

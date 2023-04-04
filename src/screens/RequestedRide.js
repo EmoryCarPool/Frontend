@@ -169,7 +169,10 @@ const RequestedRide = ({navigation}) => {
                                 </View>
             
                             </View>
+
                         ))}
+
+                    <View style={{marginBottom: '100%'}}></View>    
                     </>
                     
                     : 

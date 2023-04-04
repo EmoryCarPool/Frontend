@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const UpcomingRide_Driver = ({navigation}) => {
     const [inputCode, setInputCode] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [cancelMess, setCancelMess] = useState('')
     const [reason, setReason] = useState('')
     const [visible, setVisible] = useState(false)
     const [showTextInput, setShowTextInput] = useState(false);
@@ -27,7 +28,22 @@ const UpcomingRide_Driver = ({navigation}) => {
         } else {
             setErrorMessage('')
             await patchTransaction({_id: dataArray[0]._id, isVerified: true, isCancelled: false, cancel_reason: ''})
-            setVisible(true)
+
+            try {
+                const data = await AsyncStorage.getItem('cancel')
+
+                if (data === null || data === '') {
+                    setErrorMessage('')
+                    setVisible(true)
+                } else {
+                    setErrorMessage(data)
+                }
+    
+            } catch (error) {
+                console.log(error)
+            }
+
+
         }
     };
 
@@ -37,29 +53,44 @@ const UpcomingRide_Driver = ({navigation}) => {
 
     const onPressSubmit = async () => {
         await patchTransaction({_id: dataArray[0]._id, isVerified: false, isCancelled: true, cancel_reason: reason})
-        await postRideHistory({info: {
-            price: dataArray[0].price, 
-            driver_id: dataArray[0].driver_id, 
-            passenger_id: dataArray[0].passenger_id, 
-            time_of_arrival: dataArray[0].time_of_arrival, 
-            time_of_pickup: dataArray[0].time_of_pickup, 
-            pick_up: dataArray[0].pick_up, 
-            pass_dest: dataArray[0].pass_dest,
-            additional_time: dataArray[0].additional_time,
-            code: dataArray[0].code, 
-            isVerified: false, 
-            isCancelled: true, 
-            cancel_reason: reason,
-        }})
+        try {
+            const data = await AsyncStorage.getItem('cancel')
 
-        await deleteTransaction({_id: dataArray[0]._id})
-        setDataArray([])
-        setShowTextInput(prevState => !prevState)
-        setRefresh(!refresh)
+            if (data === null || data === '') {
+                setCancelMess('')
+
+                await postRideHistory({info: {
+                price: dataArray[0].price, 
+                driver_id: dataArray[0].driver_id, 
+                passenger_id: dataArray[0].passenger_id, 
+                time_of_arrival: dataArray[0].time_of_arrival, 
+                time_of_pickup: dataArray[0].time_of_pickup, 
+                pick_up: dataArray[0].pick_up, 
+                pass_dest: dataArray[0].pass_dest,
+                additional_time: dataArray[0].additional_time,
+                code: dataArray[0].code, 
+                isVerified: false, 
+                isCancelled: true, 
+                cancel_reason: reason,
+                }})
+            
+                await deleteTransaction({_id: dataArray[0]._id})
+                setDataArray([])
+                setShowTextInput(prevState => !prevState)
+                setRefresh(!refresh)
+            } else {
+
+                setCancelMess(data)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
+      
 
     const onPressOK = async () => {
-        postRideHistory({info: {
+        await postRideHistory({info: {
             price: dataArray[0].price, 
             driver_id: dataArray[0].driver_id, 
             passenger_id: dataArray[0].passenger_id, 
@@ -79,7 +110,6 @@ const UpcomingRide_Driver = ({navigation}) => {
         setDataArray([])
         setRefresh(!refresh)
         setVisible(false)
-
     }
 
     const handleCodeChange = (text) => {
@@ -312,6 +342,7 @@ const UpcomingRide_Driver = ({navigation}) => {
                             </TouchableOpacity>
 
                             {showTextInput && (
+                                <>
                                 <View style={{flexDirection: 'row', alignItems: 'center', alignContent: 'space-between'}}>
                                     <TextInput
                                         style={{fontSize: 15, borderWidth: 1.5, borderColor: 'black', borderRadius: 20, paddingVertical: 10, paddingHorizontal: 5, width: '70%', marginRight: 10,}}
@@ -326,6 +357,8 @@ const UpcomingRide_Driver = ({navigation}) => {
                                         <Text style={styles.ButtonText}>Submit</Text>
                                     </TouchableOpacity>
                                 </View>
+                                {cancelMess ? <Text style={{fontSize: 15, color: 'rgba(255,0,0,0.6)', fontWeight: '700', paddingTop: 3,}}>{cancelMess}</Text>: null}
+                                </>
                             )}
 
                         </View>

@@ -115,8 +115,8 @@ const RequestsList = ({headerTime, array}) => {
             return ['10:30 PM', '10:40 PM', '10:50 PM', '11:00 PM'];
         } else if (headerTime === '11:00PM - 11:30PM') {
             return ['11:00 PM', '11:10 PM', '11:20 PM', '11:30 PM'];
-        } else if (headerTime === '11:30PM - 12:00AM') {
-            return ['11:30 PM', '11:40 PM', '11:50 PM', '12:00 AM'];
+        } else if (headerTime === '11:30PM - 11:59PM') {
+            return ['11:30 PM', '11:40 PM', '11:50 PM', '11:59 PM'];
         }
     }
 

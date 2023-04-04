@@ -173,6 +173,8 @@ const PendingRide = ({navigation}) => {
             
                             </View>
                         ))}
+
+                    <View style={{marginBottom: '100%'}}></View>    
                     </>
                     
                     : 
