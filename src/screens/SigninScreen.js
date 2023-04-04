@@ -19,12 +19,12 @@ const SigninScreen = ({navigation}) => {
         <ImageBackground style= {{width: '100%', height: '100%',}} source={require('../../assets/atlantaBackground.png')}>
             <KeyboardAvoidingView 
                 style={{flex: 1, maxHeight: '100%'}}
-                behavior='position'
+                behavior='height'
             >
-            <ScrollView style={{ flexGrow: 1, height: '100%', borderRadius: 10, borderColor: 'white', borderWidth: 5, }}>
+            <ScrollView style={{ flexGrow: 1, height: '100%', borderRadius: 10, }} showsVerticalScrollIndicator={false}>
                 <NavigationEvents onWillFocus={clearErrorMessage} />
                 <View style={styles.mainContainer}>
-                    <Image style={{height: 50, width: 300}} source={require('../../assets/logo.png')}/>
+                    <Image style={{height: 225, width: 300, marginBottom: '40%', marginTop: '30%'}} source={require('../../assets/logo.png')}/>
                     <EmailInput value={email} setValue={setEmail}/>
                     <PasswordInput value={password} setValue={setPassword}/>
                     
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         width: '90%',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: '100%'
 
     },
 

@@ -115,8 +115,7 @@ const Profile_BecomeDriver = (navigation) => {
                         <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
                     </TouchableOpacity>
                 </View>
-                
-                
+
                 <View style={styles.picContainer}>
                     <Text style={{fontSize: 36, fontWeight: '800', marginBottom: '5%'}}>Become a Driver</Text>
                     
@@ -141,121 +140,93 @@ const Profile_BecomeDriver = (navigation) => {
                         </View>)}
                 </View>
 
-                <View style={styles.subContainer}> 
-                    <Text style={[styles.showEmail, { borderRadius: 20, borderWidth: 1, borderColor: 'white', }]}>
-                        {email} 
-                    </Text>
-                </View>
+                <View style={styles.emailContainer}>
+                        <Text style={styles.emailText}>{email}</Text>
+                    </View>
 
                 <View style={styles.example}>
                     {isEditable ? (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
+                        
                                 <SelectDropdown
                                     data={occupationArray}
-                                    buttonStyle={{borderRadius: 20}}
-                                    buttonTextStyle={{fontWeight: '700'}}
+                                    buttonStyle={styles.editContainer}
+                                    buttonTextStyle={{fontWeight: '700', fontSize: 20}}
                                     defaultButtonText='Occupation'
                                     dropdownStyle={{ borderRadius: 20 }}
                                     onSelect={(selectedItem, index) => {
                                         setOccupation(selectedItem)
                                     }}
                                 />
-                            </View>
-                            <View style={styles.subContainer}>
-                            </View>
-                        </View>
+                        
 
 
                     ) : (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <Text style={styles.showInfo}>{occupation}</Text>
-                            </View>
+                        <View style={styles.editContainer}>
+                            
+                                <Text style={styles.emailText}>{occupation}</Text>
+                            
 
                             <TouchableOpacity onPress={handleEditPress}>
                             </TouchableOpacity>
                         </View>
                     )}
                     
-                    
                     {isEditable ? (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <TextInput value={carBrand} onChangeText={handleCarBrandChange}
-                                    style={[styles.showInfo, { borderRadius: 20, borderWidth: 1, borderColor: 'black' }]}
-                                />
-                            </View>
-                            <View style={styles.subContainer}>
-                            </View>
-                        </View>
-
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={carBrand} 
+                                onChangeText={handleCarBrandChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
 
                     ) : (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <Text style={styles.showInfo}>{carBrand}</Text>
-                            </View>
-
-                            <TouchableOpacity onPress={handleEditPress}>
-                            </TouchableOpacity>
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{carBrand}</Text> 
                         </View>
                     )}
 
                     {isEditable ? (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <TextInput value={carModel} onChangeText={handleCarModelChange}
-                                    style={[styles.showInfo, { borderRadius: 20, borderWidth: 1, borderColor: 'black' }]}
-                                />
-                            </View>
-                            <View style={styles.subContainer}>
-                            </View>
-                        </View>
-
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={carModel} 
+                                onChangeText={handleCarModelChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
 
                     ) : (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <Text style={styles.showInfo}>{carModel}</Text>
-                            </View>
-
-                            <TouchableOpacity onPress={handleEditPress}>
-                            </TouchableOpacity>
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{carModel}</Text> 
                         </View>
                     )}
 
                     {isEditable ? (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <TextInput value={color} onChangeText={handleColorChange}
-                                    style={[styles.showInfo, { borderRadius: 20, borderWidth: 1, borderColor: 'black' }]}
-                                />
-                            </View>
-                            <View style={styles.subContainer}>
-                            </View>
-                        </View>
-
+                        <View style={styles.editContainer}>
+                            <TextInput 
+                                value={color} 
+                                onChangeText={handleColorChange}
+                                style={styles.emailText}
+                            />     
+                        </View>                     
 
                     ) : (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <Text style={styles.showInfo}>{color}</Text>
-                            </View>
-
-                            <TouchableOpacity onPress={handleEditPress}>
-                            </TouchableOpacity>
+                        <View style={styles.editContainer}>
+                            <Text style={styles.emailText}>{color}</Text> 
                         </View>
                     )}
 
                     {isEditable ? (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <TextInput value={plateNumber} onChangeText={handlePlateNumberChange}
-                                    style={[styles.showInfo, { borderRadius: 20, borderWidth: 1, borderColor: 'black' }]}
+                        <View style={styles.supportingContainer}>
+                            <View style={styles.editContainer}>
+                                <TextInput 
+                                    value={plateNumber} 
+                                    onChangeText={handlePlateNumberChange}
+                                    style={styles.emailText}
                                 />
                             </View>
-                            <View style={styles.subContainer}>
+
+                            <View style={styles.editButtonContainer}>
                                 {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text>: null}
                                 <BasicButton
                                     onPress={handleSavePress} text="Save"
@@ -268,14 +239,14 @@ const Profile_BecomeDriver = (navigation) => {
 
 
                     ) : (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.subContainer}>
-                                <Text style={styles.showInfo}>{plateNumber}</Text>
+
+                        <View style={styles.supportingContainer}>
+                            <View style={styles.editContainer}>
+                                <Text style={styles.emailText}>{plateNumber}</Text>
                             </View>
 
-                            <TouchableOpacity onPress={handleEditPress}>
+                            <TouchableOpacity style={{marginLeft: '85%'}}onPress={handleEditPress}>
                                 <Ionicons
-                                    style={{ paddingLeft: '90%', }}
                                     name='pencil-sharp'
                                     size={25}
                                     color='black'
@@ -290,6 +261,8 @@ const Profile_BecomeDriver = (navigation) => {
                     <BasicButton
                         text="Submit"
                         onPress={pressSubmit}
+                        // If ready, delete onPress={pressSubmit} and uncomment onPress={() => navigation.navigate('Profile_Driver')}
+                        // onPress={() => navigation.navigate('Profile_Driver')}
                     />
                 </View>
 
@@ -310,17 +283,27 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
 
+    mainContainer: {
+        maxWidth:'100%', 
+        // borderWidth: 5, 
+        // borderColor: 'white',
+    },
+
+    editIconContainer: {
+        alignItems: 'flex-end', 
+        paddingTop: '20%',
+    },
+
     picContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        // paddingTop: '20%'
+        // marginHorizontal: '20%',
     },
 
     picImg: {
         width: 200,
         height: 200,
-        borderRadius: 100
-
+        borderRadius: 100,
     },
 
     imgContainer: {
@@ -330,65 +313,47 @@ const styles = StyleSheet.create({
 
     },
 
-    mainContainer: {
-        paddingTop: '1%',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    subContainer: {
-        paddingTop: '5%',
-        alignItems: 'center',
-        justifyContent: 'center',
+    emailContainer: {
+        backgroundColor: 'rgba(255,255,255,1)',
         borderRadius: 20,
-        width: '60%',
+        padding: 10,
+        marginTop: '5%',
+        width: 300,
+        alignSelf: 'center'
     },
 
-    showInfo: {
+    editContainer: {
+        backgroundColor: 'rgba(255,255,255,1)',
+        borderRadius: 20,
+        padding: 10,
+        marginTop: '5%',
+        width: 300,
+        alignSelf: 'center'
+
+    },
+
+    supportingContainer: {
+
+    },
+
+    emailText: {
         fontSize: 20,
         fontWeight: "700",
         color: 'black',
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: "white",
-        backgroundColor: "white",
-        width: '100%',
-        marginRight: '20%',
-        marginLeft: '20%',
-        textAlign: 'center'
-    },
-
-    showEmail: {
-        fontSize: 20,
-        fontWeight: "700",
-        color: 'black',
-        width: '120%',
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: "white",
-        backgroundColor: "white",
         textAlign: 'center',
-        marginLeft: '50%'
     },
 
-    topContainer: {
-        alignItems: 'center',
-        paddingTop: '20%',
+    editButtonContainer: {
+        width: 150,
+        alignSelf: 'center',
+        paddingTop: '5%'
+        
     },
 
-    bottomContainer: {
-        alignItems: 'center',
+    buttonContainer: {
         paddingTop: '10%',
-    },
-
-    example: {
-        paddingTop: '10%'
-    },
-
-    TextPopUp: {
-        fontWeight: '700',
-        textAlign: 'center',
-        width: '85%',
+        alignSelf: 'center',
+        width: 250
     },
 
     errorMessage: {
@@ -398,7 +363,6 @@ const styles = StyleSheet.create({
         marginTop: 5,
         textAlign: 'center'
     }
-
 });
 
 export default Profile_BecomeDriver;
