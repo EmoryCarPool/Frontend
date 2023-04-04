@@ -105,7 +105,18 @@ const Profile_BecomeDriver = (navigation) => {
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-
+                <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                    <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '2%'}} onPress={() => {navigate('Pprofile')}}>
+                        <Ionicons
+                            name='ios-arrow-back'
+                            size={35}
+                            color='black'
+                        />
+                        <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                
                 <View style={styles.picContainer}>
                     <Text style={{fontSize: 36, fontWeight: '800', marginBottom: '5%'}}>Become a Driver</Text>
                     
@@ -279,8 +290,6 @@ const Profile_BecomeDriver = (navigation) => {
                     <BasicButton
                         text="Submit"
                         onPress={pressSubmit}
-                        // If ready, delete onPress={pressSubmit} and uncomment onPress={() => navigation.navigate('Profile_Driver')}
-                        // onPress={() => navigation.navigate('Profile_Driver')}
                     />
                 </View>
 
@@ -304,7 +313,7 @@ const styles = StyleSheet.create({
     picContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: '20%'
+        // paddingTop: '20%'
     },
 
     picImg: {

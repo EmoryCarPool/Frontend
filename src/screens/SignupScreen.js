@@ -9,6 +9,7 @@ import PopUpButton from "../components/Signup/Popup/PopUpButton";
 import Popup from "../components/Signup/Popup/Popup1";
 import { Context as AuthContext } from "../context/AuthContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigate } from "../navigationRef";
 
 const SignupScreen = ({navigation}) => {
     const {state, signup, sendOTP, verifyOTP, clearErrorMessage} = useContext(AuthContext);
@@ -110,7 +111,18 @@ const SignupScreen = ({navigation}) => {
                     <PopUpButton text={'Confirm'} onPress={onConfirmPressed}/>
             </Popup>
             
-            <ScrollView style={styles.scrollContainer}>
+            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+                <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                    <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('Signin')}}>
+                        <Ionicons
+                            name='ios-arrow-back'
+                            size={35}
+                            color='black'
+                        />
+                        <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.topContainer}>
                     <Text style={styles.headerText}>Create an Account</Text>
                     
@@ -182,7 +194,7 @@ const styles = StyleSheet.create({
     
     topContainer: {
         alignItems: 'center',
-        paddingTop: '20%',
+        // paddingTop: '20%',
     },
 
     bottomContainer: {

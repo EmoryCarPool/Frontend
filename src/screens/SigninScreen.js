@@ -1,7 +1,7 @@
 // this is the main SigninScreen file that takes all compoments together
 
 import React, { useContext, useState,} from "react";
-import {View, StyleSheet, ImageBackground, KeyboardAvoidingView, Text, ScrollView } from "react-native";
+import {View, StyleSheet, ImageBackground, KeyboardAvoidingView, Text, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements"
 import { NavigationEvents } from 'react-navigation';
 import PasswordInput from "../components/Signin/PasswordInput";
@@ -24,7 +24,7 @@ const SigninScreen = ({navigation}) => {
             <ScrollView style={{ flexGrow: 1, height: '100%', borderRadius: 10, borderColor: 'white', borderWidth: 5, }}>
                 <NavigationEvents onWillFocus={clearErrorMessage} />
                 <View style={styles.mainContainer}>
-                    <Text style={{textAlign: 'center', fontSize: 50, fontWeight: '700', paddingTop: '40%', paddingBottom: '70%'}}>Dooley Ride</Text>
+                    <Image style={{height: 50, width: 300}} source={require('../../assets/logo.png')}/>
                     <EmailInput value={email} setValue={setEmail}/>
                     <PasswordInput value={password} setValue={setPassword}/>
                     

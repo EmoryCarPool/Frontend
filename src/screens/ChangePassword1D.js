@@ -9,8 +9,9 @@ import Popup from "../components/Signup/Popup/Popup1";
 import { Context as AuthContext } from "../context/AuthContext"
 import { NavigationEvents } from 'react-navigation';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigate } from "../navigationRef";
 
-const ChangePassword1 = ({ navigation }) => {
+const ChangePassword1D = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [emailCode, setEmailCode] = useState('');
     // this is for the popup screen component
@@ -81,6 +82,17 @@ const ChangePassword1 = ({ navigation }) => {
             </Popup>
 
             <ScrollView style={styles.scrollContainer}>
+                <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '2%'}} onPress={() => {navigate('Dprofile')}}>
+                            <Ionicons
+                                name='ios-arrow-back'
+                                size={35}
+                                color='black'
+                            />
+                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                        </TouchableOpacity>
+                </View>
+                
                 <View style={styles.titleContainer}>
                     <Text style={styles.Title}>
                         Change Password
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
     }, 
     titleContainer: {
         alignItems: 'center',
-        paddingTop: '25%'
+        // paddingTop: '25%'
     }, 
     Notification: {
         fontSize: 24,
@@ -188,4 +200,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ChangePassword1;
+export default ChangePassword1D;

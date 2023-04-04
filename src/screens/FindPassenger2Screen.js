@@ -3,12 +3,24 @@ import {View, StyleSheet, Text, FlatList, KeyboardAvoidingView, ScrollView, Touc
 import Ionicons from "react-native-vector-icons/Ionicons"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Timeslot from "../components/FindPassenger/Timeslot";
+import { navigate } from "../navigationRef";
 
 const FindPassenger2Screen = () => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
-            <View style={styles.topContainer}>    
+            <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                    <TouchableOpacity style={{marginTop: '30%', flexDirection: 'row', marginBottom: '5%'}} onPress={() => {navigate('FindPassenger1')}}>
+                        <Ionicons
+                            name='ios-arrow-back'
+                            size={35}
+                            color='black'
+                        />
+                        <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                    </TouchableOpacity>
+            </View>
+            
+            <View style={styles.topContainer}>   
                 <Text style={styles.mainText}>Find Passenger</Text>
                 <Text style={styles.subText}>Select a Time</Text>
                 <View style={styles.timeslotContainer}>
@@ -31,13 +43,13 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '83%',
         alignItems: 'center',
-        paddingTop: '20%',
+        // paddingTop: '20%',
     },
 
     timeslotContainer: {
         backgroundColor: 'rgba(255,255,255,1)',
         width: "100%",
-        height: "80%",
+        height: "70%",
         marginTop: 5,
 
         borderWidth: 5,

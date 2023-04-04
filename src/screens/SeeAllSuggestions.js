@@ -118,8 +118,19 @@ const SeeAllSuggestions = ({navigation}) => {
     return (
         <View style={styles.rootContainer}>
             <ScrollView style={{flexGrow: 1, width: '90%',}} showsVerticalScrollIndicator={false}>
-                <View style={{maxWidth: '100%', alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{fontSize: 36, fontWeight: '800', marginTop: '20%', marginBottom: '5%'}}>Match With Driver</Text>
+                <View style={{maxWidth: '100%', alignItems: 'center',}}>
+                    <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '5%'}} onPress={() => {navigate('Home')}}>
+                            <Ionicons
+                                name='ios-arrow-back'
+                                size={35}
+                                color='black'
+                            />
+                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <Text style={{fontSize: 36, fontWeight: '800', marginBottom: '5%'}}>Match With Driver</Text>
 
                     <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%', marginBottom:'5%'}} onPress={onPressRefresh}>
                         <FontAwesome

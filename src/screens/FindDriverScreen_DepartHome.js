@@ -6,6 +6,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import {Context as FPContext} from "../context/FPContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigate } from "../navigationRef";
 
 const FindDriverScreen_DepartHome = ({ navigation }) => {
     const {state, postPassRequest, loadTimeslot, getSelectedRequest, getMaxPrice, postDriverRequest} = useContext(FPContext);
@@ -83,7 +84,19 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
             {/* Source Used: https://www.npmjs.com/package/react-native-select-dropdown*/}
 
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                <View style={{alignItems: 'center', paddingTop: '20%'}}>
+                <View style={{alignItems: 'center',}}>
+                    <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '3%'}} onPress={() => {navigate('SetDepart')}}>
+                            <Ionicons
+                                name='ios-arrow-back'
+                                size={35}
+                                color='black'
+                            />
+                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                    
                     <Text style={{fontSize: 48, fontWeight: '800'}}>Find Driver</Text>
                 </View>
 

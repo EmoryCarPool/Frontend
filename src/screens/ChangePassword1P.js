@@ -11,7 +11,7 @@ import { NavigationEvents } from 'react-navigation';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate } from "../navigationRef";
 
-const ResetPasswordVerifyScreen = ({ navigation }) => {
+const ChangePassword1P = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [emailCode, setEmailCode] = useState('');
     // this is for the popup screen component
@@ -19,7 +19,7 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
     
     const {state, sendOTP, verifyOTP, clearErrorMessage} = useContext(AuthContext);
 
-    const onVerifyEmailPressed = async () => {
+    const onVerifyEmailPressed =  async() => {
         await sendOTP({email})
         
         if (state.popupErrorMessage === '') {
@@ -34,7 +34,7 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
 
         if (value === '' || value === null) {
             setVisible(false)
-            navigation.navigate('ResetPasswordReset')
+            navigation.navigate('ChangePassword2')
         }
     }
 
@@ -83,31 +83,26 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
 
             <ScrollView style={styles.scrollContainer}>
                 <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
-                    <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '5%'}} onPress={() => {navigate('Signin')}}>
-                        <Ionicons
-                            name='ios-arrow-back'
-                            size={35}
-                            color='black'
-                        />
-                        <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '2%'}} onPress={() => {navigate('Pprofile')}}>
+                            <Ionicons
+                                name='ios-arrow-back'
+                                size={35}
+                                color='black'
+                            />
+                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                        </TouchableOpacity>
                 </View>
                 
                 <View style={styles.titleContainer}>
                     <Text style={styles.Title}>
-                        Forgot Password
+                        Change Password
                     </Text></View>
 
                 <View style={styles.textContainer}>
                     <Text style={styles.Notification}>
                     Enter your email Address and we will send you an email.
-                    </Text></View>
-
-                <View style={styles.bottomContainer}>
-                    <Text style={{ textAlign: "center" }}>
-                        If your email address matches an account, it will contain a link to reset your password.
-                        If your email address does not match an account, the email will let you know.
-                    </Text></View>
+                    </Text>
+                </View>
 
                 <View style={styles.topContainer}>
                     
@@ -119,14 +114,6 @@ const ResetPasswordVerifyScreen = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={{flexDirection:"row"}}>
-                    <TouchableOpacity style={{ marginRight: '20%' }} onPress={() => navigation.navigate('Signin')}>
-                        <Text style={styles.LogInText}>Log in</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ marginLeft: '14%' }} onPress={() => navigation.navigate('Signup')}>
-                    <Text style={styles.CreateAccountText}>Create Account</Text>
-                    </TouchableOpacity>
-                </View> 
 
                 <View style={styles.bottomContainer}>
                     <BasicButton
@@ -152,7 +139,6 @@ const styles = StyleSheet.create({
 
     scrollContainer: {
         flexGrow: 1,
-        width: '95%'
     },
 
     topContainer: {
@@ -162,7 +148,7 @@ const styles = StyleSheet.create({
 
     bottomContainer: {
         alignItems: 'center',
-        paddingTop: '5%',
+        // paddingTop: '5%',
     },
 
     CreateAccountText: {
@@ -194,9 +180,10 @@ const styles = StyleSheet.create({
         // paddingTop: '25%'
     }, 
     Notification: {
-        fontSize: 15,
+        fontSize: 24,
         textAlign: 'center',
-        fontWeight: '800'
+        fontWeight: '800',
+        paddingHorizontal: '10%'
     },
     Title: {
         fontSize: 38,
@@ -213,4 +200,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ResetPasswordVerifyScreen;
+export default ChangePassword1P;

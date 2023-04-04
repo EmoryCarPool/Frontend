@@ -4,6 +4,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { Context as FPContext } from "../context/FPContext"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RequestsList from "../components/FindPassenger/FP3/RequestsList";
+import { navigate } from "../navigationRef";
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 const FindPassenger3Screen = () => {
     const {state} = useContext(FPContext)
@@ -37,6 +39,17 @@ const FindPassenger3Screen = () => {
 
     return (
         <KeyboardAvoidingView style={styles.rootContainer} behavior='height'>
+            <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                    <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '5%'}} onPress={() => {navigate('FindPassenger2')}}>
+                        <Ionicons
+                            name='ios-arrow-back'
+                            size={35}
+                            color='black'
+                        />
+                        <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                    </TouchableOpacity>
+            </View>
+            
             <View style={styles.mainContainer}> 
                 <Text style={styles.mainText}>All Requests:</Text>
                 <Text style={styles.timeText}>{time}</Text>
@@ -58,7 +71,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         height: '90%',
         width: '90%',
-        marginTop: '10%',
+        // marginTop: '10%',
     },
 
     scrollContainer: {

@@ -6,6 +6,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Context as FPContext} from "../context/FPContext"
 import { Context as AuthContext} from "../context/AuthContext"
+import { navigate } from "../navigationRef";
 
 const RideHistory_Driver = ({navigation}) => {
     const { state, getHistoryDriver} = useContext(FPContext)
@@ -105,7 +106,19 @@ const RideHistory_Driver = ({navigation}) => {
         <View style={styles.rootContainer}>
             <ScrollView style={{flexGrow: 1, width: '90%',}} showsVerticalScrollIndicator={false}>
                 <View style={{maxWidth: '100%', alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{fontSize: 48, fontWeight: '800', marginTop: '20%', marginBottom: '5%'}}>Ride History</Text>
+                    
+                    <View style={{flexDirection: 'row', alignSelf: 'flex-start',}}>
+                        <TouchableOpacity style={{marginTop: '10%', flexDirection: 'row', marginBottom: '2%'}} onPress={() => {navigate('Dprofile')}}>
+                            <Ionicons
+                                name='ios-arrow-back'
+                                size={35}
+                                color='black'
+                            />
+                            <Text style={{fontSize: 15, fontWeight: '700', marginLeft: 5, alignSelf: 'center'}}>Go back</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <Text style={{fontSize: 48, fontWeight: '800', marginBottom: '5%'}}>Ride History</Text>
 
                     <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: '5%', marginBottom:'5%'}} onPress={onPressRefresh}>
                         <FontAwesome

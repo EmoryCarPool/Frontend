@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, HeaderTitle } from 'react-navigation-stack';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import InitialScreen from './src/screens/InitialScreen'
 import SigninScreen from './src/screens/SigninScreen';
@@ -26,7 +26,8 @@ import FindPassenger3Screen from './src/screens/FindPassenger3Screen';
 import Profile_Passenger from './src/screens/Profile_Passenger';
 import Profile_Driver from './src/screens/Profile_Driver';
 import Profile_BecomeDriver from './src/screens/Profile_BecomeDriver';
-import ChangePassword1 from './src/screens/ChangePassword1';
+import ChangePassword1D from './src/screens/ChangePassword1D';
+import ChangePassword1P from './src/screens/ChangePassword1P';
 import ChangePassword2 from './src/screens/ChangePassword2';
 import RideHistory_Passenger from './src/screens/RideHistory_Passenger'
 import RideHistory_Driver from './src/screens/RideHistory_Driver'
@@ -53,7 +54,7 @@ const HomeNavigator2 = createStackNavigator({
 const HomeNavigator = createSwitchNavigator({
     HomeNavigator1,
     HomeNavigator2,
-}, {headerMode: "none"}
+},
 )
 
 const FindDriverNavigator = createStackNavigator({
@@ -74,16 +75,16 @@ const ProfilePassengerStack = createStackNavigator({
     Pprofile: Profile_Passenger,
     RideHistory: RideHistory_Passenger,
     BecomeDriver: Profile_BecomeDriver,
-    ChangePassword1: ChangePassword1,
+    ChangePassword1: ChangePassword1P,
     ChangePassword2: ChangePassword2,
 }, { headerMode: "none" });
 
 const ProfileDriverStack = createStackNavigator({
     Dprofile: Profile_Driver,
     RideHistory: RideHistory_Driver,
-    ChangePassword1: ChangePassword1,
+    ChangePassword1: ChangePassword1D,
     ChangePassword2: ChangePassword2,
-}, { headerMode: "none" });
+}, { headerMode: 'none',});
 
 const ProfileNavigator = createSwitchNavigator(
     {
