@@ -199,6 +199,14 @@ const updateProfile = (dispatch) => async ({email, first_name, last_name, phoneN
             phone_number: phoneNumber,
 
         }
+    }
+    else if (isDriver === false) {
+        body = {
+            email: email,
+            isDriver: isDriver,
+            last_name: last_name,
+            phone_number: phoneNumber,
+        }
     } else {
         body = {
             email: email,

@@ -100,7 +100,7 @@ const FindDriverScreen_DepartSchool = ({ navigation }) => {
                         <Text style={{fontSize: 36, fontWeight: '800', textAlign:'center'}}>Find Driver</Text>
                         
                         <Text style={styles.title}>
-                            1. Select a time
+                            1. Select pick up time range
                         </Text>
 
                         <View style={{ flexDirection: "row", justifyContent:'space-between',fontSize: 15, paddingLeft: '10%', paddingRight: '10%', textAlign: 'center' }}>

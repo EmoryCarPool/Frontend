@@ -35,6 +35,15 @@ const Profile_Driver = ({ navigation }) => {
         setRefresh(!refresh)
     }
 
+    const onPressBecomePass = async () => {
+        await updateProfile({email, first_name, last_name, phoneNumber, isDriver: false})
+
+        navigate('Pprofile')
+        navigate('HomeNavigator1')
+        navigate('HomeNavigator2')
+
+    }
+
     useEffect(() => {
         const getData = async () => {
             await loadProfile()
@@ -332,6 +341,10 @@ const Profile_Driver = ({ navigation }) => {
                         <BasicButton
                             text="Ride History"
                             onPress={() => navigation.navigate('RideHistory')}
+                        />
+                        <BasicButton
+                            text="Become a passenger"
+                            onPress={() => onPressBecomePass()}
                         />
                         <BasicButton
                             text="Change Password"

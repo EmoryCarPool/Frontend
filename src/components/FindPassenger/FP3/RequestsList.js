@@ -157,6 +157,7 @@ const RequestsList = ({headerTime, array}) => {
         }
         
         const time_of_pickup = convertToMilitaryTime(time)
+
         
         postDriverRequest({findDriver_id, pick_up, pass_dest, driver_current, driver_dest, max_price, min_price, additional_time, price, time_of_pickup})
     

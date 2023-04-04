@@ -114,7 +114,7 @@ const FindDriverScreen_DepartHome = ({ navigation }) => {
 
 
                 <Text style={styles.title}>
-                    2. Select a time
+                    2. Select pickup time range
                 </Text>
 
                 <View style={{ flexDirection: "row", justifyContent:'space-between',fontSize: 15, paddingLeft: '10%', paddingRight: '10%', textAlign: 'center' }}>
